@@ -1,0 +1,60 @@
+\documentclass[DM,lsstdraft,toc,usenatbib]{lsstdoc}
+
+% Package imports go here
+\usepackage{amsmath}	% Advanced maths commands
+\usepackage{amssymb}
+\usepackage{gensymb}  % degree symbol 
+\usepackage{natbib}  % bibliography
+\usepackage{cprotect} 
+% Local commands go here
+
+%% Journal abbreviations
+%\bibliographystyle{aasjournal}
+
+\title[Crowded fields ]{LSST  Crowded Fields photometry}
+
+\author{
+K.~Suberlak, C.~Slater,
+\v{Z}.~Ivezi\'c,P.~Yoachim}
+
+\setDocRef{LSST-2017}
+\date{\today}
+\setDocRevision{TBD}
+\setDocStatus{draft}
+\setDocAbstract{%
+A report the status of crowded field photometry. We evaluate the need for performing better photometry in crowded fields by quantifying areas of the sky at a given density level. We provide an overview of density metrics, photometric methods applicable in a given stellar density regime, and recommendations for areas of improvement in the LSST Stack.}
+
+% Change history defined here. Will be inserted into
+% correct place with \maketitle
+% OLDEST FIRST: VERSION, DATE, DESCRIPTION, OWNER NAME
+\setDocChangeRecord{%
+\addtohist{1}{2017-07-16}{First draft.}{Krzysztof Suberlak}
+}
+
+\begin{document}
+
+% Create the title page
+% Table of contents will be added automatically if "toc" class option
+% is used.
+\maketitle
+
+\section{Introduction}
+
+This is a document to report on ... 
+
+The Large Scale Synoptic Telescope (LSST) ... 
+
+As mentioned by ~\cite{bosch2017} with regards to Hyper Suprime CAM software pipeline (based on LSST Stack, which in turn builds on the experience of the SDSS  Photo pipeline), deblending and performing a successful photometry is an inherent part of any astronomical data processing pipeline. The boundaries between deblending, measurement and detection blur in very high stellar densities, and the deeper the survey, the higher the stellar densities that it can encounter (see Sec 4.8.3 in \cite{bosch2017}). 
+
+The way in which measurements may be affected by the crowdiness have been studied before - pilot study by ~\citep{hogg2001} confirmed the '30 beams per source' rule of thumb, albeit it depends on the source number counts (with steeper number counts we need more beams per source ). Following on that exploratory study,  ~\cite{olsen2003} describes more quantitative framework to address this issue in the era of large telescopes. 
+
+We start with the LSST  Metrics Analysis Framework \footnote{\url{https://www.lsst.org/scientists/simulations/maf}} simulated stellar density map \footnote{\url{https://github.com/lsst/sims_maf}}. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% REFERENCES %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bibliographystyle{apj}
+\bibliography{references}
+\end{document}
