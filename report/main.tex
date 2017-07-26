@@ -54,9 +54,9 @@ We start with the LSST  Metrics Analysis Framework \footnote{\url{https://www.ls
 Using this data, we select magnitude bins smaller than r=24.5 in the Southern Hemisphere ($\delta < 0$).  We add stellar count across magnitude bins (selecting only  r <= 24.5 bins).   For each pixel we calculate the number of pixels that have a higher stellar count.  Since each pixel in HEALPix has an equal area, the fraction of pixel number above a certain threshold corresponds to the fraction of sky area above given density limit. See Fig.~\ref{fig:illustrate_density} for an illustration of how we define the stellar density - it is akin to a cumulative distribution. Therefore 'top 1\%' density means that only 1 in 100 pixels has a higher density than a given pixel.  Likewise,  'top 10\%' means that '10 \%' of pixels in the selected hemisphere have higher density. 
 
 \begin{figure}
-\includegraphics[width=1.0\columnwidth]{figs/Illustrate_density_percentile.png}
+\includegraphics[width=1.0\columnwidth]{figs/Southern_sky_r_lt245_twiny.png}
 %\vskip -0.15in
-\caption{Illustration of how the stellar density is quantified in terms of relative pixel density. }
+\caption{Illustration of how the stellar density is quantified in terms of relative pixel density. We express stellar density both in terms of number of stars per square degree (bottom axis), as well as in terms of product of sources per square arcsecond and psf effective area (upper axis )}
 \label{fig:illustrate_density}
 \end{figure} 
 
