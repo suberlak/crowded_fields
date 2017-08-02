@@ -134,9 +134,71 @@ We used AstroPy to match the coordinates of MAF healpixels in different density 
 \label{fig:decam_matches_top}
 \end{figure} 
 
-We performed source extraction on ten randomly chosen DECam images that matched the coordinates of MAF pixels per given density regimen.  We used DAOStarFinder\footnote{\url{http://photutils.readthedocs.io/en/stable/photutils/detection.html}}, which includes an implementation of the DAOFIND algorithm ~\citep{stetson1987}. Since each CCD image from DECam is a mosaic, the FITS files contained 60 primary HDUs (of which the first one is opened by default in ds9). For each element of the mosaic with 2046x4094 pixels, with pixel scale of 0.27 arcsec / px , so that a single mosaic element covers an area of 0.047117 sq.deg. Using the FWHM information from the FITS header, and sigma clipped standard deviation $\sigma$, we performed source extraction with the detection threshold at $5 \sigma$ level. 
+Per each density regime, we selected five random DECam fields, and performed source extraction with DAOStarFinder\footnote{\url{http://photutils.readthedocs.io/en/stable/photutils/detection.html}}.  This tool uses a classic DAOFIND algorithm~\citep{stetson1987}, and  we used it to verify the plausibility of the MAF source densities using real data.  DECam employs mosaic CCDs - each  field, which can be downloaded as a fits.fz compressed file, is split into 60 primary HDUs. FITS viewing software, such as ds9, by default open the first element (HDU[1]), and we decided to perform source extraction on this one element of the mosaic per field, since each element is of the same size, and is equally representative of the field. The size of each element of the mosaic is 2046x4094 pixels, with pixel scale of 0.27 arcsec / px , so that a single mosaic element covers an area of 0.047117 sq.deg. Using the FWHM information from the FITS header, and sigma clipped standard deviation $\sigma$, we performed source extraction with the detection threshold at $5 \sigma$ level, setting the detection threshold at $5\sigma$, and scaled it up to the source count per square degree to allow comparison with MAF data.  
 
-The source density scaled to the 1 square degree level is consistently an order of magnitude less than the MAF estimate. ( see table ). 
+We also  obtained TRILEGAL\footnote{\url{http://stev.oapd.inaf.it/cgi-bin/trilegal}} simulation results for each of the DECam fields, submitting to the online form the DECam ra,dec, and field size (using the size of a single mosaic element, as for DAOStarFinder source extraction -  approximately 0.047117 sq.deg. per field ). We limited the query results selecting r < 24.5 with  LSST ugrizy photometric system, keeping all other settings as default.  We used the number of sources per TRILEGAL output file, and scaled it to the degree level to compare with MAF and DAO.  The results are shown in Tables ~\ref{tab:one_perc}, ~\ref{tab:five_perc} ,~\ref{tab:twenty_perc} ,~\ref{tab:fifty_perc} for 1\%,5\%,20\% and 50 \% density levels. 
+
+
+% 1 percent 
+
+\begin{table}
+\begin{tabular}{cccccc}
+archive & ra & dec & TRILEGAL & MAF & DAO \\
+c4d\_140624\_080728\_ooi\_r\_v1 & 277.943625 & -19.120972 & 7951830 & 2650680 & 498760 \\
+c4d\_140624\_081148\_ooi\_r\_v2 & 277.981113 & -19.083333 & 7865364 & 2590488 & 440755 \\
+c4d\_170428\_094150\_ooi\_g\_v1  & 268.439875 & -33.630111 & 39882358 & 4587804 & 375980 \\
+c4d\_170504\_084722\_ooi\_g\_v1  & 264.043042 & -22.608889 & 15582905 & 2833740 & 561795 \\
+\end{tabular}
+\caption{Source density comparison for 1\% density level : TRILEGAL, DAO and MAF columns contain stellar counts from TRILEGAL simulation , DAOStarFinder based on DECam data, and MAF simulation, respectively. Simulation results are  limited by LSST r < 24.5. All counts are in stars per square degree. }
+\label{tab:one_perc}
+\end{table}
+
+% 5 percent
+
+\begin{table}
+\begin{tabular}{cccccc}
+archive & ra & dec & TRILEGAL & MAF & DAO \\
+tu1669764 & 260.973083 & -18.467306 & 1546620 & 641484 & 376915 \\
+tu1670143 & 259.304375 & -19.487611 & 1234484 & 599508 & 387454 \\
+tu1677011 & 260.957167 & -20.493167 & 2535014 & 810144 & 509093 \\
+tu2091292 & 262.64325 & -19.471278 & 3350692 & 795996 & 434409 \\
+tu2093190  & 260.994583 & -16.475528 & 1034980 & 585576 & 286712 \\
+\end{tabular}
+\caption{Source density comparison for 5\% density level, all columns and units as in Table ~\ref{tab:one_perc}}
+\label{tab:five_perc}
+\end{table}
+
+
+% 21 percent 
+\begin{table}
+\begin{tabular}{cccccc}
+archive & ra & dec & TRILEGAL & MAF & DAO \\
+c4d\_160327\_041913\_ooi\_g\_v1 & 239.926333 & -24.88225 & 169132 & 110160 & 14814 \\
+c4d\_170122\_055542\_ooi\_g\_v1& 120.884 & -24.031667 & 344696 & 116856 & 66282 \\
+tu1661798 & 242.794 & -23.027278 & 183671 & 118188 & 44216 \\
+tu1668579 & 105.812417 & -3.100833 & 375777 & 111096 & 54004 \\
+tu2075030 & 249.378875 & -17.461278 & 210646 & 109656 & 41980 \\
+\end{tabular}
+\caption{Source density comparison for 20\% density level, all columns and units as in Table ~\ref{tab:one_perc}}
+\label{tab:five_perc}
+\end{table}
+
+% 51 percent  
+\begin{table}
+\begin{tabular}{cccccc}
+archive & ra & dec & TRILEGAL & MAF & DAO \\
+c4d\_150614\_002629\_ooi\_g\_v1 & 222.213375 & -12.759667 & 28036 & 20916 & 7767 \\
+c4d\_150615\_005257\_ooi\_g\_v1& 223.138875 & -11.249944 & 26657 & 21024 & 12904 \\
+c4d\_160607\_025052\_ooi\_g\_v1 & 233.175667 & -1.679167 & 27633 & 20052 & 13371 \\
+c4d\_170718\_042438\_ooi\_r\_v1 & 228.030375 & -6.490833 & 27017 & 20412 & 17615 \\
+tu2046406 & 91.8075 & -14.163028 & 41344 & 19944 & 35974 \\
+\end{tabular}
+\caption{Source density comparison for 50\% density level, all columns and units as in Table ~\ref{tab:one_perc}}
+\label{tab:five_perc}
+\end{table}
+
+
+
 
 \appendix
 \section{Appendix : SQL queries}
