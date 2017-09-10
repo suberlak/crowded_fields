@@ -141,62 +141,97 @@ We also  obtained TRILEGAL\footnote{\url{http://stev.oapd.inaf.it/cgi-bin/trileg
 
 % 1 percent 
 
+
 \begin{table}
 \begin{tabular}{cccccc}
-archive & ra & dec & TRILEGAL & MAF & DAO \\
-c4d\_140624\_080728\_ooi\_r\_v1 & 277.943625 & -19.120972 & 7951830 & 2650680 & 498760 \\
-c4d\_140624\_081148\_ooi\_r\_v2 & 277.981113 & -19.083333 & 7865364 & 2590488 & 440755 \\
-c4d\_170428\_094150\_ooi\_g\_v1  & 268.439875 & -33.630111 & 39882358 & 4587804 & 375980 \\
-c4d\_170504\_084722\_ooi\_g\_v1  & 264.043042 & -22.608889 & 15582905 & 2833740 & 561795 \\
+archive & l & b & TRILEGAL & MAF & DAO \\
+c4d\_140624\_080728\_ooi\_r & 13.70 & -4.43 & 7,960,511 & 2,650,680 & 498,760 \\
+c4d\_170428\_094150\_ooi\_g & 356.86 & -3.90 & 39,852,793 & 4,587,804 & 375,980 \\
+c4d\_170501\_055757\_ooi\_g & 356.26 & 5.05 & 16,352,821 & 2,659,968 & 285,630 \\
+c4d\_170504\_084722\_ooi\_g & 4.26 & 5.15 & 15,586,874 & 2,833,740 & 561,795 \\
 \end{tabular}
 \caption{Source density comparison for 1\% density level : TRILEGAL, DAO and MAF columns contain stellar counts from TRILEGAL simulation , DAOStarFinder based on DECam data, and MAF simulation, respectively. Simulation results are  limited by LSST r < 24.5. All counts are in stars per square degree. }
 \label{tab:one_perc}
 \end{table}
+ 
+
+% images of 1 and 5 percent regions 
+\begin{figure}
+\begin{minipage}[t]{0.5\linewidth}
+\includegraphics[width=\linewidth]{figs/c4d_170504_084722_ooi_g_v1_1_sub_500px.png}
+\caption{500x500 pixels subregion of DECam field c4d\_170504\_084722\_ooi\_g,
+a top 1\% density region. With DAOPhot threshold set at 5 $\sigma$,  we detected 722 sources in this postage stamp miniature, corresponding to the area of 0.001406 sq degrees, which translates to 513,422 sources per square degree. At the same coordinates, MAF density is 2,833,740 sources per square degree, and TRILEGAL density is 15,586,874 sources per square degree. }
+\label{fig:decam_1_perc_miniature}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.5\linewidth}
+\includegraphics[width=\linewidth]{figs/c4d_170429_035748_ooi_g_v1_1_sub_500px.png}
+\caption{500x500 pixels subregion of DECam field c4d\_170429\_035748\_ooi\_g,  with 436  detected sources, in the 5 \% density region. The same DAOPhot settings as Fig.~\ref{fig:decam_1_perc_miniature}. That many sources in an area of 0.001406 sq degrees,  translates to 310,044 sources per square degree. At the same coordinates, MAF density is 807,156 sources per square degree, and TRILEGAL density is 1,870,414 sources per square degree. }
+\label{fig:decam_5_perc_miniature}
+\end{minipage}%
+\end{figure}
+
+
+
 
 % 5 percent
 
 \begin{table}
 \begin{tabular}{cccccc}
-archive & ra & dec & TRILEGAL & MAF & DAO \\
-tu1669764 & 260.973083 & -18.467306 & 1546620 & 641484 & 376915 \\
-tu1670143 & 259.304375 & -19.487611 & 1234484 & 599508 & 387454 \\
-tu1677011 & 260.957167 & -20.493167 & 2535014 & 810144 & 509093 \\
-tu2091292 & 262.64325 & -19.471278 & 3350692 & 795996 & 434409 \\
-tu2093190  & 260.994583 & -16.475528 & 1034980 & 585576 & 286712 \\
+archive & l & b & TRILEGAL & MAF & DAO \\
+c4d\_160316\_065235\_ooi\_g & 301.42 & 3.40 & 1,606,135 & 591,336 & 179,277 \\
+c4d\_160825\_231905\_ooi\_g & 314.05 & 3.08 & 2,564,964 & 589,572 & 127,088 \\
+c4d\_170429\_035748\_ooi\_g & 310.43 & -4.02 & 1,870,414 & 807,156 & 327,483 \\
+tu1677011 & 4.48 & 8.70 & 2,530,163 & 810,144 & 509,093 \\
 \end{tabular}
 \caption{Source density comparison for 5\% density level, all columns and units as in Table ~\ref{tab:one_perc}}
 \label{tab:five_perc}
 \end{table}
 
 
+
 % 21 percent 
 \begin{table}
 \begin{tabular}{cccccc}
-archive & ra & dec & TRILEGAL & MAF & DAO \\
-c4d\_160327\_041913\_ooi\_g\_v1 & 239.926333 & -24.88225 & 169132 & 110160 & 14814 \\
-c4d\_170122\_055542\_ooi\_g\_v1& 120.884 & -24.031667 & 344696 & 116856 & 66282 \\
-tu1661798 & 242.794 & -23.027278 & 183671 & 118188 & 44216 \\
-tu1668579 & 105.812417 & -3.100833 & 375777 & 111096 & 54004 \\
-tu2075030 & 249.378875 & -17.461278 & 210646 & 109656 & 41980 \\
+archive & l & b & TRILEGAL & MAF & DAO \\
+c4d\_170122\_055542\_ooi\_g & 242.43 & 3.77 & 341,343 & 116,856 & 66,282 \\
+tu1661798 & 351.66 & 20.42 & 183,778 & 118,188 & 44,216 \\
+tu1668579 & 217.04 & 1.21 & 379,319 & 111,096 & 54,004 \\
+tu2187073 & 312.84 & 14.64 & 184,583 & 107,784 & 60,678 \\
 \end{tabular}
 \caption{Source density comparison for 20\% density level, all columns and units as in Table ~\ref{tab:one_perc}}
 \label{tab:twenty_perc}
 \end{table}
 
+% images of 21 and 51 percent regions 
+
+\begin{figure}
+\begin{minipage}[t]{0.5\linewidth}
+\includegraphics[width=\linewidth]{figs/c4d_170122_055542_ooi_g_v1_1_sub_500px.png}
+\caption{500x500 pixels subregion of DECam field c4d\_170122\_055542\_ooi\_g,  with 98  detected sources, in the  20 \% density region. The same DAOPhot settings as Fig.~\ref{fig:decam_1_perc_miniature}. That many sources in an area of 0.001406 sq degrees,  translates to 69,688 sources per square degree. At the same coordinates,  MAF density is  116,856 sources per square degree, and TRILEGAL density is 341,343 sources per square degree. }
+\label{fig:decam_20_perc_miniature}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.5\linewidth}
+\includegraphics[width=\linewidth]{figs/c4d_160607_025052_ooi_g_v1_1_sub_500px.png}
+\caption{500x500 pixels subregion of DECam field c4d\_160607\_025052\_ooi\_g,  with 19  detected sources, in the  50 \% density region. The same DAOPhot settings as Fig.~\ref{fig:decam_1_perc_miniature}. That many sources in an area of 0.001406 sq degrees,  translates to 13,511 sources per square degree. At the same coordinates, MAF density is  20,052 per square degree, and TRILEGAL density is 29,607 sources per square degree.}
+\label{fig:decam_20_perc_miniature}
+\end{minipage}%
+\end{figure}
+
+
 % 51 percent  
 \begin{table}
 \begin{tabular}{cccccc}
-archive & ra & dec & TRILEGAL & MAF & DAO \\
-c4d\_150614\_002629\_ooi\_g\_v1 & 222.213375 & -12.759667 & 28036 & 20916 & 7767 \\
-c4d\_150615\_005257\_ooi\_g\_v1& 223.138875 & -11.249944 & 26657 & 21024 & 12904 \\
-c4d\_160607\_025052\_ooi\_g\_v1 & 233.175667 & -1.679167 & 27633 & 20052 & 13371 \\
-c4d\_170718\_042438\_ooi\_r\_v1 & 228.030375 & -6.490833 & 27017 & 20412 & 17615 \\
-tu2046406 & 91.8075 & -14.163028 & 41344 & 19944 & 35974 \\
+archive & l & b & TRILEGAL & MAF & DAO \\
+c4d\_150615\_005257\_ooi\_g & 344.39 & 41.67 & 27,633 & 21,024 & 12,904 \\
+c4d\_160607\_025052\_ooi\_g & 2.92 & 41.68 & 29,607 & 20,052 & 13,371 \\
+c4d\_160825\_034122\_ooi\_g & 345.83 & 1.28 & 18,364,268 & 20,268 & 91,177 \\
+tu2046406.fits.fz & 220.89 & -16.08 & 41,832 & 19,944 & 35,974 \\
 \end{tabular}
 \caption{Source density comparison for 50\% density level, all columns and units as in Table ~\ref{tab:one_perc}}
 \label{tab:fifty_perc}
 \end{table}
-
 
 
 
