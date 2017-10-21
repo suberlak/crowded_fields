@@ -48,6 +48,8 @@ As mentioned by ~\cite{bosch2017} with regards to Hyper Suprime CAM software pip
 
 The way in which measurements may be affected by the crowdiness have been studied before - pilot study by ~\citep{hogg2001} confirmed the '30 beams per source' rule of thumb, albeit it depends on the source number counts (with steeper number counts we need more beams per source ). Following on that exploratory study,  ~\cite{olsen2003} describes more quantitative framework to address this issue in the era of large telescopes. 
 
+
+\section{Identifying density regions}
 We start with the LSST  Metrics Analysis Framework \footnote{\url{https://www.lsst.org/scientists/simulations/maf}} simulated stellar density map \footnote{\url{https://github.com/lsst/sims_maf}}, made with \verb|sims_maf/python/lsst/sims/maf/maps/createStarDensitymap.py|\footnote{\url{https://github.com/lsst/sims_maf/blob/a9bc8f6d00fae5d7ce4ff6ea7279d5a0fca29437/python/lsst/sims/maf/maps/createStarDensitymap.py}} by Peter Yoachim and Lynne Jones at UW. The dataset \verb|starDensity_r_nside_64.npz| contains 64 magnitude bins, and 49152  healpixels \footnote{see http://healpix.sourceforge.net for documentation of HEALPix}. Each pixel contains information about number of stars per square degree in a given magnitude bin.  
 
 % WHY Southern Hemisphere  ?  
@@ -99,8 +101,9 @@ We illustrate the location of pixels representative of these density brackets on
 \label{fig:mollw_galactic}
 \end{figure} 
 
+\section{DECam images for fields representative of given source density }
 
-We compare the MAF estimates of stellar density in different density regimes to Dark Energy Camera (DECam)  data, taken with the 4-m Cerro Tololo Inter-American Observatory telescope (CTIO)\footnote{see \url{http://www.ctio.noao.edu/noao/node/1033}}. Due to inability of NOAO Data Archive \footnote{\url{http://archive.noao.edu/search/query}} query engine to handle a list of coordinates, we  first obtained all data that fulfilled very loose criteria:
+We compare the MAF estimates of stellar density in various density regimes to Dark Energy Camera (DECam)  data, taken with the 4-m Cerro Tololo Inter-American Observatory telescope (CTIO)\footnote{see \url{http://www.ctio.noao.edu/noao/node/1033}}. To circumvent lack of possibiliy of querying by a list of coordinates  at the NOAO Data Archive \footnote{\url{http://archive.noao.edu/search/query}}, we used the SQL query.  We first obtained all data that fulfilled very loose criteria:
 \begin{itemize}
 \item telescope = 'ct4m'
 \item instrument = 'decam'
@@ -111,11 +114,9 @@ We compare the MAF estimates of stellar density in different density regimes to 
 \item prodtype = 'image'
 \item filter is  u, g, r,  or VR 
 \end{itemize}
-(the SQL query used is available in the Appendix ~\ref{sec:sql_noao_decam}). 
-The exposure was chosen to match the DECam data to the depth that would be achieved by LSST with 30 second exposure.  
-% How was this calculated?   Ask Colin for formulaee ... 
+(the exact SQL query used is available in the Appendix ~\ref{sec:sql_noao_decam}). The exposure time was chosen to match the LSST depth at 30 second exposure.
 
-We obtained 11928 rows fulfilling these criteria : the location of these observations on the sky, with overlaid MAF density regions , is shown on Fig.~\ref{fig:decam_regions}. 
+We obtained 11928 rows (individual fields) fulfilling these criteria. The location of these observations on the sky, with overlaid MAF density regions, is shown on Fig.~\ref{fig:decam_regions}. 
 
  
 \begin{figure}
@@ -125,22 +126,35 @@ We obtained 11928 rows fulfilling these criteria : the location of these observa
 \label{fig:decam_regions}
 \end{figure} 
 
-We used AstroPy to match the coordinates of MAF healpixels in different density regimes to DECam imaging data. We found that of 244 top 1\% density pixels, 91 had DECam matches within 30 arcminutes, as shown on Fig.~\ref{fig:decam_matches_top}. 
+We used AstroPy SkyCoord package to match the coordinates of MAF healpixels to DECam imaging data. For instance, of the 244 healpixels in the top 1\% density regime  91 had a DECam counterpart within 30 arcminutes.  We allowed very liberal bounds to only approximately point at the same region of the sky - see Fig.~\ref{fig:decam_matches_top}. 
 
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/Illustrate_top_1_perc_DECam_matches.png}
 %\vskip -0.15in
-\caption{DECam observations with exposure $\in [90,125] $ sec, $\delta < 0$, taken in  u,g,r, or VR filter, matched by 2D separation to MAF healpixels within the highest stellar density bins. The inset shows the distribution of separation between healpix coordinates and DECam image center. Each DECam image is a mosaic, and each mosaic element covers approximately 9x18 arcminutes. }
+\caption{DECam observations with exposure $\in [90,125] $ sec, $\delta < 0$, taken in  u,g,r, or VR filter, matched using 2D separation to MAF healpixels within the highest stellar density bins. The inset shows the distribution of separation between healpix coordinates and DECam image center. Each DECam image is a mosaic of CCDs, and each mosaic element covers approximately 9x18 arcminutes (see Fig.~\ref{fig:decam_mosaic_ccd} for illustration). }
 \label{fig:decam_matches_top}
 \end{figure} 
 
+
+\begin{figure}
+\includegraphics[width=1.0\columnwidth]{figs/Fig_4-3_NOAO_DECam_ccd_mosaic.png}
+%\vskip -0.15in
+\caption{An illustration of the DECam CCD mosaic image plane, adapted from ~\citep{shaw2015}, Fig.4-3. The color corresponds to the one of the four sets of read-out electronics (orange,pink, blue,yellow), or the guiding (green) and focus (magenta) CCDS.  The grey CCDs do not function properly. In using the LSST Stack processing we used CCD10 (S22)  or CCD11 (S23) (for astrometric comparison).   }
+\label{fig:decam_mosaic_ccd}
+\end{figure} 
+
+\subsection{DAOStarFinder source detection}
 Per each density regime, we selected five random DECam fields, and performed source extraction with DAOStarFinder\footnote{\url{http://photutils.readthedocs.io/en/stable/photutils/detection.html}}.  This tool uses a classic DAOFIND algorithm~\citep{stetson1987}, and  we used it to verify the plausibility of the MAF source densities using real data.  DECam employs mosaic CCDs - each  field, which can be downloaded as a fits.fz compressed file, is split into 60 primary HDUs. FITS viewing software, such as ds9, by default open the first element (HDU[1]), and we decided to perform source extraction on this one element of the mosaic per field, since each element is of the same size, and is equally representative of the field. The size of each element of the mosaic is 2046x4094 pixels, with pixel scale of 0.27 arcsec / px , so that a single mosaic element covers an area of 0.047117 sq.deg. Using the FWHM information from the FITS header, and sigma clipped standard deviation $\sigma$, we performed source extraction with the detection threshold at $5 \sigma$ level, setting the detection threshold at $5\sigma$, and scaled it up to the source count per square degree to allow comparison with MAF data.  
 
-We also  obtained TRILEGAL\footnote{\url{http://stev.oapd.inaf.it/cgi-bin/trilegal}} simulation results for each of the DECam fields, submitting to the online form the DECam ra,dec, and field size (using the size of a single mosaic element, as for DAOStarFinder source extraction -  approximately 0.047117 sq.deg. per field ). We limited the query results selecting r < 24.5 with  LSST ugrizy photometric system, keeping all other settings as default.  We used the number of sources per TRILEGAL output file, and scaled it to the degree level to compare with MAF and DAO.  The results are shown in Tables ~\ref{tab:one_perc}, ~\ref{tab:five_perc} ,~\ref{tab:twenty_perc} ,~\ref{tab:fifty_perc} for 1\%,5\%,20\% and 50 \% density levels. 
+\subsection{TRILEGAL queries}
+We also  obtained TRILEGAL\footnote{\url{http://stev.oapd.inaf.it/cgi-bin/trilegal}} simulation results for each of the DECam fields, submitting to the online form the DECam ra,dec, and field size (using the size of a single mosaic element, as for DAOStarFinder source extraction -  approximately 0.047117 sq.deg. per field ). We limited the query results selecting r < 24.5 with  LSST ugrizy photometric system, keeping all other settings as default.  
+
+
+\subsection{Comparison of MAF, DAOStarFinder, and TRILEGAL counts}
+We used the number of sources per TRILEGAL output file, and scaled it to the degree level to compare with MAF and DAO.  The results are shown in Tables ~\ref{tab:one_perc}, ~\ref{tab:five_perc} ,~\ref{tab:twenty_perc} ,~\ref{tab:fifty_perc} for 1\%,5\%,20\% and 50 \% density levels. 
 
 
 % 1 percent 
-
 
 \begin{table}
 \begin{tabular}{cccccc}
@@ -232,6 +246,34 @@ tu2046406.fits.fz & 220.89 & -16.08 & 41,832 & 19,944 & 35,974 \\
 \caption{Source density comparison for 50\% density level, all columns and units as in Table ~\ref{tab:one_perc}}
 \label{tab:fifty_perc}
 \end{table}
+
+
+
+\section{Performance of the LSST Stack}
+We conducted more detailed studies of the LSST Stack performance. For each case there is a source catalog considered as ground 'truth', and images at various stellar densities that were processed with the LSST Stack. 
+
+We aim to answerr the following questions: 
+
+\begin{itemize}
+\item how does the completeness vs. magnitude curve depend on the input source density  (expressed in terms of the dimensionless parameter that takes seeing into account) ? 
+\item how does the photometric error (rms for true minus measured mag) vs. mag curve   depend on the input source density?
+\end{itemize}
+
+\subsection{LSST Stack on DECam}
+ First we compared the DECaPS individual image catalogs\footnote{\url{http://decaps.skymaps.info/}}, which were made using iterative source detection (see ~\cite{schlafly2017}), and the LSST source catalogs, based on the  DECAm images.
+
+We chose DECam fields representative of 20\% , 5\%, and 1\% level stellar densites. Querying the NOAO Archive against the field coordinates and  exposure range we obtained instcal,  wtmap, and dqmask per field. Using the staging functionality of the public ftp we downloaded these files onto the NCSA lsst-dev01 machine.  We processed each image with \verb|obs_decam| tools, specifically \verb|ingestImagesDecam.py|, and \verb|processCcd.py|. We analyzed the source catalogs and calibrated images. Using the 20\% region in g filter, 96-sec exposure and r-filter 50 sec exposure we constructed CMD diagram to demonstrate the functionality of photometric accuracy.  We demonstrated astrometric accuracy by using the 20\% region 96-second exposure in r-filter, and processing CCD10 and CCD11 - there is no overlap in the position of detected sources along the CCD boundary, which confirms that there is no major problem with astrometry. 
+
+
+
+\subsection{LSST Stack on StarFast }
+Second, we employed the StarFast image simulator\footnote{\url{https://dmtn-012.lsst.io}}, that simulates the volume with randomly distributed known population of stars. We simulated stellar densities equivalent to 20\%, 5\% , and 1\% regions, comparing the StarFast input catalogs to the source catalogs resulting from the LSST Stack processing of simulated images. 
+
+
+
+
+
+
 
 
 
