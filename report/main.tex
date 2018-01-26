@@ -22,14 +22,15 @@ K.~Suberlak, C.~Slater,
 \setDocRevision{TBD}
 \setDocStatus{draft}
 \setDocAbstract{%
-A report the status of crowded field photometry. We evaluate the need for performing better photometry in crowded fields by quantifying areas of the sky at a given density level. We provide an overview of density metrics, photometric methods applicable in a given stellar density regime, and recommendations for areas of improvement in the LSST Stack.}
+A report on the performance of current LSST Stack pipelines in crowded stellar fields. Using the real data we explore the metrics that could be used to direct decision-making process for pipeline improvements. The quality metrics show also a way to validate the performance of LSST pipelines  after major software upgrades.}
 
 % Change history defined here. Will be inserted into
 % correct place with \maketitle
 % OLDEST FIRST: VERSION, DATE, DESCRIPTION, OWNER NAME
 \setDocChangeRecord{%
 \addtohist{1}{2017-07-16}{First draft.}{Krzysztof Suberlak}
-\addtohist{2}{2017-10-19}{Major edits.}{Krzysztof Suberlak}
+\addtohist{2}{2017-10-19}{Updated outline.}{Krzysztof Suberlak}
+\addtohist{2}{2018-01-25}{Major revision.}{Krzysztof Suberlak}
 }
 
 \begin{document}
@@ -41,25 +42,39 @@ A report the status of crowded field photometry. We evaluate the need for perfor
 
 \section{Introduction}
 
-This is a document to report on quantifying the performance expectations and options with respect to crowded field processing.
+We report on the performance of the Large Scale Synoptic Telescope (LSST) science pipelines \footnote{\url{https://pipelines.lsst.io}}, also known as 'the LSST stack', in stellar fields of varying levels of crowdedness.
 
-The Large Scale Synoptic Telescope (LSST) will sample very diverse regions when it comes to stellar density, or crowdedness : from high density low-galactic latitude regions that have tens of millions of sources per square degree, to low-density regions towards the galactic poles with less than thousand sources per square degree. 
+The LSST will sample every night over 1,000  regions in the sky , delivering terabytes of raw data in need of processing: photometric  and astrometric calibration, to deliver a calibrated exposure image, as well as a source catalog, among other image products\footnote{\url{http://ls.st/LSE-163}}~\cite{narayan2018}.
 
-As mentioned by ~\cite{bosch2017} with regards to Hyper Suprime CAM software pipeline (based on LSST Stack, which in turn builds on the experience of the SDSS  Photo pipeline), deblending and performing a successful photometry is an inherent part of any astronomical data processing pipeline. The boundaries between deblending, measurement and detection blur in very high stellar densities, and the deeper the survey, the higher the stellar densities that it can encounter (see Sec 4.8.3 in \cite{bosch2017}). 
+The survey sky is composed of regions very diverse in terms of stellar density, or crowdedness:  from high density low-galactic latitude regions that have tens of millions of sources per square degree, to low-density regions towards the galactic poles with less than thousand sources per square degree. 
 
-The way in which measurements may be affected by the crowdiness have been studied before - pilot study by ~\citep{hogg2001} confirmed the '30 beams per source' rule of thumb, albeit it depends on the source number counts (with steeper number counts we need more beams per source ). Following on that exploratory study,  ~\cite{olsen2003} describes more quantitative framework to address this issue in the era of large telescopes. 
+Deblending and successful photometry is an inherent part of any astronomical data processing pipeline.  There exists a body of research answering questions that are specific to crowded stellar fields, eg. how many beams do we need per source (see ~\citep{hogg2001}), or how  the crowded fields photometry can be approached in the era of large telescopes ~\cite{olsen2003} Other studies involved eg. HyperSuprime CAM pipeline ( developed in parallel with the LSST Stack), recognizing that the deeper the survey, the higher the stellar densities encountered, and the onset of blurring the the boundaries between deblending, measurement, and detection~\cite{bosch2017}. 
+
+In this report we compare the 'out-of-the-box' LSST Stack tools, in particular processCcd.py, to the DECAm [Galactic] Plane Survey (DECAPS) catalogs based on the NOAO state-of-the-art community pipeline (~\cite{schlafly2017}). First we use the LSST Metrics Analysis Framework Galfast simulation of the night sky find regions representing various stellar densities - see Sec.~\ref{sec:MAF}. Then we query the DECAPS image database for images that were taken at exposures and filters that reach similar depth to the LSST single-visit depth (Sec.~\ref{sec:DECAPS}). We select few DECAPS exposures at each density level, and process with LSST Stack tools (Sec.~\ref{sec:LSST}). In Sec.~\ref{sec:metrics} we compare the results of LSST processing and the DECAPS single-epoch catalogs, and develop the quality metrics.  Finally in Sec.~\ref{sec:conclusions} we make recommendations for future work. 
 
 
 \section{Identifying density regions}
-We start with the LSST  Metrics Analysis Framework \footnote{\url{https://www.lsst.org/scientists/simulations/maf}} simulated stellar density map \footnote{\url{https://github.com/lsst/sims_maf}}, made with \verb|sims_maf/python/lsst/sims/maf/maps/createStarDensitymap.py|\footnote{\url{https://github.com/lsst/sims_maf/blob/a9bc8f6d00fae5d7ce4ff6ea7279d5a0fca29437/python/lsst/sims/maf/maps/createStarDensitymap.py}} by Peter Yoachim and Lynne Jones at UW. The dataset \verb|starDensity_r_nside_64.npz| contains 64 magnitude bins, and 49152  healpixels \footnote{see http://healpix.sourceforge.net for documentation of HEALPix}. Each pixel contains information about number of stars per square degree in a given magnitude bin.  
+\label{sec:MAF}
+To identify regions representing different stellar densities we use the LSST  Metrics Analysis Framework \footnote{\url{https://www.lsst.org/scientists/simulations/maf}, and \url{https://github.com/lsst/sims_maf}} simulated stellar density map prepared by P. Yoachim and L. Jones 
+\footnote{\url{sims_maf/python/lsst/sims/maf/maps/createStarDensitymap.py}}
+%\url{https://github.com/lsst/sims_maf/blob/a9bc8f6d00fae5d7ce4ff6ea7279d5a0fca29437/python/lsst/sims/maf/maps/createStarDensitymap.py}}. 
 
-% WHY Southern Hemisphere  ?  
-Using this data, we select magnitude bins smaller than r=24.5 in the Southern Hemisphere ($\delta < 0$).  We add stellar count across magnitude bins (selecting only  r <= 24.5 bins).   For each pixel we calculate the number of pixels that have a higher stellar count.  Since each pixel in HEALPix has an equal area, the fraction of pixel number above a certain threshold corresponds to the fraction of sky area above given density limit. See Fig.~\ref{fig:illustrate_density} for an illustration of how we define the stellar density - it is akin to a cumulative distribution. Therefore 'top 1\%' density means that only 1 in 100 pixels has a higher density than a given pixel.  Likewise,  'top 10\%' means that '10 \%' of pixels in the selected hemisphere have higher density. 
+The  resulting dataset \verb|starDensity_r_nside_64.npz| contains 64 magnitude bins, with the entire sky divided into 49152  healpixels \footnote{\url{http://healpix.sourceforge.net}}. Each healpixel contains information about the number of stars per square degree in a given magnitude bin in the simulated sky - see Fig.~\ref{fig:MAF_densities}.
 
 \begin{figure}
-\includegraphics[width=1.0\columnwidth]{figs/Southern_sky_r_lt245_twiny.png}
+\includegraphics[width=1.0\columnwidth]{figs/MAF_densities.png}
 %\vskip -0.15in
-\caption{Illustration of how the stellar density is quantified in terms of relative pixel density. We express stellar density both in terms of number of stars per square degree (bottom axis), as well as in terms of product of sources per square arcsecond and psf effective area (upper axis )}
+\caption{MAF healpixels plotted in galactic coordinates in Mollweide projection. The brightest regions correspond to highest stellar densities. The missing part in the higher declination is the part of the sky above $\delta>40 \degree$, which is not observable from the southern location of Cerro Pach\'on.}
+\label{fig:MAF_densities}
+\end{figure} 
+
+
+To match the LSST single-visit depth,  we select magnitude bins smaller than r=24.5.   For each healpixel we calculate the number of pixels that have a higher stellar count.  Since each healpixel has an equal area, the fraction of pixel number above a certain threshold corresponds to the fraction of sky area above given density limit.  Fig.~\ref{fig:illustrate_density} illustrates how we define percentiles of stellar densities, so that eg. 'top 1\%' density means that only 1 in 100 pixels has a higher density than a given pixel, and 'top 10\%' means that '10 \%' of pixels in the considered simulation of the sky. 
+
+\begin{figure}
+\includegraphics[width=1.0\columnwidth]{figs/All_sky_r_lt245_twiny.png}
+%\vskip -0.15in
+\caption{We order all healpixels in the MAF simulation of LSST sky in terms of stellar count per pixel. For each healpixel we calculate the number of pixels at greater or equal stellar count, which corresponds to the area of the sky at greater density.  Normalizing that by the total number of pixels we obtain a fraction of the sky at greater or equal density, similar to the cumulative distribution. Horizontal dashed lines illustrate selecting pixels at 5\% or 10\% density. }
 \label{fig:illustrate_density}
 \end{figure} 
 
@@ -74,35 +89,19 @@ Since this definition of density includes all pixels that are within 'top 20\%',
 \end{itemize}
 
 
-We illustrate the location of pixels representative of these density brackets on the sky in various projections  and coordinate systems :  cylindrical (Mercator) projection  in equatorial coordinates on Fig.~\ref{fig:cart_equat},  Mollweide projection in equatorial coordinates on Fig.~\ref{fig:mollw_equat},  and the same in galactic coordinates on Fig.~\ref{fig:mollw_galactic}. 
-
-
-\begin{figure}
-\includegraphics[width=1.0\columnwidth]{figs/Illustrate_density_regions.png}
-%\vskip -0.15in
-\caption{Illustration of location of regions representative of different relative density in cylindrical projection, equatorial coordinates. The blue solid line marks the location of Galactic equator. }
-\label{fig:cart_equat}
-\end{figure} 
-
-
-
-\begin{figure}
-\includegraphics[width=1.0\columnwidth]{figs/Illustrate_density_regions_mollw.png}
-%\vskip -0.15in
-\caption{Same as Fig.~\ref{fig:cart_equat}, but in Mollweide projection, with Equatorial coordinates.}
-\label{fig:mollw_equat}
-\end{figure} 
-
+We illustrate the location of pixels representative of these density brackets on the sky in Fig.~\ref{fig:mollw_galactic}. 
 
 
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/Illustrate_density_regions_mollw_galactic.png}
 %\vskip -0.15in
-\caption{Same as Fig.~\ref{fig:mollw_equat}, but in Galactic coordinates, which emphasizes the location of regions representing different density with regards to the Milky Way. It makes sense that the highest density regions in the Southern Hemisphere ($\delta < 0$) are located close to the galactic bulge, and the decreasing density regions approximately trace the shape of our galaxy.}
+\caption{Illustration of location of regions representative of different relative density in cylindrical projection, galactic coordinates. The highest density regions are located close to the galactic bulge, and the decreasing density regions approximately trace isophotes of the Milky Way. The 20\% regions close to the galactic equator correspond to high extinction regions that appear to have less counts due to interstellar dust. }
 \label{fig:mollw_galactic}
 \end{figure} 
 
-\section{DECam images for fields representative of given source density }
+
+\section{DECam Plane Survey }
+\label{sec:DECAPS}
 
 We compare the MAF estimates of stellar density in various density regimes to Dark Energy Camera (DECam)  data, taken with the 4-m Cerro Tololo Inter-American Observatory telescope (CTIO)\footnote{see \url{http://www.ctio.noao.edu/noao/node/1033}}. To circumvent lack of possibiliy of querying by a list of coordinates  at the NOAO Data Archive \footnote{\url{http://archive.noao.edu/search/query}}, we used the SQL query.  We first obtained all data that fulfilled very loose criteria:
 \begin{itemize}
@@ -274,7 +273,7 @@ Second, we employed the StarFast image simulator\footnote{\url{https://dmtn-012.
 
 
 
-
+\section{Conclusions}
 
 
 
