@@ -103,37 +103,22 @@ We illustrate the location of pixels representative of these density brackets on
 \section{DECam Plane Survey }
 \label{sec:DECAPS}
 
-We compare the MAF estimates of stellar density in various density regimes to Dark Energy Camera (DECam)  data, taken with the 4-m Cerro Tololo Inter-American Observatory telescope (CTIO)\footnote{see \url{http://www.ctio.noao.edu/noao/node/1033}}. To circumvent lack of possibiliy of querying by a list of coordinates  at the NOAO Data Archive \footnote{\url{http://archive.noao.edu/search/query}}, we used the SQL query.  We first obtained all data that fulfilled very loose criteria:
+We compare the MAF estimates of stellar density in various density regimes to Dark Energy Camera (DECam)  data, taken with the 4-m Cerro Tololo Inter-American Observatory telescope (CTIO)\footnote{see \url{http://www.ctio.noao.edu/noao/node/1033}} as part of the DECam Plane Survey~\cite{schlafly2017}.   Fig.~\ref{fig:decaps_fields} shows locations of all DECAPS fields in the single-epoch image database. The database contains information from all DECAPS single-epoch image headers, and was used to select DECAPS fields with single-epoch depth similar to the single-visit depth of 30 sec LSST exposure. Thus we required : 
 \begin{itemize}
-\item telescope = 'ct4m'
-\item instrument = 'decam'
-\item 90 sec < exposure < 125 sec 
-\item release\_date < ‘2017-07-24'
-\item dec < 0 
-\item proctype = 'InstCal' 
-\item prodtype = 'image'
-\item filter is  u, g, r,  or VR 
+	\item 90 sec < exposure < 125 sec
+	\item filter is  u, g, r,  or VR 
 \end{itemize}
-(the exact SQL query used is available in the Appendix ~\ref{sec:sql_noao_decam}). The exposure time was chosen to match the LSST depth at 30 second exposure.
 
-We obtained 11928 rows (individual fields) fulfilling these criteria. The location of these observations on the sky, with overlaid MAF density regions, is shown on Fig.~\ref{fig:decam_regions}. 
-
- 
-\begin{figure}
-\includegraphics[width=1.0\columnwidth]{figs/Illustrate_density_regions_DECam.png}
-%\vskip -0.15in
-\caption{DECam observations with exposure $\in [90,125] $ sec, $\delta < 0$, taken in  u,g,r, or VR filter.  }
-\label{fig:decam_regions}
-\end{figure} 
-
-We used AstroPy SkyCoord package to match the coordinates of MAF healpixels to DECam imaging data. For instance, of the 244 healpixels in the top 1\% density regime  91 had a DECam counterpart within 30 arcminutes.  We allowed very liberal bounds to only approximately point at the same region of the sky - see Fig.~\ref{fig:decam_matches_top}. 
 
 \begin{figure}
-\includegraphics[width=1.0\columnwidth]{figs/Illustrate_top_1_perc_DECam_matches.png}
+\includegraphics[width=1.0\columnwidth]{figs/MAF_DECAPS_sources.png}
 %\vskip -0.15in
-\caption{DECam observations with exposure $\in [90,125] $ sec, $\delta < 0$, taken in  u,g,r, or VR filter, matched using 2D separation to MAF healpixels within the highest stellar density bins. The inset shows the distribution of separation between healpix coordinates and DECam image center. Each DECam image is a mosaic of CCDs, and each mosaic element covers approximately 9x18 arcminutes (see Fig.~\ref{fig:decam_mosaic_ccd} for illustration). }
-\label{fig:decam_matches_top}
+\caption{All DECAPS fields, overlaid on the map of healpixel stellar densities from MAF simulated sky.  We matched the position of the center of each DECAPS field to the nearest healpixel to obtain an estimate of stellar density at each DECAPS field. In this way we selected DECAPS fields representative of various stellar densities (eg. 5\%, 10\%, 15\%, as explained in Sec.~\ref{sec:MAF}). }
+\label{fig:decaps_fields}
 \end{figure} 
+
+
+We cross-matched the DECAPS image database with the  stellar density information contained in MAF healpixels. Each DECAPS image plane is tiled by a mosaic of 62 CCDs (see Fig.~\ref{fig:decam_mosaic_ccd}).  A rectangle  composed of four extreme borders of each image plane has a diagonal of approximately 1.5 \degree. Given the coordinates of the center of each DECAPS field we found a corresponding nearest healpixel within 0.5 \degree. 
 
 
 \begin{figure}
