@@ -132,16 +132,129 @@ To obtain independent order of magnitude comparison to MAF simulation, and LSST/
 The big picture is to find how metrics that we develop behave as a function of source crowdedness. We consider completeness, and photometric accuracy. 
 
 \subsection{Cleaning DECAPS catalog, comparison to LSST pixel mask}
+To compare LSST and DECAPS catalogs, we cleaned both catalogs with the flags assigned to each source by the respective image processing pipeline. To verify the validity of DECAPS source flags, we compared them with the LSST pixel-level mask information stored in the FITS Header Data Unit. Pixel-level masks are encoded in 8 bits,  each of which can be 'on' or 'off', signifying that a given flag was 'on' or 'off' for a given pixel. The total value of the mask at each pixel is a decimal representation of such eight bits binary number, eg.  $(00100001)_{2} = 2^{0} + 2^{5}  = 1 + 32 = (33)_{10} $ means that bit $'0'$ and $'5'$ are 'on' (counting from the right). See Table~\ref{tab:lsst_flags} for details. 
 
 
+\begin{table}
+\centering
+\caption{LSST pixel mask bit values.}
+\label{tab:lsst_flags}
+\begin{tabular}{ ccc} 
+\hline
+Bit position & Description & Mask decimal value  \\ 
+\hline
+0  & bad               & 1    \\ 
+1  & saturated         & 2   \\ 
+2  & interpolated      & 4    \\ 
+3  & cosmic ray        & 8    \\ 
+4  & edge              & 16    \\ 
+5  & detected          & 32   \\ 
+6  & detected negative & 64   \\ 
+7  & suspect           & 128   \\ 
+8  & no data           & 256     \\ 
+\hline
+\end{tabular}
+\end{table}
+
+For each  visit we considered DECAPS single-epoch source catalog, and the LSST calexp image.  For each DECAPS source, given the pixel coordinates, we retrieved the value of the LSST mask at that pixel. Given the understanding of the LSST flag bits (Table~\ref{tab:lsst_flags})  we performed a bitwise and with a mask filter$(11011111)_{2} = (2^{1}+2^{2}+2^{3}+2^{4}+2^{6}+2^{7})_{10}$, flagging a source as 'lsst bad' if either of the flag bits apart from '5' (detected) was 'on'. 
+Each DECAPS source  also has a flag where the value is composed of bits inherited from the NOAO Community Pipeline (see Table~\ref{tab:decaps_flags}). We performed a bitwise and with the mask filter $(2^{1}+ 2^{3}+  2^{4}+  2^{5}+  2^{6}+  2^{8}+  2^{20}+  2^{22})_{10}$, flagging the source as 'decaps bad' if either of this bits were 'on'. We compared which sources would be excluded based on the DECAPS source-level flags vs LSST pixel-level masks, and we found that for a particular visit 611980 the overlap between sources excluded based on LSST pixel mask vs DECAPS source flags is 99\%. This means that DECAPS flagging is consistent with the LSST mask information, and the same sources would be 'excluded' based on either DECAPS flags or LSST mask information. 
+For this reason we cleaned the DECAPS catalog with  source level flags. 
+ 
 \subsection{Cleaning LSST catalog}
+The LSST source catalog contains per source a list of 83 flags that could be set 'on' or 'off'. Of these, flags number 60:72 are \verb|base_PixelFlags_flag|, meaning they contain information relevant to the level of source detection, rather than processing. See Table~\ref{tab:lsst_src_flags} for detailed descrition. 
+
+\begin{table}
+\centering
+\caption{LSST source explanation. All flags names start with 'base\_PixelFlags\_flag\_' which was omitted in the flag\_name column below. }
+\label{tab:lsst_src_flags}
+\begin{tabular}{ccc}
+\hline
+number & name & explanation \\
+\hline
+60 & flag & general failure flag, set if anything went wrong \\
+61 & offimage & Source center is off image \\
+62 & edge & Source is outside usable exposure region (masked EDGE or NO\_DATA) \\
+63 & interpolated & Interpolated pixel in the Source footprint \\
+64 & saturated & Saturated pixel in the Source footprint \\
+65 & cr & Cosmic ray in the Source footprint \\
+66 & bad & Bad pixel in the Source footprint \\
+67 & suspect & Source's footprint includes suspect pixels \\
+68 & interpolatedCenter & Interpolated pixel in the Source center \\
+69 & saturatedCenter & Saturated pixel in the Source center \\
+70 & crCenter & Cosmic ray in the Source center \\
+71 & suspectCenter & Source's center is close to suspect pixels \\
+72 & flag & General Failure Flag \\
+\hline
+\end{tabular}
+\end{table}
+
+We clean the LSST source catalog from sources that have flags number 62 (edge) or 67 (interpolatedCenter). Other flags would remove too many sources that have only small 'defects', eg. 64 (interpolated) is on for a bright source on the footprint of which there is a cosmic ray, and 65 (bad) is on for any source which has even one bad pixel in the footprint -see Fig.~\ref{fig:lsst_src_flags}
+
+
+\begin{figure}
+\includegraphics[width=1.0\columnwidth]{figs/LSST_mask_611980ccd01_61_67.png}
+%\vskip -0.15in
+\caption{Sources from LSST source catalog for CCD 01 , visit 611980,  for which flags 61 or 67 were 'on'. This cleans sources that were either on the CCD edge, or have been interpolated at the center. This properly removes the cosmic rays and edges, while preserving other sources that may have eg. a single bad pixel , or cosmic ray going across the footprint. }
+\label{fig:lsst_src_flags}
+\end{figure} 
+
 
 
 \subsection{Completeness}
+For each visit, that corresponds to a given level of crowdedness, we consider the completeness of the LSST source catalog to the DECAPS single-epoch source catalog. From both catalogs apart from performing cleaning based on flag information we removed sources with signal-to-noise ratio smaller than five:  $S/N < 5$. These catalogs were positionally cross-matched, with the peak of separation at less than 0.3 arcseconds (see Fig.~\ref{fig:separation_histogram})  
+
+
+\begin{figure}
+\includegraphics[width=1.0\columnwidth]{figs/decaps_lsst_separation_NEW.png}
+%\vskip -0.15in
+\caption{The histogram of separation of cross-matched sources between LSST and DECAPS catalogs for visits at various source densities (g1,g2 correspond to different locations of observations in g filter at the same density level). Choosing to consider a 'match' sources that are within 0.5 arcsec separation is well justified given this plot. }
+\label{fig:separation_histogram}
+\end{figure} 
+
+
+We consider two sources from LSST vs DECAPS catalogs a match if they are within 0.5 arcseconds (Fig.~\ref{fig:separation_histogram}) and 0.5 magnitude difference (Fig.~\ref{fig:dmag_scatter}) . Thus in a given magnitude bin, completeness is defined by the percentage of DECAPS sources that have an LSST match (see Fig.~\ref{fig:completeness}). 
+
+
+
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.7\columnwidth]{figs/completeness_count_lsst_decaps.png}
+%\vskip -0.15in
+\caption{Different colors correspond to different level of stellar crowdedness (5 is more dense,  20 is least dense, as defined earlier). The top panel depicts the completeness of DECAPS sources to LSST binned along DECAPS magnitudes. The middle panel the count of cleaned DECAPS catalog, and the bottom panel the count of cleaned LSST catalog, before they are cross-matched. Despite different densities, there is not much variation in the level of completeness , which may vary even for different fields at similar source densities (distinguished by different markers).}
+\label{fig:completeness}
+\end{centering}
+\end{figure} 
+
 
 
 \subsection{Photometric accuracy}
 
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.6\columnwidth]{figs/decaps_lsst_dmag_density_15.png}
+%\vskip -0.15in
+\caption{Difference in magnitudes between the DECAPS and LSST magnitudes for sources matched within 0.5 arcsec for a region in top 15\% density (611970) . While in calculating completeness apart from spatial proximity we require sources to be within 0.5 mag to constitute a 'match', here we did not exclude any outliers in calculating the median and $\sigma_{G}$, since these statistics are insensitive to outliers.  We overplot the median with yellow circles, and the $\pm \sigma_{G}$ envelope - the measure of scatter based on the interquartile range. The offset between LSST and DECAPS is on the level of 0.05 mag. The same quantities plotted for all fields can be shown on Fig.~\ref{fig:dmag_spread} }
+\label{fig:dmag_scatter}
+\end{centering}
+\end{figure} 
+
+\begin{figure}
+\includegraphics[width=1.0\columnwidth]{figs/rms_decaps_lsst_611970hist_panel.png}
+%\vskip -0.15in
+\caption{Cross-section of Fig.~\ref{fig:dmag_spread}, showing the histogram of magnitude difference per DECAPS magnitude bin, plotting the median as vertical line, with each histogram limited between $\pm 4 \sigma_{G}$. }
+\label{fig:dmag_hist}
+\end{figure} 
+
+
+
+
+\begin{figure}
+\includegraphics[width=1.0\columnwidth]{figs/decaps_lsst_rms_plot.png}
+%\vskip -0.15in
+\caption{Median, $\sigma_{G}$, and root-mean-square calculated for fields of different stellar density. Fields at different locations but similar source densities have the same color, but different markers. }
+\label{fig:dmag_spread}
+\end{figure} 
 
 
 \section{Conclusion and future work}
