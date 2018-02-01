@@ -163,27 +163,27 @@ For each  visit we considered DECAPS single-epoch source catalog, and the LSST c
 
 \begin{table}
 \centering
-\caption{DECAPS flags}
+\caption{DECAPS flags. We excluded sources with flag bits 1,3,4,5,6,8,20,22.}
 \label{tab:decaps_flags}
 \begin{tabular}{ ccc} 
 \hline
 Bit position & Description \\ 
 \hline
-1  &                 \\ 
-2  &          \\ 
-3  &          \\ 
-4  &           \\ 
-5  &          \\ 
-6  &           \\ 
-8  &        \\ 
-20  &          \\ 
-22  &           \\ 
+1  &     Bad pixel            \\ 
+3  &    Saturated      \\ 
+4  &    Bleed trail      \\ 
+5  &    Cosmic ray       \\ 
+6  &    Low weight      \\ 
+8  &    Long streak      \\ 
+20  &   Additional bad pixel    \\ 
+21 &    Nebulosity     \\ 
+22  &   S7 amplifier B        \\ 
 \hline
 \end{tabular}
 \end{table}
 
 
-Each DECAPS source  also has a flag where the value is composed of bits inherited from the NOAO Community Pipeline (see Table~\ref{tab:decaps_flags}). We performed a bitwise and with the mask filter $(2^{1}+ 2^{3}+  2^{4}+  2^{5}+  2^{6}+  2^{8}+  2^{20}+  2^{22})_{10}$, flagging the source as 'decaps bad' if either of this bits were 'on'. We compared which sources would be excluded based on the DECAPS source-level flags vs LSST pixel-level masks, and we found that for a particular visit 611980 the overlap between sources excluded based on LSST pixel mask vs DECAPS source flags is 99\%. This means that DECAPS flagging is consistent with the LSST mask information, and the same sources would be 'excluded' based on either DECAPS flags or LSST mask information. 
+Each DECAPS source  also has a flag where the value is composed of bits inherited from the NOAO Community Pipeline and new flags(see Table~\ref{tab:decaps_flags}). We performed a bitwise and with the mask filter $(2^{1}+ 2^{3}+  2^{4}+  2^{5}+  2^{6}+  2^{8}+  2^{20}+  2^{22})_{10}$, flagging the source as 'decaps bad' if either of this bits were 'on'. We compared which sources would be excluded based on the DECAPS source-level flags vs LSST pixel-level masks, and we found that for a particular visit 611980 the overlap between sources excluded based on LSST pixel mask vs DECAPS source flags is 99\%. This means that DECAPS flagging is consistent with the LSST mask information, and the same sources would be 'excluded' based on either DECAPS flags or LSST mask information. 
 For this reason we cleaned the DECAPS catalog with  source level flags. 
  
 \subsection{Cleaning LSST catalog}
@@ -192,7 +192,7 @@ The LSST source catalog contains per source a list of 83 flags that could be set
 
 \begin{table}
 \centering
-\caption{LSST source explanation. All flags names start with 'base\_PixelFlags\_flag\_' which was omitted in the flag\_name column below. }
+\caption{LSST source flags explanation. All flags names start with 'base\_PixelFlags\_flag\_' which was omitted in the flag\_name column below. }
 \label{tab:lsst_src_flags}
 \begin{tabular}{ccc}
 \hline
@@ -390,7 +390,7 @@ We also considered the photometric accuracy. Since both DECAPS and LSST processi
 
 
 \begin{figure}
-\includegraphics[width=1.0\columnwidth]{figs/decaps_lsst_rms_plot.png}
+\includegraphics[width=0.7\columnwidth]{figs/decaps_lsst_rms_plot.png}
 %\vskip -0.15in
 \caption{Median, $\sigma_{G}$, and root-mean-square calculated for fields of different stellar density. Fields at different locations but similar source densities have the same color, but different markers. }
 \label{fig:dmag_spread}
