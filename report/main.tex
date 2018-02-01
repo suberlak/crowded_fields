@@ -14,8 +14,7 @@
 \title[Crowded fields ]{LSST  Crowded Fields photometry}
 
 \author{
-K.~Suberlak, C.~Slater,
-\v{Z}.~Ivezi\'c, P.~Yoachim}
+K.~Suberlak, C.~Slater, \v{Z}.~Ivezi\'c}
 
 \setDocRef{LSST-2017}
 \date{\today}
@@ -124,6 +123,7 @@ We cross-matched the DECAPS image database with the  stellar density information
 
 
 \section{LSST Processing of DECAPS data}
+\label{sec:LSST}
 The DECAPS calibrated imaging was processed with the LSST Science Pipelines installed on the LSST-dev machine installed at the NCSA.  We specifically employed processCcd.py and the standard Stack configuration. Transferring the resulting source catalogs and calexp files over scp we analyzed the output on a laptop with jupyter notebooks. 
 
 
@@ -132,6 +132,7 @@ To obtain independent order of magnitude comparison to MAF simulation, and LSST/
 The big picture is to find how metrics that we develop behave as a function of source crowdedness. We consider completeness, and photometric accuracy. 
 
 \subsection{Cleaning DECAPS catalog, comparison to LSST pixel mask}
+\label{sec:clean_decaps}
 To compare LSST and DECAPS catalogs, we cleaned both catalogs with the flags assigned to each source by the respective image processing pipeline. To verify the validity of DECAPS source flags, we compared them with the LSST pixel-level mask information stored in the FITS Header Data Unit. Pixel-level masks are encoded in 8 bits,  each of which can be 'on' or 'off', signifying that a given flag was 'on' or 'off' for a given pixel. The total value of the mask at each pixel is a decimal representation of such eight bits binary number, eg.  $(00100001)_{2} = 2^{0} + 2^{5}  = 1 + 32 = (33)_{10} $ means that bit $'0'$ and $'5'$ are 'on' (counting from the right). See Table~\ref{tab:lsst_flags} for details. 
 
 
@@ -161,6 +162,7 @@ Each DECAPS source  also has a flag where the value is composed of bits inherite
 For this reason we cleaned the DECAPS catalog with  source level flags. 
  
 \subsection{Cleaning LSST catalog}
+\label{sec:clean_lsst}
 The LSST source catalog contains per source a list of 83 flags that could be set 'on' or 'off'. Of these, flags number 60:72 are \verb|base_PixelFlags_flag|, meaning they contain information relevant to the level of source detection, rather than processing. See Table~\ref{tab:lsst_src_flags} for detailed descrition. 
 
 \begin{table}
@@ -188,7 +190,39 @@ number & name & explanation \\
 \end{tabular}
 \end{table}
 
-We clean the LSST source catalog from sources that have flags number 62 (edge) or 67 (interpolatedCenter). Other flags would remove too many sources that have only small 'defects', eg. 64 (interpolated) is on for a bright source on the footprint of which there is a cosmic ray, and 65 (bad) is on for any source which has even one bad pixel in the footprint -see Fig.~\ref{fig:lsst_src_flags}
+We clean the LSST source catalog from sources that have flags number 62 (edge) or 67 (interpolatedCenter). Other flags would remove too many sources that have only small 'defects', eg. 64 (interpolated) is on for a bright source on the footprint of which there is a cosmic ray, and 65 (bad) is on for any source which has even one bad pixel in the footprint -see Fig.~\ref{fig:lsst_src_flags}. A comparison of the starting source count and final source count (after cleaning ) is shown on Fig.~\ref{fig:lsst_count_comparison}, and Table ~\ref{tab:lsst_summary}
+
+
+\begin{table}
+\centering
+\caption{A summary of all DECAPS visits processed with the LSST science pipelines. The source counts are per visit CCD mosaic, which covers the area of approximately 2.74 sq.degrees, unless expressed per square degrees. MAF density is defined as above. MAF N1 is MAF N sources sq.deg., and N in the last column is  the final number of sources per   sq.deg.}
+\label{tab:lsst_summary}
+\begin{tabular}{cccccccc}
+visit & N raw & N bad flags & N removed & N final & MAF $\rho$ & MAF N1 & N \\
+\hline
+530012 & 160406 & 15210 & 50760 & 109646 & 0.106 & 203040 & 39384 \\
+525846 & 167582 & 15247 & 51155 & 116427 & 0.106 & 203040 & 41820 \\
+525900 & 171337 & 15037 & 45984 & 125353 & 0.199 & 79632 & 45026 \\
+529989 & 182933 & 15910 & 48185 & 134748 & 0.199 & 79632 & 48401 \\
+529974 & 228849 & 16842 & 44364 & 184485 & 0.205 & 76572 & 66266 \\
+525814 & 235307 & 16811 & 50333 & 184974 & 0.205 & 76572 & 66442 \\
+527247 & 264383 & 15283 & 37754 & 226629 & 0.156 & 116676 & 81404 \\
+527246 & 319929 & 18136 & 46728 & 273201 & 0.157 & 114588 & 98133 \\
+611970 & 377917 & 26716 & 80620 & 297297 & 0.115 & 178992 & 106788 \\
+527296 & 361951 & 21167 & 62530 & 299421 & 0.042 & 588096 & 107551 \\
+611969 & 387056 & 25752 & 74332 & 312724 & 0.079 & 292788 & 112330 \\
+525838 & 371329 & 19984 & 54517 & 316812 & 0.156 & 116676 & 113798 \\
+525837 & 393879 & 22350 & 56728 & 337151 & 0.157 & 114588 & 121104 \\
+611529 & 398924 & 22625 & 55983 & 342941 & 0.156 & 116856 & 123184 \\
+525920 & 415231 & 22439 & 59125 & 356106 & 0.042 & 588096 & 127913 \\
+527300 & 436689 & 24839 & 69818 & 366871 & 0.042 & 594324 & 131779 \\
+525904 & 479294 & 26679 & 77024 & 402270 & 0.042 & 594324 & 144495 \\
+609754 & 490143 & 26233 & 67069 & 423074 & 0.156 & 116856 & 151967 \\
+530032 & 486203 & 23112 & 52098 & 434105 & 0.107 & 198432 & 155930 \\
+525879 & 575982 & 28502 & 64728 & 511254 & 0.107 & 198432 & 183642 \\
+\hline
+\end{tabular}
+\end{table}
 
 
 \begin{figure}
@@ -200,31 +234,17 @@ We clean the LSST source catalog from sources that have flags number 62 (edge) o
 
 
 
-\subsection{Completeness}
-For each visit, that corresponds to a given level of crowdedness, we consider the completeness of the LSST source catalog to the DECAPS single-epoch source catalog. From both catalogs apart from performing cleaning based on flag information we removed sources with signal-to-noise ratio smaller than five:  $S/N < 5$. These catalogs were positionally cross-matched, with the peak of separation at less than 0.3 arcseconds (see Fig.~\ref{fig:separation_histogram})  
-
-
-\begin{figure}
-\includegraphics[width=1.0\columnwidth]{figs/decaps_lsst_separation_NEW.png}
-%\vskip -0.15in
-\caption{The histogram of separation of cross-matched sources between LSST and DECAPS catalogs for visits at various source densities (g1,g2 correspond to different locations of observations in g filter at the same density level). Choosing to consider a 'match' sources that are within 0.5 arcsec separation is well justified given this plot. }
-\label{fig:separation_histogram}
-\end{figure} 
-
-
-We consider two sources from LSST vs DECAPS catalogs a match if they are within 0.5 arcseconds (Fig.~\ref{fig:separation_histogram}) and 0.5 magnitude difference (Fig.~\ref{fig:dmag_scatter}) . Thus in a given magnitude bin, completeness is defined by the percentage of DECAPS sources that have an LSST match (see Fig.~\ref{fig:completeness}). 
-
-
-
-
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.7\columnwidth]{figs/completeness_count_lsst_decaps.png}
+\includegraphics[width=0.6\columnwidth]{figs/decaps_lsst_source_count.png}
 %\vskip -0.15in
-\caption{Different colors correspond to different level of stellar crowdedness (5 is more dense,  20 is least dense, as defined earlier). The top panel depicts the completeness of DECAPS sources to LSST binned along DECAPS magnitudes. The middle panel the count of cleaned DECAPS catalog, and the bottom panel the count of cleaned LSST catalog, before they are cross-matched. Despite different densities, there is not much variation in the level of completeness , which may vary even for different fields at similar source densities (distinguished by different markers).}
-\label{fig:completeness}
+\caption{A plot of source count comparing LSST to DECAPS source catalogs of the same fields (visits). Blue dots mark raw source count, i.e. count of the input LSST  source catalog or DECAPS single-epoch catalog.  Orange dots mark the count of clean sources, after removing the low S/N sources,  and those with 'bad' flags (see Fig.~\ref{fig:lsst_src_flags})}
+\label{fig:lsst_count_comparison}
 \end{centering}
 \end{figure} 
+
+
+Given the single-epoch DECAPS source catalogs, and the LSST source catalogs, we followed a uniform set of procedures to clean both datasets, and in turn cross-match positionally. First we made a quality cut removing all sources with signal-to-noise ratio smaller than five:  $S/N < 5$. The number of sources thus removed depends on a visit number, but does not exceed few \% of the catalog. Following that we also removed sources with flags that correspond to bad, edge detections, cosmic rays, or saturation spikes (as outlined in Sec.~\ref{sec:clean_decaps} and ~\ref{sec:clean_lsst}). 
 
 We illustrate the DECAPS-LSST 'matches' and 'mismatches' for visit 611980 CCD01 on Figs.~\ref{fig:matches_ill_d2d},~\ref{fig:matches_ill_d2d_mask}, and CCD10 on Figs.~\ref{fig:ccd10_d2d_mask},~\ref{fig:ccd10_d2d_all} and ~\ref{fig:ccd10_d2d_plain}
 
@@ -264,7 +284,7 @@ We illustrate the DECAPS-LSST 'matches' and 'mismatches' for visit 611980 CCD01 
 \begin{centering}
 \includegraphics[width=0.7\columnwidth]{figs/visit_611980_ccd1010-24d2d_all.png}
 %\vskip -0.15in
-\caption{The same region of visit 611980, CCD10, as Fig.~\ref{ccd10_d2d_mask}, showing all LSST sources, as well as DECAPS sources that do (magenta), and do not (red) have an LSST match. }
+\caption{The same region of visit 611980, CCD10, as Fig.~\ref{fig:ccd10_d2d_mask}, showing all LSST sources, as well as DECAPS sources that do (magenta), and do not (red) have an LSST match. }
 \label{fig:ccd10_d2d_all}
 \end{centering}
 \end{figure} 
@@ -279,8 +299,53 @@ We illustrate the DECAPS-LSST 'matches' and 'mismatches' for visit 611980 CCD01 
 \end{centering}
 \end{figure} 
 
+\section{Metrics}
+\label{sec:metrics}
+
+Starting with cleaned LSST and DECAPS source catalogs, we consider a set of metrics to compare the quality of LSST science pipelines to the  state-of-the-art DECAPS pipeline.  
+
+\subsection{Completeness}
+
+For each visit that corresponds to a given level of crowdedness, consider the detection completeness of the LSST to the DECAPS sources. Assuming that DECAPS is the 'true' catalog of sources, the completeness is defined by the percentage of DECAPS sources (binned along DECAPS magnitude), that have an LSST match. 
+
+Given two catalogs, each with a set of  source coordinates and photometry,  one catalog is positionally cross-matched to another.  This means that for each source of the first catalog is paired to the nearest source in the other catalog. The spatial separation and magnitude difference are two quantities that we choose  as the basis of comparison.  First, we require that to be called a 'match' the sources in two catalogs must have coordinates that differ by not more than 0.5 \arcsec. This is a very liberal cut given that the peak of the separation histogram occurs at distance smaller than 0.3 \arcsec for >98\% of sources in all visits (see Fig.~\ref{fig:separation_histogram}).  Second,  we require that the sources differ by not more than 0.5 magnitudes. As illustrated on Fig.~\ref{fig:dmag_scatter}, this only removes the outliers.  In fact, given that the majority of the sources (>98\%) that are matched within 0.5 \arcsec, and do not differ by more than 0.5 magnitude, this constraint does not change the completeness by more than few \%.   Fig.~\ref{fig:completeness}) shows how completeness , and catalog counts, depend on source density ( from LSST catalog).  
+
+%  ### Store the stats per visit , per processing (DECAPS / LSST) : ### 
+%      * {N_sources_MAF} X      x  { visit  ,  density_MAF } X {  starting N sources ,  N sources flagged due to low S/N  ,  N sources flagged due to negative flux, 
+%      * N sources flagged due to bad mask/flag info   ,  total N sources that were considered 'bad', 
+%      * total N sources left in the 'clean' catalog }  X {DECAPS,  LSST }
+% add that as a TABLE here  , with the summary  ( bottom row : the sum of all sources, etc. )
+% important book keeping , because that ensures that fields that I say are within 5% density regime, 
+% actually are in that category ....   
+
+% Add a column converting  N_sources_per_entire_visit   to N_sources_per_sq_degree
+
+% Add a column converting   N_sources_per_sq_degree to N_sources / arcsec_sq ) * PSF, as in Jim Bosch presentation 
+
+% #### Add a table explaining  science-related vs stack-related quantities ?   ( The initial Colin's idea...)
+
+\begin{figure}
+\includegraphics[width=1.0\columnwidth]{figs/decaps_lsst_separation_N_p_sq_deg.png}
+%\vskip -0.15in
+\caption{The histogram of separation of cross-matched sources between LSST and DECAPS catalogs for visits at various source densities. For all visits the peak of source separation is well within 0.5 \arcsec limit.  }
+\label{fig:separation_histogram}
+\end{figure} 
+
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.7\columnwidth]{figs/completeness_count_lsst_decaps_N_true.png}
+%\vskip -0.15in
+\caption{Different colors correspond to different level of stellar crowdedness, expressed in terms of number of sources per square degree (from cleaned LSST source catalogs for each visit). The top panel depicts the completeness of DECAPS sources to LSST binned along DECAPS magnitudes. The middle panel the count of cleaned DECAPS catalog, and the bottom panel the count of cleaned LSST catalog, before they are cross-matched.  The completeness  falls down the higher the  source density. }
+\label{fig:completeness}
+\end{centering}
+\end{figure} 
+
+
 
 \subsection{Photometric accuracy}
+
+We also considered the photometric accuracy. Since both DECAPS and LSST processing pipelines start from the same instcal calibrated DECam images, they ought arrive at similar measurement of flux, and in turn, magnitudes.  The fact that there exists an offset and a spread in magnitude difference corresponds to slight differences in the details of each processing pipeline. We compare both the photometric difference between same fields processed by two different pipelines: DECAPS to LSST. Assuming that the majority of objects are non-variable in nature, we consider consecutive observations of the same stellar field at different epochs, to find the statistical variance epoch-to-epoch, thus resulting in DECAPS-DECAPS and LSST-LSST comparisons.
 
 \begin{figure}
 \begin{centering}
@@ -307,16 +372,109 @@ We illustrate the DECAPS-LSST 'matches' and 'mismatches' for visit 611980 CCD01 
 \end{figure} 
 
 
-\section{Conclusion and future work}
+
+For two fields per  stellar density regime (5\%, 10\%, 15\%, 20\%) we found visits at exactly the same location, filter and exposure time, but different epoch (see Table ~\ref{tab:epoch12_selection}).  This allowed to compare the spread in photometry epoch-to-epoch  within DECAPS, and LSST. We illustrate that plotting the magnitude differences on Figs.~\ref{fig:epoch-epoch_decaps} and \ref{fig:epoch-epoch_lsst}, and the summary of the spread of photometric difference as a function of magnitude on Figs.~\ref{fig:epoch_lsst_multiplot} and ~\ref{fig:epoch_decaps_multiplot}. 
+
+\begin{centering}
+\begin{table}
+
+\caption{Listing of pairs of visits at two different epochs, two per density regime. RA and DEC are in degrees. The separation in arcseconds is between the center of each exposure field of view. The last column shows the time difference between the two visits.}
+\label{tab:epoch12_selection}
+\begin{tabular}{ccccccccccc}
+\hline
+visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] & density & dmjd \\
+\hline
+525904 & 140.5531 & -51.24729 & 29.47 & 527300 & 140.5534 & -51.24555 & 29.459 & 6.3 & 5 & 2.96 \\
+525920 & 143.2337 & -51.44724 & 29.4465 & 527296 & 143.2329 & -51.446 & 29.259 & 4.8 & 5 & 2.94 \\
+525846 & 133.5462 & -44.27313 & 29.738 & 530012 & 133.5508 & -44.27435 & 29.783 & 12.6 & 10 & 13.00 \\
+525879 & 137.6415 & -54.08343 & 29.775 & 530032 & 137.642 & -54.08628 & 29.734 & 10.3 & 10 & 12.99 \\
+525837 & 131.5622 & -48.59523 & 30.011 & 527246 & 131.5601 & -48.59695 & 29.699 & 7.9 & 15 & 2.98 \\
+525838 & 132.5935 & -50.30486 & 29.344 & 527247 & 132.5894 & -50.30705 & 28.991 & 12.3 & 15 & 2.98\\
+525814 & 126.4261 & -43.06979 & 29.4545 & 529974 & 126.4192 & -43.07151 & 29.466 & 19.2 & 20 & 12.99 \\
+525900 & 140.6165 & -48.15003 & 29.772 & 529989 & 140.6162 & -48.15212 & 29.809 & 7.6 & 20 & 12.92 \\
+\hline
+\end{tabular}
+
+\end{table}
+\end{centering}
 
 
+
+% ###  ADD FIGURES  ###
+
+% FIGURE of DECAPS  rpoch-epoch  mag diff ( ilustrate single visit )
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.7\columnwidth]{figs/decaps-decaps525904-527300_dmag.png}
+%\vskip -0.15in
+\caption{Similarly to Fig.~\ref{fig:dmag_scatter}, scatter plot of the magnitude difference between the two epochal visits ( 525904, 527300) to the same sky region, separated by 2.95 days, processed by DECAPS. The magnitude difference is shown for all sources cross-matched between  the two epochs, with a match within 0.5 arcseconds - there is no selection on magnitude difference, but 0.5 mag (used for completeness) is well beyond the bounds of the plot, and would only cut the outliers to which neither median nor $\sigma_{G}$ (interquartile-based estimate of the spread) are not sensitive.  We overplot the $\pm \sigma_{G}$ envelope, and the median of each of 0.25 mag bins, spread between 14.5 and 22.5 mag. }
+\label{fig:epoch-epoch_decaps}
+\end{centering}
+\end{figure} 
+
+
+% FIGURE of LSST epoch -epoch mag diff  ( single visit illustrate )
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.7\columnwidth]{figs/lsst-lsst525904-527300_dmag.png}
+%\vskip -0.15in
+\caption{The same as Fig.~\ref{fig:epoch-epoch_decaps}, but for LSST processing of  two visits to the same region, at two different epochs.  }
+\label{fig:epoch-epoch_lsst}
+\end{centering}
+\end{figure} 
+
+% FIGURE with all LSST sigmaGs, rms    ( all visits,  color by density region : any differences ? )
+
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.8\columnwidth]{figs/lsst-lsst_spread_plot.png}
+%\vskip -0.15in
+\caption{Median, $\sigma_{G}$,  rms, and  median error, for two epochs processed by LSST. Color corresponds to density level, and marker to the same visit pair across panels. }
+\label{fig:epoch_lsst_multiplot}
+\end{centering}
+\end{figure} 
+
+
+% FIGURE with all DECAPS sigmaGs,  rms   
+
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.8\columnwidth]{figs/decaps-decaps_spread_plot.png}
+%\vskip -0.15in
+\caption{Similar to Fig.~\ref{fig:epoch_lsst_multiplot}, but for DECAPS processing. }
+\label{fig:epoch_decaps_multiplot}
+\end{centering}
+\end{figure} 
+
+
+The statistical spread epoch-to-epoch is on the level of 0.1 mag,  which is almost twice as large as the spread between processing of the same field by two different pipelines (0.05 mag). 
+
+
+\section{Future work}
+\label{sec:conclusions}
 
 \subsection{LSST Processing of StarFast Simulated Sky}
 An independent way to further test the performance of the LSST Science Pipelines is to use the simulated sky images, where the true position and  brightness of each source is known. This would put the measure of source detection completeness, photometric and astrometric precision on an absolute scale. We already tested a StarFast image simulator\footnote{\url{https://dmtn-012.lsst.io}}, and confirmed that it can successfully simulate a region of the sky seeded with known stellar population.  
 
+
 \subsection{Other LSST-DECAPS tests: w-color }
+An independent test of the quality of photometry would be to consider the width of the stellar locus ('w-color') on the g-r vs r-i color-color plot.  This could be used to test internal consistency of LSST and DECAPS photometry. 
+
+\subsection{Astrometry}
+We plot the difference in RA, DEC  used to cross-match the LSST and DECAPS catalogs. This requires further investigation : eg. consider the difference in RA,DEC for visits in the same location but at different epochs. 
 
 
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.8\columnwidth]{figs/611980_RA_DEC_offset.png}
+%\vskip -0.15in
+\caption{The difference in RA,DEC for visit 611980 , between LSST and DECAPS processing. The median $\Delta DEC=-3.33 $  marcsec  and median $\Delta RA = 3.33$ marcsec,  $\sigma_{G}(\Delta DEC) = 63.41$ marcsec, and $\sigma_{G}(\Delta RA) = 80.42$ marcsec. }
+\label{fig:ra_dec_offset}
+\end{centering}
+\end{figure} 
 
 \appendix
 \section{Appendix A: TRILEGAL and DAOPhot}
