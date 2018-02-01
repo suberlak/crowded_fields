@@ -158,6 +158,31 @@ Bit position & Description & Mask decimal value  \\
 \end{table}
 
 For each  visit we considered DECAPS single-epoch source catalog, and the LSST calexp image.  For each DECAPS source, given the pixel coordinates, we retrieved the value of the LSST mask at that pixel. Given the understanding of the LSST flag bits (Table~\ref{tab:lsst_flags})  we performed a bitwise and with a mask filter$(11011111)_{2} = (2^{1}+2^{2}+2^{3}+2^{4}+2^{6}+2^{7})_{10}$, flagging a source as 'lsst bad' if either of the flag bits apart from '5' (detected) was 'on'. 
+
+ % ###    ADD DECAPS flags ### 
+
+\begin{table}
+\centering
+\caption{DECAPS flags}
+\label{tab:decaps_flags}
+\begin{tabular}{ ccc} 
+\hline
+Bit position & Description \\ 
+\hline
+1  &                 \\ 
+2  &          \\ 
+3  &          \\ 
+4  &           \\ 
+5  &          \\ 
+6  &           \\ 
+8  &        \\ 
+20  &          \\ 
+22  &           \\ 
+\hline
+\end{tabular}
+\end{table}
+
+
 Each DECAPS source  also has a flag where the value is composed of bits inherited from the NOAO Community Pipeline (see Table~\ref{tab:decaps_flags}). We performed a bitwise and with the mask filter $(2^{1}+ 2^{3}+  2^{4}+  2^{5}+  2^{6}+  2^{8}+  2^{20}+  2^{22})_{10}$, flagging the source as 'decaps bad' if either of this bits were 'on'. We compared which sources would be excluded based on the DECAPS source-level flags vs LSST pixel-level masks, and we found that for a particular visit 611980 the overlap between sources excluded based on LSST pixel mask vs DECAPS source flags is 99\%. This means that DECAPS flagging is consistent with the LSST mask information, and the same sources would be 'excluded' based on either DECAPS flags or LSST mask information. 
 For this reason we cleaned the DECAPS catalog with  source level flags. 
  
