@@ -71,6 +71,7 @@ The  resulting dataset \verb|starDensity_r_nside_64.npz| contains 64 magnitude b
 To match the LSST single-visit depth,  we select magnitude bins smaller than r=24.5.   For each healpixel we calculate the number of pixels that have a higher stellar count.  Since each healpixel has an equal area, the fraction of pixel number above a certain threshold corresponds to the fraction of sky area above given density limit.  Fig.~\ref{fig:illustrate_density} illustrates how we define percentiles of stellar densities, so that eg. 'top 1\%' density means that only 1 in 100 pixels has a higher density than a given pixel, and 'top 10\%' means that '10 \%' of pixels in the considered simulation of the sky. 
 
 \begin{figure}
+\centering
 \includegraphics[width=0.7\columnwidth]{figs/02_all_sky_r_lt245.png}
 %\vskip -0.15in
 \caption{We order all healpixels in the MAF simulation of LSST sky in terms of stellar count per pixel. For each healpixel we calculate the number of pixels at greater or equal stellar count, which corresponds to the area of the sky at greater density.  Normalizing that by the total number of pixels we obtain a fraction of the sky at greater or equal density, similar to the cumulative distribution. Horizontal dashed lines illustrate selecting pixels at 5\% or 10\% density. }
@@ -249,6 +250,7 @@ visit & N raw & N bad flags & N removed & N final & MAF $\rho$ & MAF N1 & N \\
 \end{tabular}
 \end{table}
 
+% ### Add  table with summary of all DECAPS visits processed by DECAPS pipeline : how the numbers compare, why DECAPS looses way less sources on fig:lsst_count_comparison from raw to clean than LSST .
 
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/06_LSST_mask_611980ccd01_61_67.png}
@@ -261,9 +263,9 @@ visit & N raw & N bad flags & N removed & N final & MAF $\rho$ & MAF N1 & N \\
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.6\columnwidth]{figs/07_decaps_lsst_source_count.png}
+\includegraphics[width=0.6\columnwidth]{figs/decaps_lsst_source_count_NEW.png}
 %\vskip -0.15in
-\caption{A plot of source count comparing LSST to DECAPS source catalogs of the same fields (visits). Blue dots mark raw source count, i.e. count of the input LSST  source catalog or DECAPS single-epoch catalog.  Orange dots mark the count of clean sources, after removing the low S/N sources,  and those with 'bad' flags (see Fig.~\ref{fig:lsst_src_flags})}
+\caption{A plot of source count comparing LSST to DECAPS source catalogs of the same fields (visits). Blue dots mark raw source count, i.e. count of the input LSST  source catalog or DECAPS single-epoch catalog.  Orange dots mark the count of clean sources, after removing the low S/N sources,  and those with 'bad' flags (see Fig.~\ref{fig:lsst_src_flags}). As we would expect, between raw and clean catalogs the points on the diagram move vertically from top to bottom, and horizontally from right to left. For exact counts in each stellar field, see Tab.~\ref{tab:lsst_summary}}
 \label{fig:lsst_count_comparison}
 \end{centering}
 \end{figure} 
