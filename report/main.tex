@@ -74,7 +74,8 @@ To match the LSST single-visit depth,  we select magnitude bins smaller than r=2
 \centering
 \includegraphics[width=0.7\columnwidth]{figs/02_all_sky_r_lt245.png}
 %\vskip -0.15in
-\caption{We order all healpixels in the MAF simulation of LSST sky in terms of stellar count per pixel. For each healpixel we calculate the number of pixels at greater or equal stellar count, which corresponds to the area of the sky at greater density.  Normalizing that by the total number of pixels we obtain a fraction of the sky at greater or equal density, similar to the cumulative distribution. Horizontal dashed lines illustrate selecting pixels at 5\% or 10\% density. }
+\caption{Stellar density as a function of the fraction of the LSST simulated sky at greater or equal density. 
+For each healpixel in the  Galfast simulation we find the number of pixels at greater or equal stellar count, which corresponds to the area of the sky at greater density.  Normalizing that by the total number of pixels we obtain a fraction of the sky at greater or equal density, similar to the cumulative distribution. Horizontal dashed lines illustrate selecting pixels at 1\% or 10\% density. From this plot we read that about 1\% of the sky has more than $10^{6}$ stars per sq.deg. . The 5\% level corresponds to about 200000 stars per sq.deg. The second x-axis displays the density expressed as in terms of dimensionless quantity  $N_{beam} = N_{stars}/{arcsec}^{2} * A_{PSF}$, with the PSF effective area $A_{PSF} = \pi r^{2}$, assuming that diameter of the psf effective area is $\approx 0.8$ FWHM, and the radius is  0.4 arcseconds. }
 \label{fig:illustrate_density}
 \end{figure} 
 
@@ -216,41 +217,108 @@ number & name & explanation \\
 \end{tabular}
 \end{table}
 
-We clean the LSST source catalog from sources that have flags number 62 (edge) or 67 (interpolatedCenter). Other flags would remove too many sources that have only small 'defects', eg. 64 (interpolated) is on for a bright source on the footprint of which there is a cosmic ray, and 65 (bad) is on for any source which has even one bad pixel in the footprint -see Fig.~\ref{fig:lsst_src_flags}. A comparison of the starting source count and final source count (after cleaning ) is shown on Fig.~\ref{fig:lsst_count_comparison}, and Table ~\ref{tab:lsst_summary}
+We clean the LSST source catalog from sources that have flags number 62 (edge) or 67 (interpolatedCenter)\footnote{This is similar to the example in Sec.4 of SDSS Image Processing I: The Deblender~\citep{lupton2005}}. Other flags would remove too many sources that have only small 'defects', eg. 64 (interpolated) is on for a bright source on the footprint of which there is a cosmic ray, and 65 (bad) is on for any source which has even one bad pixel in the footprint -see Fig.~\ref{fig:lsst_src_flags}. A comparison of the starting source count and final source count (after cleaning ) is shown on Fig.~\ref{fig:lsst_count_comparison}, and Table ~\ref{tab:lsst_summary}
 
 
 \begin{table}
 \centering
-\caption{A summary of all DECAPS visits processed with the LSST science pipelines. The source counts are per visit CCD mosaic, which covers the area of approximately 2.74 sq.degrees, unless expressed per square degrees. MAF density is defined as above. MAF N1 is MAF N sources sq.deg., and N in the last column is  the final number of sources per   sq.deg.}
+\caption{A summary of all LSST-processed DECAPS visits. The column `visit` corresponds to the DECAPS visit number.  The following four columns (N raw,  N bad flags, N removed,  N clean) contain the source counts  per visit area ($\approx$ 2.74 sq.degrees). N raw is the input number of sources per visit , summing over all CCD source catalogs. N bad flags is the number of sources removed due to flags    , unless expressed per square degrees. MAF density is defined as above. MAF N1 is MAF N sources sq.deg., and N in the last column is  the final number of sources per   sq.deg.}
 \label{tab:lsst_summary}
 \begin{tabular}{cccccccc}
-visit & N raw & N bad flags & N removed & N final & MAF $\rho$ & MAF N1 & N \\
-\hline
+isit & N raw & N bad flags & N removed & N clean & $\rho_{MAF}$ & MAF N deg$^{2}$ & N clean deg$^{2}$ \\
+568172 & 29809 & 9148 & 11877 & 17932 & 0.213 & 72072 & 6441 \\
+527319 & 120862 & 13744 & 33204 & 87658 & 0.199 & 79632 & 31486 \\
 530012 & 160406 & 15210 & 50760 & 109646 & 0.106 & 203040 & 39384 \\
 525846 & 167582 & 15247 & 51155 & 116427 & 0.106 & 203040 & 41820 \\
 525900 & 171337 & 15037 & 45984 & 125353 & 0.199 & 79632 & 45026 \\
 529989 & 182933 & 15910 & 48185 & 134748 & 0.199 & 79632 & 48401 \\
 529974 & 228849 & 16842 & 44364 & 184485 & 0.205 & 76572 & 66266 \\
 525814 & 235307 & 16811 & 50333 & 184974 & 0.205 & 76572 & 66442 \\
+527096 & 227256 & 16100 & 35665 & 191591 & 0.25 & 55908 & 68819 \\
+644125 & 242521 & 16387 & 46616 & 195905 & 0.213 & 72072 & 69196 \\
 527247 & 264383 & 15283 & 37754 & 226629 & 0.156 & 116676 & 81404 \\
+611980 & 273032 & 18816 & 41424 & 231608 & 0.156 & 116856 & 83193 \\
+567283 & 280305 & 16981 & 31847 & 248458 & 0.04 & 612648 & 89245 \\
 527246 & 319929 & 18136 & 46728 & 273201 & 0.157 & 114588 & 98133 \\
+640891 & 355861 & 24520 & 67124 & 288737 & 0.151 & 121536 & 101985 \\
 611970 & 377917 & 26716 & 80620 & 297297 & 0.115 & 178992 & 106788 \\
 527296 & 361951 & 21167 & 62530 & 299421 & 0.042 & 588096 & 107551 \\
+645251 & 348033 & 18786 & 47363 & 300670 & 0.147 & 128016 & 106200 \\
 611969 & 387056 & 25752 & 74332 & 312724 & 0.079 & 292788 & 112330 \\
+526413 & 368017 & 22267 & 52841 & 315176 & 0.201 & 78480 & 113211 \\
 525838 & 371329 & 19984 & 54517 & 316812 & 0.156 & 116676 & 113798 \\
 525837 & 393879 & 22350 & 56728 & 337151 & 0.157 & 114588 & 121104 \\
 611529 & 398924 & 22625 & 55983 & 342941 & 0.156 & 116856 & 123184 \\
 525920 & 415231 & 22439 & 59125 & 356106 & 0.042 & 588096 & 127913 \\
 527300 & 436689 & 24839 & 69818 & 366871 & 0.042 & 594324 & 131779 \\
 525904 & 479294 & 26679 & 77024 & 402270 & 0.042 & 594324 & 144495 \\
+527453 & 495629 & 28732 & 81519 & 414110 & 0.093 & 242316 & 148748 \\
 609754 & 490143 & 26233 & 67069 & 423074 & 0.156 & 116856 & 151967 \\
 530032 & 486203 & 23112 & 52098 & 434105 & 0.107 & 198432 & 155930 \\
+526152 & 520842 & 28739 & 78145 & 442697 & 0.251 & 55404 & 159016 \\
+567795 & 508405 & 26663 & 64466 & 443939 & 0.034 & 721728 & 159462 \\
+641497 & 529827 & 28546 & 67330 & 462497 & 0.105 & 205308 & 163359 \\
+527064 & 558264 & 26197 & 57423 & 500841 & 0.042 & 591336 & 179901 \\
 525879 & 575982 & 28502 & 64728 & 511254 & 0.107 & 198432 & 183642 \\
+644144 & 597726 & 30439 & 78356 & 519370 & 0.017 & 1292976 & 196551 \\
+644082 & 614401 & 29828 & 72755 & 541646 & 0.03 & 783324 & 191316 \\
+526028 & 911721 & 38810 & 114347 & 797374 & 0.077 & 305280 & 286416 \\
+644074 & 916795 & 41973 & 98334 & 818461 & 0.051 & 481788 & 289090 \\
+641548 & 1005146 & 44347 & 105839 & 899307 & 0.067 & 355896 & 317646 \\
 \hline
 \end{tabular}
 \end{table}
 
-% ### Add  table with summary of all DECAPS visits processed by DECAPS pipeline : how the numbers compare, why DECAPS looses way less sources on fig:lsst_count_comparison from raw to clean than LSST .
+
+\begin{table}
+\centering
+\caption{A summary of all single-epoch DECAPS source catalogs, with columns as in  Table ~\ref{tab:lsst_summary}. See Fig.~\ref{fig:lsst_count_comparison} comparing the 'N raw' converted to number of sources per square degree, and  'N clean per sq.deg.'.  }
+\label{tab:decaps_summary}
+\begin{tabular}{cccccccc}
+Visit & N raw & N bad flags & N removed & N clean & $\rho_{MAF}$ & MAF N deg$^{2}$ & N clean deg$^{2}$ \\
+568172 & 16824 & 138 & 150 & 16674 & 0.213 & 72072 & 5989 \\
+527319 & 92326 & 2819 & 3039 & 89287 & 0.199 & 79632 & 32071 \\
+530012 & 121313 & 3293 & 3982 & 117331 & 0.106 & 203040 & 42145 \\
+525846 & 125245 & 3135 & 3457 & 121788 & 0.106 & 203040 & 43746 \\
+525900 & 127722 & 2557 & 2786 & 124936 & 0.199 & 79632 & 44876 \\
+529989 & 140043 & 2527 & 2803 & 137240 & 0.199 & 79632 & 49296 \\
+527096 & 194837 & 2126 & 2290 & 192547 & 0.25 & 55908 & 69162 \\
+525814 & 200562 & 4481 & 4938 & 195624 & 0.205 & 76572 & 70268 \\
+529974 & 224231 & 3992 & 4413 & 219818 & 0.205 & 76572 & 78958 \\
+644125 & 228088 & 5570 & 6182 & 221906 & 0.213 & 72072 & 78380 \\
+527247 & 237656 & 4858 & 5144 & 232512 & 0.156 & 116676 & 83518 \\
+527246 & 301083 & 5469 & 5907 & 295176 & 0.157 & 114588 & 106027 \\
+611980 & 315722 & 6779 & 7397 & 308325 & 0.156 & 116856 & 110750 \\
+527296 & 330295 & 7176 & 7726 & 322569 & 0.042 & 588096 & 115866 \\
+611970 & 340528 & 9668 & 10513 & 330015 & 0.115 & 178992 & 118541 \\
+645251 & 343358 & 5546 & 6253 & 337105 & 0.147 & 128016 & 119069 \\
+640891 & 361837 & 9423 & 10389 & 351448 & 0.151 & 121536 & 124135 \\
+525838 & 360793 & 6057 & 6515 & 354278 & 0.156 & 116676 & 127256 \\
+611969 & 376588 & 10280 & 11243 & 365345 & 0.079 & 292788 & 131231 \\
+527300 & 409385 & 8974 & 9654 & 399731 & 0.042 & 594324 & 143583 \\
+611529 & 428299 & 9981 & 11167 & 417132 & 0.156 & 116856 & 149833 \\
+525837 & 425261 & 6791 & 7437 & 417824 & 0.157 & 114588 & 150082 \\
+526413 & 428035 & 8417 & 9137 & 418898 & 0.201 & 78480 & 150467 \\
+525920 & 449868 & 6675 & 7430 & 442438 & 0.042 & 588096 & 158923 \\
+609754 & 474355 & 10034 & 11677 & 462678 & 0.156 & 116856 & 166193 \\
+525904 & 490306 & 8413 & 9118 & 481188 & 0.042 & 594324 & 172842 \\
+567283 & 575760 & 5549 & 6426 & 569334 & 0.04 & 612648 & 204504 \\
+526152 & 599164 & 12579 & 14023 & 585141 & 0.251 & 55404 & 210182 \\
+641497 & 611424 & 10156 & 11324 & 600100 & 0.105 & 205308 & 211962 \\
+530032 & 638179 & 9776 & 10964 & 627215 & 0.107 & 198432 & 225295 \\
+527453 & 682113 & 14654 & 16569 & 665544 & 0.093 & 242316 & 239062 \\
+525879 & 772457 & 11625 & 13117 & 759340 & 0.107 & 198432 & 272754 \\
+567795 & 791019 & 9439 & 11056 & 779963 & 0.034 & 721728 & 280162 \\
+644082 & 1007998 & 12826 & 15633 & 992365 & 0.03 & 783324 & 350515 \\
+526028 & 1035808 & 17929 & 20772 & 1015036 & 0.077 & 305280 & 364600 \\
+527064 & 1085375 & 10200 & 12399 & 1072976 & 0.042 & 591336 & 385412 \\
+641548 & 1404895 & 14336 & 17562 & 1387333 & 0.067 & 355896 & 490023 \\
+644144 & 1444897 & 16255 & 28641 & 1416256 & 0.017 & 1292976 & 535971 \\
+644074 & 1692430 & 16941 & 23670 & 1668760 & 0.051 & 481788 & 589427 \\
+\hline
+\end{tabular}
+\end{table}
+
 
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/06_LSST_mask_611980ccd01_61_67.png}
@@ -265,13 +333,30 @@ visit & N raw & N bad flags & N removed & N final & MAF $\rho$ & MAF N1 & N \\
 \begin{centering}
 \includegraphics[width=0.6\columnwidth]{figs/decaps_lsst_source_count_NEW.png}
 %\vskip -0.15in
-\caption{A plot of source count comparing LSST to DECAPS source catalogs of the same fields (visits). Blue dots mark raw source count, i.e. count of the input LSST  source catalog or DECAPS single-epoch catalog.  Orange dots mark the count of clean sources, after removing the low S/N sources,  and those with 'bad' flags (see Fig.~\ref{fig:lsst_src_flags}). As we would expect, between raw and clean catalogs the points on the diagram move vertically from top to bottom, and horizontally from right to left. For exact counts in each stellar field, see Tab.~\ref{tab:lsst_summary}}
+\caption{A plot of source count comparing LSST to DECAPS source catalogs of the same fields (visits). Blue dots mark raw source count, i.e. count of the input LSST  source catalog or DECAPS single-epoch catalog. The source catalog count was converted to number of sources per square degree, due to the fact that in some cases not all CCDs were processed (eg. visit 611144 in the top 1\% region, where with CCDs 54,55,59,61 the LSST Pipeline suffered from the memory overflow).  Orange dots mark the count of clean sources, after removing the low S/N sources,  and those with 'bad' flags (see Fig.~\ref{fig:lsst_src_flags}). As we would expect, between raw and clean catalogs the points on the diagram move vertically from top to bottom, and horizontally from right to left. For exact counts in each stellar field, see LSST counts Table ~\ref{tab:lsst_summary} and DECAPS counts Table ~\ref{tab:decaps_summary}}
 \label{fig:lsst_count_comparison}
 \end{centering}
 \end{figure} 
 
 
-Given the single-epoch DECAPS source catalogs, and the LSST source catalogs, we followed a uniform set of procedures to clean both datasets, and in turn cross-match positionally. First we made a quality cut removing all sources with signal-to-noise ratio smaller than five:  $S/N < 5$. The number of sources thus removed depends on a visit number, but does not exceed few \% of the catalog. Following that we also removed sources with flags that correspond to bad, edge detections, cosmic rays, or saturation spikes (as outlined in Sec.~\ref{sec:clean_decaps} and ~\ref{sec:clean_lsst}). 
+Given the single-epoch DECAPS source catalogs, and the LSST source catalogs, we followed a uniform set of procedures to clean both datasets, and in turn cross-match positionally. First we made a quality cut removing all sources with signal-to-noise ratio smaller than five:  $S/N < 5$. The number of sources thus removed depends on a visit number, but does not exceed few \% of the catalog. Following that we also removed sources with flags that correspond to bad, edge detections, cosmic rays, or saturation spikes (as outlined in Sec.~\ref{sec:clean_decaps} and ~\ref{sec:clean_lsst}). The LSST Processing Pipeline deblends sources in a similar fashion to the SDSS Imaging Pipeline\footnote{SDSS Image Processing I: The Deblender~\citep{lupton2005}, SDSS Image Processing II: The Photo Pipelines~\citep{lupton2001},~\citep{lupton2002}, and ~\citep{lupton2005a}}.   For the LSST source catalog,  we chose to keep only those sources that were either isolated parents ( parentId=0, nchild=0), or deblended children (parentId != 0 , nchild=0) (see Table ~\ref{tab:lsst_deblend} for details.)
+
+
+
+\begin{table}
+\centering
+\caption{ Summary of possible parentId and nchild combinations for blended sources in the LSST Science Pipeline. An example count in the final column is provided for visit 525814, a top 20\% density region, which has the raw source count 235307. For that visit  16811 sources had bad flags, 49901  had S/N < 5, and in total 163093 were kept in the clean catalog.  }
+\label{tab:lsst_deblend}
+\begin{tabular}{cccccccc}
+parentID & nchild & type  & decision &  count \\
+0 & 0 & parent: isolated source & keep & 104406 \\
+0 & >0 & blended source & remove & 26981 \\
+!=0 & 0 & deblended child & keep  &103920\\
+!=0 & >0 & failure case & remove & 0 \\
+\hline
+\end{tabular}
+\end{table}
+
 
 We illustrate the DECAPS-LSST 'matches' and 'mismatches' for visit 611980 CCD01 on Figs.~\ref{fig:matches_ill_d2d},~\ref{fig:matches_ill_d2d_mask}, and CCD10 on Figs.~\ref{fig:ccd10_d2d_mask},~\ref{fig:ccd10_d2d_all} and ~\ref{fig:ccd10_d2d_plain}
 
