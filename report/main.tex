@@ -462,17 +462,17 @@ Given two catalogs, each with a set of  source coordinates and photometry,  one 
 
 % #### Add a table explaining  science-related vs stack-related quantities ?   ( The initial Colin's idea...)
 
-\begin{figure}
-\includegraphics[width=1.0\columnwidth]{figs/13_decaps_lsst_separation_N_p_sq_deg.png}
+%\begin{figure}
+%\includegraphics[width=1.0\columnwidth]{figs/13_decaps_lsst_separation_N_p_sq_deg.png}
 %\vskip -0.15in
-\caption{The histogram of separation of cross-matched sources between LSST and DECAPS catalogs for visits at various source densities. For all visits the peak of source separation is well within 0.5 \arcsec limit.  }
-\label{fig:separation_histogram}
-\end{figure} 
+%\caption{The histogram of separation of cross-matched sources between LSST and DECAPS catalogs for visits at various source densities. For all visits the peak of source separation is well within 0.5 \arcsec limit.  }
+%\label{fig:separation_histogram}
+%\end{figure} 
 
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.7\columnwidth]{figs/completeness_4_panels.png}
+\includegraphics[width=0.96\columnwidth]{figs/completeness_4_panels.png}
 %\vskip -0.15in
 \caption{Different colors correspond to different level of stellar crowdedness, expressed in terms of number of sources per square degree (the mean between LSST and DECAPS cleaned catalogs). Top two panels show source-to-source completeness.  The first of the two top panels is completeness of  LSST to DECAPS,  i.e. for each DECAPS  source we look for an LSST equivalent.  The second top panel  is completeness of DECAPS to LSST , i.e. for each LSST source we find an LSST counterpart.  The LSST-DECAPS completeness falls off quicker than DECAPS-LSST, since DECAPS catalog has more sources at fainter magnitudes (see Fig.~\ref{fig:lsst_count_comparison}). The bottom two panels show the normalized number of counts  in the input catalogs.  We characterize completeness by two numbers per visit:  the mean completeness between 18-20 magnitude $\langle C_{18-20} \rangle$, and the magnitude at which completeness falls to 50\% level,  $m_{50}$, plotted on Fig.~\ref{fig:completeness_characterize}.}
 \label{fig:completeness}
@@ -482,7 +482,7 @@ Given two catalogs, each with a set of  source coordinates and photometry,  one 
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.7\columnwidth]{figs/decaps_lsst_c1820_m50.png}
+\includegraphics[width=0.96\columnwidth]{figs/decaps_lsst_c1820_m50.png}
 %\vskip -0.15in
 \caption{Magnitude at which completeness falls to 50\% (top two panels), and the mean completeness between 18 and 20 magnitudes (bottom two panels).  The panels on the left hand side correspond to the uppermost panel in Fig.~\ref{fig:completeness}, while the right hand side panels correspond to the second panel in that Figure. All points are colored with the same color and marker as in Fig.~\ref{fig:completeness}, which corresponds to the source density, hence left-to-right color gradient. In each panel we overplot the linear best-fit to show the overall trend of decreasing $\langle C_{18-20} \rangle$ and  $m_{50}$ with source density, as expected.  }
 \label{fig:completeness_characterize}
@@ -574,7 +574,7 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.8\columnwidth]{figs/20_lsst-lsst_spread_plot.png}
+\includegraphics[width=0.8\columnwidth]{figs/lsst-lsst_spread_plot_N_real_lims.png}
 %\vskip -0.15in
 \caption{Median, $\sigma_{G}$,  rms, and  median error, for two epochs processed by LSST. Color corresponds to density level, and marker to the same visit pair across panels. }
 \label{fig:epoch_lsst_multiplot}
@@ -587,7 +587,7 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.8\columnwidth]{figs/21_decaps-decaps_spread_plot.png}
+\includegraphics[width=0.8\columnwidth]{figs/decaps-decaps_spread_plot_N_real_lims.png}
 %\vskip -0.15in
 \caption{Similar to Fig.~\ref{fig:epoch_lsst_multiplot}, but for DECAPS processing. }
 \label{fig:epoch_decaps_multiplot}
