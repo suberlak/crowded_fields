@@ -190,7 +190,7 @@ For this reason we cleaned the DECAPS catalog with  source level flags.
  
 \subsection{Cleaning LSST catalog}
 \label{sec:clean_lsst}
-The LSST source catalog contains per source a list of 83 flags that could be set 'on' or 'off'. Of these, flags number 60:72 are \verb|base_PixelFlags_flag|, meaning they contain information relevant to the level of source detection, rather than processing. See Table~\ref{tab:lsst_src_flags} for detailed descrition. 
+The LSST source catalog contains per source a list of 83 flags that could be set 'on' or 'off'. Of these, flags number 60:72 are \verb|base_PixelFlags_flag|, meaning they contain information relevant to the level of source detection, rather than processing. See Table~\ref{tab:lsst_src_flags} for detailed description. 
 
 \begin{table}
 \centering
@@ -347,11 +347,30 @@ Visit & $N_{raw}$ & $(N_{f})$ & $-N_{r}$ & $=N_{c}$ & $N_{c}$/deg$^{2}$ & $N_{MA
 
 
 \begin{figure}
-\includegraphics[width=1.0\columnwidth]{figs/06_LSST_mask_611980ccd01_61_67.png}
-%\vskip -0.15in
-\caption{Sources from LSST source catalog for CCD 01 , visit 611980,  for which flags 61 or 67 were 'on'. This cleans sources that were either on the CCD edge, or have been interpolated at the center. This properly removes the cosmic rays and edges, while preserving other sources that may have eg. a single bad pixel , or cosmic ray going across the footprint. }
-\label{fig:lsst_src_flags}
+\begin{centering}
+\includegraphics[width=1.0\columnwidth]{figs/visit_527552_ccd_1_blends.png}
+\caption{We illustrate the sources as reported by the LSST pipeline for a small region of CCD01 of visit 527552. A source may be reported as an isolated source (yellow),  or a blend (magenta). If it is a blend, it may become successfully deblended producing deblended children (green). In what follows, we remove blended sources, and only keep isolated parents and deblended children. }
+\label{fig:lsst_sources}
+\end{centering}
 \end{figure} 
+
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=1.0\columnwidth]{figs/visit_527552_ccd_1_lowSN.png}
+\caption{The same region as on Fig.~\ref{fig:lsst_sources}. Green circles mark the position of retained LSST sources: isolated parents, or deblended children, with  S/N > 5, and no bad flags. Red circles mark the position of DECAPS detections with an LSST match. Vertical magenta dashes are above the LSST sources with S/N < 5.   Blue dashed circles mark location of DECAPS source without an LSST match. Note that eg. at (x,y) = 50,1490  an LSST source was detected, but since its  S/N < 5 it was not kept in the clean LSST catalog.   }
+\label{fig:lsst_decaps_sources}
+\end{centering}
+\end{figure} 
+
+
+
+%\begin{figure}
+%\includegraphics[width=1.0\columnwidth]{figs/06_LSST_mask_611980ccd01_61_67.png}
+%\vskip -0.15in
+%\caption{Sources from LSST source catalog for CCD 01 , visit 611980,  for which flags 61 or 67 were 'on'. This cleans sources that were either on the CCD edge, or have been interpolated at the center. This properly removes the cosmic rays and edges, while preserving other sources that may have eg. a single bad pixel , or cosmic ray going across the footprint. }
+%\label{fig:lsst_src_flags}
+%\end{figure} 
 
 
 
@@ -384,58 +403,56 @@ parentID & nchild & type  & decision &  count \\
 \end{table}
 
 
-We illustrate the DECAPS-LSST 'matches' and 'mismatches' for visit 611980 CCD01 on Figs.~\ref{fig:matches_ill_d2d},~\ref{fig:matches_ill_d2d_mask}, and CCD10 on Figs.~\ref{fig:ccd10_d2d_mask},~\ref{fig:ccd10_d2d_all} and ~\ref{fig:ccd10_d2d_plain}
-
 
 % VISIT 611980  ,  HORIZONTAL BAD PIXELS .... 
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.7\columnwidth]{figs/08_visit_611980_ccd0110-24d2d_all.png}
+%\begin{figure}
+%\begin{centering}
+%\includegraphics[width=0.7\columnwidth]{figs/08_visit_611980_ccd0110-24d2d_all.png}
 %\vskip -0.15in
-\caption{We consider cleaned DECAPS and LSST catalogs. All LSST sources are marked in green, and all DECAPS sources with an LSST counterpart are marked in magenta. The DECAPS sources missing LSST counterpart within 0.5 '' are shown in red. }
-\label{fig:matches_ill_d2d}
-\end{centering}
-\end{figure} 
+%\caption{We consider cleaned DECAPS and LSST catalogs. All LSST sources are marked in green, and all DECAPS sources with an LSST counterpart %are marked in magenta. The DECAPS sources missing LSST counterpart within 0.5 '' are shown in red. }
+%\label{fig:matches_ill_d2d}
+%\end{centering}
+%\end{figure} 
 
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.7\columnwidth]{figs/09_visit_611980_ccd0110-24d2d_mask.png}
+%\begin{figure}
+%\begin{centering}
+%\includegraphics[width=0.7\columnwidth]{figs/09_visit_611980_ccd0110-24d2d_mask.png}
 %\vskip -0.15in
-\caption{The same as Fig.~\ref{fig:matches_ill_d2d}, but showing the LSST pixels that have bits  0,1,2,3,4,6,7,8 'on' in dark shading (see Tab.~\ref{tab:lsst_flags}). In particular, the horizontal stripes on the bottom correspond to bit 0 ('bad').}
-\label{fig:matches_ill_d2d_mask}
-\end{centering}
-\end{figure} 
+%\caption{The same as Fig.~\ref{fig:matches_ill_d2d}, but showing the LSST pixels that have bits  0,1,2,3,4,6,7,8 'on' in dark shading (see %Tab.~\ref{tab:lsst_flags}). In particular, the horizontal stripes on the bottom correspond to bit 0 ('bad').}
+%\label{fig:matches_ill_d2d_mask}
+%\end{centering}
+%\end{figure} 
 
 
 % Visit 611980 , CCD 10 :  GALAXY SHREDDING 
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.7\columnwidth]{figs/10_visit_611980_ccd1010-24d2d_mask.png}
+%\begin{figure}
+%\begin{centering}
+%\includegraphics[width=0.7\columnwidth]{figs/10_visit_611980_ccd1010-24d2d_mask.png}
 %\vskip -0.15in
-\caption{Like on Fig.~\ref{fig:matches_ill_d2d_mask} we overlay the LSST pixel mask data on top DECAPS sources that do (magenta) and do not  (red) have an LSST counterpart within 0.5 ''. }
-\label{fig:ccd10_d2d_mask}
-\end{centering}
-\end{figure} 
+%\caption{Like on Fig.~\ref{fig:matches_ill_d2d_mask} we overlay the LSST pixel mask data on top DECAPS sources that do (magenta) and do not  (red) have an LSST counterpart within 0.5 ''. }
+%\label{fig:ccd10_d2d_mask}
+%\end{centering}
+%\end{figure} 
 
 
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.7\columnwidth]{figs/11_visit_611980_ccd1010-24d2d_all.png}
+%\begin{figure}
+%\begin{centering}
+%\includegraphics[width=0.7\columnwidth]{figs/11_visit_611980_ccd1010-24d2d_all.png}
 %\vskip -0.15in
-\caption{The same region of visit 611980, CCD10, as Fig.~\ref{fig:ccd10_d2d_mask}, showing all LSST sources, as well as DECAPS sources that do (magenta), and do not (red) have an LSST match. }
-\label{fig:ccd10_d2d_all}
-\end{centering}
-\end{figure} 
+%\caption{The same region of visit 611980, CCD10, as Fig.~\ref{fig:ccd10_d2d_mask}, showing all LSST sources, as well as DECAPS sources that do (magenta), and do not (red) have an LSST match. }
+%%\label{fig:ccd10_d2d_all}
+%\end{centering}
+%\end{figure} 
 
 
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.7\columnwidth]{figs/12_visit_611980_ccd1010-24d2d_good.png}
+%\begin{figure}
+%\begin{centering}
+%\includegraphics[width=0.7\columnwidth]{figs/12_visit_611980_ccd1010-24d2d_good.png}
 %\vskip -0.15in
-\caption{Compare to Fig.~\ref{fig:ccd10_d2d_all} - here we marked only the DECAPS sources that have an LSST match within 0.5 '', and all LSST sources, removing the red DECAPS sources that did not have an LSST match. This allows to notice the galaxy in the lower left corner that was shredded by DECAPS pipeline to point sources.  }
-\label{fig:ccd10_d2d_plain}
-\end{centering}
-\end{figure} 
+%\caption{Compare to Fig.~\ref{fig:ccd10_d2d_all} - here we marked only the DECAPS sources that have an LSST match within 0.5 '', and all LSST sources, removing the red DECAPS sources that did not have an LSST match. This allows to notice the galaxy in the lower left corner that was shredded by DECAPS pipeline to point sources.  }
+%\label{fig:ccd10_d2d_plain}
+%\end{centering}
+%\end{figure} 
 
 \section{Metrics}
 \label{sec:metrics}
@@ -472,9 +489,9 @@ Given two catalogs, each with a set of  source coordinates and photometry,  one 
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.96\columnwidth]{figs/completeness_4_panels.png}
+\includegraphics[width=0.75\columnwidth]{figs/completeness_4_panels_nomarker.png}
 %\vskip -0.15in
-\caption{Different colors correspond to different level of stellar crowdedness, expressed in terms of number of sources per square degree (the mean between LSST and DECAPS cleaned catalogs). Top two panels show source-to-source completeness.  The first of the two top panels is completeness of  LSST to DECAPS,  i.e. for each DECAPS  source we look for an LSST equivalent.  The second top panel  is completeness of DECAPS to LSST , i.e. for each LSST source we find an LSST counterpart.  The LSST-DECAPS completeness falls off quicker than DECAPS-LSST, since DECAPS catalog has more sources at fainter magnitudes (see Fig.~\ref{fig:lsst_count_comparison}). The bottom two panels show the normalized number of counts  in the input catalogs.  We characterize completeness by two numbers per visit:  the mean completeness between 18-20 magnitude $\langle C_{18-20} \rangle$, and the magnitude at which completeness falls to 50\% level,  $m_{50}$, plotted on Fig.~\ref{fig:completeness_characterize}.}
+\caption{Different colors correspond to different level of stellar crowdedness, expressed in terms of number of sources per square degree (the mean between LSST and DECAPS cleaned catalogs). Top two panels show source-to-source completeness.  The first of the two top panels is completeness of  LSST to DECAPS,  i.e. for each DECAPS  source we look for an LSST equivalent.  The second top panel  is completeness of DECAPS to LSST , i.e. for each LSST source we find a DECAPS counterpart.  The LSST-DECAPS completeness falls off quicker than DECAPS-LSST, since DECAPS catalog has more sources at fainter magnitudes (see Fig.~\ref{fig:lsst_count_comparison}). The bottom two panels show the normalized number of counts  in the input catalogs.  We characterize completeness by two numbers per visit:  the mean completeness between 18-20 magnitude $\langle C_{18-20} \rangle$, and the magnitude at which completeness falls to 50\% level,  $m_{50}$, plotted on Fig.~\ref{fig:completeness_characterize}.}
 \label{fig:completeness}
 \end{centering}
 \end{figure} 
@@ -490,6 +507,14 @@ Given two catalogs, each with a set of  source coordinates and photometry,  one 
 \end{figure} 
 
 
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.75\columnwidth]{figs/completeness_3_decaps.png}
+%\vskip -0.15in
+\caption{The same quantities as on Fig.~\ref{fig:completeness}, but corresponding to two different visits at the same location, to test the repeatability of DECAPS detections. The two visits were chosen in the same filter and at the same location, and as on completeness of DECAPS to LSST, we match source-by-source and consider the number of sources per magnitude bin in visit1 that do have a matching source in visit2. }
+\label{fig:completeness_decaps}
+\end{centering}
+\end{figure} 
 
 \subsection{Photometric accuracy}
 
@@ -499,7 +524,7 @@ We also considered the photometric accuracy. Since both DECAPS and LSST processi
 \begin{centering}
 \includegraphics[width=0.6\columnwidth]{figs/15_decaps_lsst_dmag_density_15.png}
 %\vskip -0.15in
-\caption{Difference in magnitudes between the DECAPS and LSST magnitudes for sources matched within 0.5 arcsec for a region in top 15\% density (611970) . While in calculating completeness apart from spatial proximity we require sources to be within 0.5 mag to constitute a 'match', here we did not exclude any outliers in calculating the median and $\sigma_{G}$, since these statistics are insensitive to outliers.  We overplot the median with yellow circles, and the $\pm \sigma_{G}$ envelope - the measure of scatter based on the interquartile range. The offset between LSST and DECAPS is on the level of 0.05 mag. The same quantities plotted for all fields can be shown on Fig.~\ref{fig:dmag_spread} }
+\caption{Difference in magnitudes between the DECAPS and LSST magnitudes for sources matched within 0.5 arcsec for a region in top 15\% density (611970) . While in calculating completeness apart from spatial proximity we require sources to be within 0.5 mag to constitute a 'match', here we did not exclude any outliers in calculating the median and $\sigma_{G}$, since these statistics are insensitive to outliers.  We overplot the median with yellow circles, and the $\pm \sigma_{G}$ envelope - the measure of scatter based on the interquartile range. The offset between LSST and DECAPS is on the level of 0.05 mag. The same quantities plotted for all fields can be shown on Fig.~\ref{fig:lsst_decaps_dmag} }
 \label{fig:dmag_scatter}
 \end{centering}
 \end{figure} 
@@ -507,21 +532,21 @@ We also considered the photometric accuracy. Since both DECAPS and LSST processi
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/16_rms_decaps_lsst_611970hist_panel.png}
 %\vskip -0.15in
-\caption{Cross-section of Fig.~\ref{fig:dmag_spread}, showing the histogram of magnitude difference per DECAPS magnitude bin, plotting the median as vertical line, with each histogram limited between $\pm 4 \sigma_{G}$. }
+\caption{Cross-section of Fig.~\ref{fig:lsst_decaps_dmag}, showing the histogram of magnitude difference per DECAPS magnitude bin, plotting the median as vertical line, with each histogram limited between $\pm 4 \sigma_{G}$. }
 \label{fig:dmag_hist}
 \end{figure} 
 
 
 \begin{figure}
-\includegraphics[width=0.7\columnwidth]{figs/17_decaps_lsst_rms_plot.png}
+\includegraphics[width=0.7\columnwidth]{figs/decaps_lsst_rms_plot.png}
 %\vskip -0.15in
-\caption{Median, $\sigma_{G}$, and root-mean-square calculated for fields of different stellar density. Fields at different locations but similar source densities have the same color, but different markers. }
-\label{fig:dmag_spread}
+\caption{Median, $\sigma_{G}$, and root-mean-square calculated for fields of different stellar density.  }
+\label{fig:lsst_decaps_dmag}
 \end{figure} 
 
 
 
-For two fields per  stellar density regime (5\%, 10\%, 15\%, 20\%) we found visits at exactly the same location, filter and exposure time, but different epoch (see Table ~\ref{tab:epoch12_selection}).  This allowed to compare the spread in photometry epoch-to-epoch  within DECAPS, and LSST. We illustrate that plotting the magnitude differences on Figs.~\ref{fig:epoch-epoch_decaps} and \ref{fig:epoch-epoch_lsst}, and the summary of the spread of photometric difference as a function of magnitude on Figs.~\ref{fig:epoch_lsst_multiplot} and ~\ref{fig:epoch_decaps_multiplot}. 
+For two fields per  stellar density regime (5\%, 10\%, 15\%, 20\%) we found visits at exactly the same location, filter and exposure time, but different epoch (see Table ~\ref{tab:epoch12_selection}).  This allowed to compare the spread in photometry epoch-to-epoch  within DECAPS, and LSST. We illustrate that plotting the magnitude differences on Figs.~\ref{fig:decaps_decaps_dmag} and \ref{fig:lsst_lsst_dmag}, and the summary of the spread of photometric difference as a function of magnitude on Figs.~\ref{fig:epoch_lsst_multiplot} and ~\ref{fig:epoch_decaps_multiplot}. 
 
 
 \begin{table}
@@ -553,7 +578,7 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 \includegraphics[width=0.7\columnwidth]{figs/18_decaps-decaps525904-527300_dmag.png}
 %\vskip -0.15in
 \caption{Similarly to Fig.~\ref{fig:dmag_scatter}, scatter plot of the magnitude difference between the two epochal visits ( 525904, 527300) to the same sky region, separated by 2.95 days, processed by DECAPS. The magnitude difference is shown for all sources cross-matched between  the two epochs, with a match within 0.5 arcseconds - there is no selection on magnitude difference, but 0.5 mag (used for completeness) is well beyond the bounds of the plot, and would only cut the outliers to which neither median nor $\sigma_{G}$ (interquartile-based estimate of the spread) are not sensitive.  We overplot the $\pm \sigma_{G}$ envelope, and the median of each of 0.25 mag bins, spread between 14.5 and 22.5 mag. }
-\label{fig:epoch-epoch_decaps}
+\label{fig:decaps_decaps_dmag}
 \end{centering}
 \end{figure} 
 
@@ -564,8 +589,8 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 \begin{centering}
 \includegraphics[width=0.7\columnwidth]{figs/19_lsst-lsst525904-527300_dmag.png}
 %\vskip -0.15in
-\caption{The same as Fig.~\ref{fig:epoch-epoch_decaps}, but for LSST processing of  two visits to the same region, at two different epochs.  }
-\label{fig:epoch-epoch_lsst}
+\caption{The same as Fig.~\ref{fig:decaps_decaps_dmag}, but for LSST processing of  two visits to the same region, at two different epochs.  }
+\label{fig:lsst_lsst_dmag}
 \end{centering}
 \end{figure} 
 
@@ -597,6 +622,8 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 
 The statistical spread epoch-to-epoch is on the level of 0.1 mag,  which is almost twice as large as the spread between processing of the same field by two different pipelines (0.05 mag). 
 
+We summarize the information about the photometric repeatability (epoch-to-epoch within a given pipeline), and offset (pipeline-to-pipeline of the same epoch), by combining information from the middle panels of Figs.~\ref{fig:epoch_lsst_multiplot}, ~\ref{fig:epoch_decaps_multiplot},~\ref{fig:lsst_decaps_dmag}.
+
 
 \section{Future work}
 \label{sec:conclusions}
@@ -609,14 +636,140 @@ An independent way to further test the performance of the LSST Science Pipelines
 An independent test of the quality of photometry would be to consider the width of the stellar locus ('w-color') on the g-r vs r-i color-color plot.  This could be used to test internal consistency of LSST and DECAPS photometry. 
 
 \subsection{Astrometry}
-Here we consider the accuracy of position measurement. There are three possible combinations of catalogs : LSST-DECAPS data for the same epoch (~\ref{fig:ra_dec_lsst_decaps}),  LSST-LSST and DECAPS-DECAPS data for different epochs.  We plot the difference in RA, DEC measurement of matched sources between the two source catalogs. 
+Astrometry corresponds to the measurement of the position of sources in an absolute World Coordinate System (WCS). Accurate and precise astrometry enables for instance catalog cross-matching, and over long-term - measurement of proper motion of stellar sources. 
+
+We consider two properties of successful astrometry. First, the internal consistency of pipeline by measuring the repeatability of astrometric measurement between different epochs.  Second - accuracy, in particular, any possible biases between two different pipelines. 
+
+DECAPS used 2MASS and GAIA for the astrometric calibration~\cite{schlafly2017}, while LSST Pipelines use the GAIA-TGAS astrometric solution. 
+
+We correct the offset in $\alpha$ :  $\Delta \alpha_{corr} = \delta \alpha \cos{(\delta)}$
+
+To test repeatability we use pairs of observations at the same location. Fig.~\ref{fig:ra_dec_lsst_lsst} shows an example of the LSST-LSST comparison, with Fig.~\ref{fig:ra_dec_mag} showing the magnitude dependence. Fig.~\ref{fig:ra_dec_decaps_decaps} shows the offset in $RA$, $DEC$, for DECAPS-DECAPS comparison. 
+
+
+To test possible offset between LSST and DECAPS astrometric solutions, on Fig.~\ref{fig:ra_dec_lsst_decaps} we find the offset in measured $RA$, $DEC$ for sources cross-matched in catalogs from the two pipelines. 
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.8\columnwidth]{figs/lsst644074-644070_RA_DEC_offset_lims.png}
+%\vskip -0.15in
+\caption{The difference of LSST processing for  RA,DEC for visits 644074,644070: a pair of visits at the same location, separated by less than a day. The mean number of sources is 419000 sources per sq.deg., which corresponds to top 1\% of the sky.  We select sources brighter than 19 magnitude.  For all other pairs the  offsets are all centered on zero with similar spread - see Table~\ref{tab:radec_lsst_lsst}}
+\label{fig:ra_dec_lsst_lsst}
+\end{centering}
+\end{figure} 
+
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=1.0\columnwidth]{figs/644074-644070_dra_ddec_mag.png}
+%\vskip -0.15in
+\caption{The difference in RA,DEC for the same visits as on Fig.~\ref{fig:ra_dec_lsst_lsst}, shown as a function of magnitude.}
+\label{fig:ra_dec_mag}
+\end{centering}
+\end{figure} 
+
+
+
+
+\begin{table}
+\centering
+\caption{The difference in RA,DEC for various visits, between LSST processing of fields at the same location, but observed at different times ( see Table ~\ref{tab:epoch12_selection} for summary). The median and spread of astrometric offset are in  miliarcseconds. The final column shows the mean source count between the two visits per square degree. }
+\label{tab:radec_lsst_lsst}
+\begin{tabular}{ccccccc}
+visit1 & visit2 & $\mathrm{med}(\Delta\alpha)$ & $\mathrm{med}(\Delta\delta)$ & $\sigma_{G}(\Delta\alpha)$ & $\sigma_{G}(\Delta\delta)$ & $\langle N \rangle$ \\
+525846 & 530012 & 1.83 & 0.18 & 9.43 & 8.85 & 39733 \\
+525900 & 529989 & -3.12 & 0.36 & 10.87 & 11.58 & 44577 \\
+525814 & 529974 & -0.29 & 1.15 & 10.65 & 10.46 & 66455 \\
+525838 & 527247 & 2.52 & -2.23 & 9.96 & 12.21 & 94766 \\
+525837 & 527246 & 1.58 & -1.24 & 9.07 & 11.51 & 110734 \\
+525920 & 527296 & 0.88 & -3.2 & 10.36 & 9.85 & 119371 \\
+525904 & 527300 & 0.43 & -1.55 & 8.29 & 10.0 & 138384 \\
+641497 & 644035 & 2.26 & -1.42 & 19.8 & 22.68 & 167267 \\
+567283 & 645255 & -5.58 & 1.05 & 33.77 & 19.75 & 185894 \\
+644082 & 527555 & -4.16 & -5.05 & 29.92 & 26.1 & 186731 \\
+527453 & 640995 & -0.33 & 1.7 & 12.95 & 12.25 & 195763 \\
+525879 & 530032 & 0.8 & -0.46 & 10.56 & 13.41 & 197058 \\
+527064 & 527552 & -0.13 & -2.19 & 16.93 & 15.74 & 224731 \\
+526028 & 641500 & -1.2 & 0.42 & 11.52 & 11.12 & 281929 \\
+641548 & 644011 & 1.2 & -2.43 & 26.08 & 30.7 & 336729 \\
+644144 & 566793 & 1.05 & -0.25 & 27.86 & 19.69 & 339183 \\
+644074 & 644070 & -2.56 & 0.3 & 26.14 & 27.69 & 419000 \\
+\end{tabular}
+\end{table}
+
+
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.8\columnwidth]{figs/decaps644074-644070_RA_DEC_offset_lims.png}
+%\vskip -0.15in
+\caption{The difference in RA,DEC for  the same visits as in Fig.~\ref{fig:ra_dec_lsst_lsst}, but comparing DECAPS single-epoch catalogs. The spread of  $\Delta \alpha$, $\Delta \delta$ is wider than for equivalent visit pairs processed by the LSST Science Pipelines - see Table~\ref{tab:radec_decaps_decaps}}
+\label{fig:ra_dec_decaps_decaps}
+\end{centering}
+\end{figure} 
+
+
+
+\begin{table}
+\centering
+\caption{The difference in RA,DEC for various visits, between DECAPS processing of fields at the same location, but observed at different times ( see Table ~\ref{tab:epoch12_selection} for summary). All  measured quantities are in miliarcseconds. See Table ~\ref{tab:radec_lsst_lsst} for the equivalent visits processed by LSST. }
+\label{tab:radec_decaps_decaps}
+\begin{tabular}{ccccccc}
+visit1 & visit2 & $\mathrm{med}(\Delta\alpha)$ & $\mathrm{med}(\Delta\delta)$ & $\sigma_{G}(\Delta\alpha)$ & $\sigma_{G}(\Delta\delta)$ & $\langle N \rangle$ \\
+525846 & 530012 & 5.92 & -1.18 & 14.69 & 14.49 & 39733 \\
+525900 & 529989 & -5.34 & -4.18 & 21.18 & 20.76 & 44577 \\
+525814 & 529974 & 6.55 & 0.19 & 20.58 & 17.76 & 66455 \\
+525838 & 527247 & -6.5 & -0.72 & 17.62 & 16.45 & 94766 \\
+525837 & 527246 & -3.55 & -2.86 & 18.5 & 17.57 & 110734 \\
+525920 & 527296 & -4.97 & -3.26 & 19.72 & 16.88 & 119371 \\
+525904 & 527300 & -5.05 & -4.13 & 14.4 & 16.26 & 138384 \\
+641497 & 644035 & 8.91 & 12.57 & 34.18 & 31.02 & 167267 \\
+567283 & 645255 & -53.12 & -49.23 & 39.71 & 24.55 & 185894 \\
+644082 & 527555 & 139.33 & -15.63 & 40.71 & 36.27 & 186731 \\
+527453 & 640995 & -126.51 & 28.81 & 24.75 & 18.27 & 195763 \\
+525879 & 530032 & -0.43 & -5.17 & 22.88 & 23.66 & 197058 \\
+527064 & 527552 & 5.11 & -3.74 & 20.95 & 25.13 & 224731 \\
+526028 & 641500 & -134.26 & 28.5 & 26.81 & 19.56 & 281929 \\
+641548 & 644011 & -1.69 & -5.63 & 32.3 & 36.95 & 336729 \\
+644144 & 566793 & 94.95 & 68.82 & 32.42 & 23.74 & 339183 \\
+644074 & 644070 & -4.92 & 1.61 & 25.15 & 28.14 & 419000 \\
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.8\columnwidth]{figs/Astrometry_LSST-LSST_DECAPS-DECAPS.png}
+%\vskip -0.15in
+\caption{Summary of LSST and DECAPS repeatability of astrometry, as in Tables ~\ref{tab:radec_lsst_lsst} and ~\ref{tab:radec_decaps_decaps}.}
+\label{fig:lsst_decaps_side}
+\end{centering}
+\end{figure} 
+
+
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.8\columnwidth]{figs/Astrometry_DD-LL_ra_dec.png}
+%\vskip -0.15in
+\caption{Comparison of LSST-LSST, DECAPS-DECAPS on the same scale, data from Tables ~\ref{tab:radec_lsst_lsst} and ~\ref{tab:radec_decaps_decaps}.}
+\label{fig:lsst_decaps_panel}
+\end{centering}
+\end{figure} 
+
+
+
 
 
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/22_525904_RA_DEC_offset.png}
 %\vskip -0.15in
-\caption{The difference in RA,DEC for visit 525904 , between LSST and DECAPS processing (402270 detected sources in  the clean LSST catalog ). We tested that for other vists (525920, 525846, 525879, 525837, 525838, 525814, 525900), and in all cases the offset position and magnitude remains the same - see Table~\ref{tab:radec_lsst_decaps}}
+\caption{The difference in RA,DEC for visit 525904 , between LSST and DECAPS processing (402270 detected sources in  the clean LSST catalog ). We tested that for other vists and in all cases the offset position and magnitude remains the same - see Table~\ref{tab:radec_lsst_decaps}}
 \label{fig:ra_dec_lsst_decaps}
 \end{centering}
 \end{figure} 
@@ -653,62 +806,6 @@ visit & $\mathrm{median}(\Delta\alpha)$ & $\mathrm{median}(\Delta\delta)$ & $\si
 
 
 
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.8\columnwidth]{figs/23_lsst525904-527300_RA_DEC_offset.png}
-%\vskip -0.15in
-\caption{The difference in RA,DEC for visits 525904,527300: a pair of visits at the same location, but different epochs, both processed by the LSST Science Pipelines. One has 402270, and the other 366871 detected sources in  the clean LSST catalog. We tested that for other visit pairs the $\Delta \alpha$, $\Delta \delta$ are all centered on zero with similar spread, the results summarized in the Table~\ref{tab:radec_lsst_lsst}}
-\label{fig:ra_dec_lsst_lsst}
-\end{centering}
-\end{figure} 
-
-
-\begin{table}
-\centering
-\caption{The difference in RA,DEC for various visits, between LSST processing of fields at the same location, but observed at different times ( see Table ~\ref{tab:epoch12_selection} for summary). All  measured quantities are in miliarcseconds. }
-\label{tab:radec_lsst_lsst}
-\begin{tabular}{cccccc}
-visit1 & visit2 & $\mathrm{median}(\Delta\alpha)$ & $\mathrm{median}(\Delta\delta)$ & $\sigma_{G}(\Delta\alpha)$ & $\sigma_{G}(\Delta\delta)$ \\
-525904 & 527300 & 3.35 & -1.21 & 42.94 & 29.81 \\
-525920 & 527296 & 5.52 & -2.73 & 59.46 & 38.06 \\
-525846 & 530012 & -1.15 & -0.15 & 58.45 & 41.82 \\
-525879 & 530032 & 0.63 & -0.48 & 40.31 & 26.76 \\
-525837 & 527246 & 2.9 & -1.32 & 58.91 & 40.45 \\
-525838 & 527247 & 4.01 & -2.45 & 95.15 & 61.5 \\
-525814 & 529974 & -3.03 & 0.7 & 55.24 & 39.31 \\
-525900 & 529989 & 2.61 & 0.45 & 69.36 & 47.08 \\
-\end{tabular}
-\end{table}
-
-
-
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.8\columnwidth]{figs/24_decaps525904-527300_RA_DEC_offset.png}
-%\vskip -0.15in
-\caption{The difference in RA,DEC for visits 525904,527300 - same location, different epochs, from DECAPS source catalogs. The spread of  $\Delta \alpha$, $\Delta \delta$ is wider than for equivalent visit pairs processed by the LSST Science Pipelines - see Table~\ref{tab:radec_decaps_decaps}}
-\label{fig:ra_dec_decaps_decaps}
-\end{centering}
-\end{figure} 
-
-
-
-\begin{table}
-\centering
-\caption{The difference in RA,DEC for various visits, between DECAPS processing of fields at the same location, but observed at different times ( see Table ~\ref{tab:epoch12_selection} for summary). All  measured quantities are in miliarcseconds. See Table ~\ref{tab:radec_lsst_lsst} for the equivalent visits processed by LSST. }
-\label{tab:radec_decaps_decaps}
-\begin{tabular}{cccccc}
-visit1 & visit2 & $\mathrm{median}(\Delta\alpha)$ & $\mathrm{median}(\Delta\delta)$ & $\sigma_{G}(\Delta\alpha)$ & $\sigma_{G}(\Delta\delta)$ \\
-525904 & 527300 & -4.46 & -3.21 & 77.09 & 52.28 \\
-525920 & 527296 & -1.46 & -1.84 & 119.16 & 75.3 \\
-525846 & 530012 & 3.42 & -1.07 & 72.7 & 53.69 \\
-525879 & 530032 & -2.2 & -5.44 & 97.02 & 61.59 \\
-525837 & 527246 & -4.23 & -3.1 & 127.93 & 87.24 \\
-525838 & 527247 & -9.05 & -1.28 & 177.23 & 116.0 \\
-525814 & 529974 & 4.65 & -0.92 & 73.56 & 50.66 \\
-525900 & 529989 & -0.04 & -3.21 & 80.07 & 54.0 \\
-\end{tabular}
-\end{table}
 
 
 
