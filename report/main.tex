@@ -516,7 +516,7 @@ Given two catalogs, each with a set of  source coordinates and photometry,  one 
 \end{centering}
 \end{figure} 
 
-\subsection{Photometric accuracy}
+\subsection{Photometry}
 
 We also considered the photometric accuracy. Since both DECAPS and LSST processing pipelines start from the same instcal calibrated DECam images, they ought arrive at similar measurement of flux, and in turn, magnitudes.  The fact that there exists an offset and a spread in magnitude difference corresponds to slight differences in the details of each processing pipeline. We compare both the photometric difference between same fields processed by two different pipelines: DECAPS to LSST. Assuming that the majority of objects are non-variable in nature, we consider consecutive observations of the same stellar field at different epochs, to find the statistical variance epoch-to-epoch, thus resulting in DECAPS-DECAPS and LSST-LSST comparisons.
 
@@ -529,6 +529,7 @@ We also considered the photometric accuracy. Since both DECAPS and LSST processi
 \end{centering}
 \end{figure} 
 
+
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/16_rms_decaps_lsst_611970hist_panel.png}
 %\vskip -0.15in
@@ -538,10 +539,12 @@ We also considered the photometric accuracy. Since both DECAPS and LSST processi
 
 
 \begin{figure}
+\begin{centering}
 \includegraphics[width=0.7\columnwidth]{figs/decaps_lsst_rms_plot.png}
 %\vskip -0.15in
-\caption{Median, $\sigma_{G}$, and root-mean-square calculated for fields of different stellar density.  }
+\caption{The measurement of photometric offset between DECAPS and LSST pipelines. For each visit we cross-matched source catalogs corresponding to LSST and DECAPS processing; $\Delta m$ is the difference in magnitude reported between DECAPS and LSST for the same source. For each visit we bin sources according to their DECAPS magnitude. On three panels we plot the binned statistics : median $\Delta m$,  the interquartile-based measure of the spread of the distribution $\sigma_{G}$, and median photometric uncertainty.}
 \label{fig:lsst_decaps_dmag}
+\end{centering}
 \end{figure} 
 
 
@@ -599,9 +602,9 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.8\columnwidth]{figs/lsst-lsst_spread_plot_N_real_lims.png}
+\includegraphics[width=0.8\columnwidth]{figs/lsst-lsst_rms_plot.png}
 %\vskip -0.15in
-\caption{Median, $\sigma_{G}$,  rms, and  median error, for two epochs processed by LSST. Color corresponds to density level, and marker to the same visit pair across panels. }
+\caption{The internal repeatability test of the LSST pipeline. We cross-match the source catalogs for each visit. These two brightness measurements for the same source are akin to a two-epoch light curve. Since inherently variable sources constitute a small fraction of all stellar objects, and the majority of stars are not variable, the difference in the measured magnitudes would correspond to the empirical measure of noise.  All sources cross-matched within 0.5 arcseconds are binned according to their brightness. On the panels we plot, from top to bottom: median photometric offset, the robust interquartile-based measure of standard deviation $\sigma_{G}$, and the median reported measurement uncertainty.}
 \label{fig:epoch_lsst_multiplot}
 \end{centering}
 \end{figure} 
@@ -612,7 +615,7 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.8\columnwidth]{figs/decaps-decaps_spread_plot_N_real_lims.png}
+\includegraphics[width=0.8\columnwidth]{figs/decaps-decaps_rms_plot.png}
 %\vskip -0.15in
 \caption{Similar to Fig.~\ref{fig:epoch_lsst_multiplot}, but for DECAPS processing. }
 \label{fig:epoch_decaps_multiplot}
@@ -623,6 +626,19 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 The statistical spread epoch-to-epoch is on the level of 0.1 mag,  which is almost twice as large as the spread between processing of the same field by two different pipelines (0.05 mag). 
 
 We summarize the information about the photometric repeatability (epoch-to-epoch within a given pipeline), and offset (pipeline-to-pipeline of the same epoch), by combining information from the middle panels of Figs.~\ref{fig:epoch_lsst_multiplot}, ~\ref{fig:epoch_decaps_multiplot},~\ref{fig:lsst_decaps_dmag}.
+
+
+Considering one visit, we compare the 
+% photometric_spread_1_525846-530012.png
+
+% photometric_spread_2_525846-530012.png
+
+% photometric_spread_3_525846-530012.png
+
+% photometric_offset.png
+
+% photometric_offset_summary.png
+
 
 
 \section{Future work}
