@@ -72,12 +72,25 @@ To match the LSST single-visit depth,  we select magnitude bins smaller than r=2
 
 \begin{figure}
 \centering
-\includegraphics[width=0.7\columnwidth]{figs/02_all_sky_r_lt245.png}
+\includegraphics[width=0.95\columnwidth]{figs/MAF_density_definitions.png}
 %\vskip -0.15in
-\caption{Stellar density as a function of the fraction of the LSST simulated sky at greater or equal density. 
-For each healpixel in the  Galfast simulation we find the number of pixels at greater or equal stellar count, which corresponds to the area of the sky at greater density.  Normalizing that by the total number of pixels we obtain a fraction of the sky at greater or equal density, similar to the cumulative distribution. Horizontal dashed lines illustrate selecting pixels at 1\% or 10\% density. From this plot we read that about 1\% of the sky has more than $10^{6}$ stars per sq.deg. . The 5\% level corresponds to about 200000 stars per sq.deg. The second x-axis displays the density expressed as in terms of dimensionless quantity  $N_{beam} = N_{stars}/{arcsec}^{2} * A_{PSF}$, with the PSF effective area $A_{PSF} = \pi r^{2}$, assuming that diameter of the psf effective area is $\approx 0.8$ FWHM, and the radius is  0.4 arcseconds. }
+\caption{Using the Galfast sky simulation to choose DECAPS fields sampliong different density regions.  The left panel shows  the stellar density as a function of the fraction of the sky at smaller density.  It is equivalent to the cumulative distribution function. Given the stellar density per simulated healpixel, we count the number of healpixels at greater density. Normalized to the number of pixels, given their equal area, it corresponds to the fraction of the sky at greater stellar density. Horizontal dashed lines illustrate selecting pixels at top 1\% or 10\% density. 
+The right panel focuses on the 1-CDF, converted to \% , between 1 and 25\%.  
+It implies that according to the simulation , the density of 200 000 stars per sq.deg. corresponds to 5\% of the sky, and only  1\% of the sky has more than $10^{6}$ stars per sq.deg. 
+The upper axis represents the dimensionless demnsity parameter $N_{beam} = N_{stars}/{arcsec}^{2} * A_{PSF}$, with the PSF effective area $A_{PSF} = 0.64 {arcsec}$.}
 \label{fig:illustrate_density}
 \end{figure} 
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\columnwidth]{figs/MAF_DECAPS_comparison.png}
+%\vskip -0.15in
+\caption{Comparison of DECAPS counts in the cleaned catalog (red dots) and raw single-epoch catalog (blue dots), vs. Galfast simulated stellar count in that region of the sky. Overplotted are the line of equivalence y=x, and its multipicities (2x,3x). It shows that the simulation may be not more accurate than up to a factor of a few, but it is nevertheless useful for defining density regions.}
+\label{fig:maf_decaps_compare}
+\end{figure} 
+
+
 
 
 Since this definition of density includes all pixels that are within 'top 20\%', we take selection around the percentiles so that :
@@ -124,9 +137,17 @@ We cross-matched the DECAPS image database with the  stellar density information
 \end{figure} 
 
 
+\begin{figure}
+\includegraphics[width=1.0\columnwidth]{figs/Illustrate_densities_DECAPS.png}
+%\vskip -0.15in
+\caption{Illustration of regions of different stellar count in the cleaned DECAPS single-epoch catalogs. As shown on Fig.~\ref{fig:maf_decaps_compare}, the Galfast count (and therefore \% level), does not always correspond 1:1 to the actual reported DECAPS stellar count. For this reason we simply ordered all DECAPS fields in terms of source count, and display postage stamp miniatures of CCD regions for visits in regions of increasing stellar density. }
+\label{fig:decps_illustrate_densities}
+\end{figure} 
+
+
 \section{LSST Processing of DECAPS data}
 \label{sec:LSST}
-The DECAPS calibrated imaging was processed with the LSST Science Pipelines installed on the LSST-dev machine installed at the NCSA.  We specifically employed processCcd.py and the standard Stack configuration. Transferring the resulting source catalogs and calexp files over scp we analyzed the output on a laptop with jupyter notebooks. 
+The DECAPS calibrated imaging was processed with the LSST Science Pipelines installed on the LSST-dev machine installed at the NCSA.  We specifically employed processCcd.py and the standard Stack configuration. Transferring the resulting source catalogs and calexp files over scp we analyzed the output on a laptop using jupyter notebooks. 
 
 
 To obtain independent order of magnitude comparison to MAF simulation, and LSST/DECAPS processing of DECam data, we also queried TRILEGAL simulation data, and processed the DECam images  with DAOPhot - see Appendix~\ref{sec:appendixA}. 
@@ -516,6 +537,9 @@ Given two catalogs, each with a set of  source coordinates and photometry,  one 
 \end{centering}
 \end{figure} 
 
+
+
+
 \subsection{Photometry}
 
 We also considered the photometric accuracy. Since both DECAPS and LSST processing pipelines start from the same instcal calibrated DECam images, they ought arrive at similar measurement of flux, and in turn, magnitudes.  The fact that there exists an offset and a spread in magnitude difference corresponds to slight differences in the details of each processing pipeline. We compare both the photometric difference between same fields processed by two different pipelines: DECAPS to LSST. Assuming that the majority of objects are non-variable in nature, we consider consecutive observations of the same stellar field at different epochs, to find the statistical variance epoch-to-epoch, thus resulting in DECAPS-DECAPS and LSST-LSST comparisons.
@@ -573,9 +597,6 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 \end{table}
 
 
-% ###  ADD FIGURES  ###
-
-% FIGURE of DECAPS  rpoch-epoch  mag diff ( ilustrate single visit )
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.7\columnwidth]{figs/18_decaps-decaps525904-527300_dmag.png}
@@ -586,18 +607,14 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 \end{figure} 
 
 
-% FIGURE of LSST epoch -epoch mag diff  ( single visit illustrate )
-
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.7\columnwidth]{figs/19_lsst-lsst525904-527300_dmag.png}
 %\vskip -0.15in
-\caption{The same as Fig.~\ref{fig:decaps_decaps_dmag}, but for LSST processing of  two visits to the same region, at two different epochs.  }
+\caption{The same as Fig.~\ref{fig:decaps_decaps_dmag}, but for LSST processing of  two visits to the same region, at two different epochs. }
 \label{fig:lsst_lsst_dmag}
 \end{centering}
 \end{figure} 
-
-% FIGURE with all LSST sigmaGs, rms    ( all visits,  color by density region : any differences ? )
 
 
 \begin{figure}
@@ -610,14 +627,11 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 \end{figure} 
 
 
-% FIGURE with all DECAPS sigmaGs,  rms   
-
-
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/decaps-decaps_rms_plot.png}
 %\vskip -0.15in
-\caption{Similar to Fig.~\ref{fig:epoch_lsst_multiplot}, but for DECAPS processing. }
+\caption{The internal repeatability test of DECAPS pipeline - for description, see Fig.~\ref{fig:epoch_lsst_multiplot}.}
 \label{fig:epoch_decaps_multiplot}
 \end{centering}
 \end{figure} 
@@ -625,20 +639,44 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 
 The statistical spread epoch-to-epoch is on the level of 0.1 mag,  which is almost twice as large as the spread between processing of the same field by two different pipelines (0.05 mag). 
 
-We summarize the information about the photometric repeatability (epoch-to-epoch within a given pipeline), and offset (pipeline-to-pipeline of the same epoch), by combining information from the middle panels of Figs.~\ref{fig:epoch_lsst_multiplot}, ~\ref{fig:epoch_decaps_multiplot},~\ref{fig:lsst_decaps_dmag}.
+We summarize the information about the photometric repeatability (epoch-to-epoch within a given pipeline), and offset (pipeline-to-pipeline of the same epoch), by combining information from  Figs.~\ref{fig:epoch_lsst_multiplot}, ~\ref{fig:epoch_decaps_multiplot},~\ref{fig:lsst_decaps_dmag}.
 
 
-Considering one visit, we compare the 
-% photometric_spread_1_525846-530012.png
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.8\columnwidth]{figs/photometric_spread_1_525846-530012.png}
+%\vskip -0.15in
+\caption{Comparison of spread of scatter between two pipelines vs.  the empirical measurement of noise from repeatability for a pair of visits at the same location : 525846 and 530012, here called epoch1 and epoch2. All solid lines are $\sigma_{G}(a,b)$ - the interquartile-based measure of spread of magnitude difference between measurements $a$ and $b$ of the same source. From the top,  $\sigma_{G}(LSST,1 - LSST,2)$, and $\sigma_{G}(DECAPS,1 - DECAPS,2)$, correspond to the empirical measure of noise.  The blue line  $\sigma_{G}(LSST,1 - LSST,2)$ is the same quantity as that plotted on the middle panel of Fig.~\ref{fig:epoch_lsst_multiplot}, while the red line  $\sigma_{G}(DECAPS,1 - DECAPS,2)$ is the same as that of Fig.~\ref{fig:epoch_decaps_multiplot}. Then the dotted and dashed lines in the middle show the median error for epoch 1 or epoch 2, as reported by LSST or DECAPS pipelines. They represent the expected uncertainty in repeated measurement.  Since they are identical, the red and blue dotted or dashed lines overlap.  Finally, the green and orange solid curves correspond to the scatter between the two pipelines , calculated either for epoch1 ($\sigma_{G}(DECAPS,1 - LSST,1)$), or epoch2 ($\sigma_{G}(DECAPS,2- LSST,2)$). Fig.~\ref{fig:spread_2} shows the second step in the analysis. }
+\label{fig:spread_1}
+\end{centering}
+\end{figure} 
+
+
+% 
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.8\columnwidth]{figs/photometric_spread_2_525846-530012.png}
+%\vskip -0.15in
+\caption{Second step in the analysis of  photometric spread, following Fig.~\ref{fig:spread_1}. The blue and red lines of repeatability are unchanged.  Since LSST and DECAPS errors are almost identical, we choose to represent the minimum statistical offset by the mean LSST error between the two visits , added in quadrature . If $e_{1L}$ and $e_{2L}$ are LSST-reported error measurements for a given source for the two epochs,  the quadrature-mean is  $e_{12} = \sqrt{e_{1L}^{2} + e_{2L}^{2}} / \sqrt{2}$, and the purple dashed line is the median of $e_{12}$ per magnitude bin.    We also add in quadrature the spread between the two pipelines, represented  on Fig.~\ref{fig:spread_1} by orange $\sigma_{DL,1}$ for epoch1, and green $\sigma_{DL,2}$ for epoch2 : $\sigma_{DL} = \sqrt{\sigma_{DL,1}^{2} + \sigma_{DL,2}^{2}} / \sqrt{2}$.  Note that since the top blue (or red) lines $\sigma_{G}(LSST,1 - LSST,2)$, $\sigma_{G}(DECAPS,1 - DECAPS,2)$   ($\sigma_{DD}$, $\sigma_{LL}$ for short) consists of noise $\sigma_{E} $ and the systematic offset $\sigma_{S}$ : $\sigma_{LL}^{2} = \sigma_{S}^{2} + \sigma_{E}^{2}$. Thus we calculate the systematic offset for LSST as  $\sigma_{S} = \sqrt{\sigma_{LL}^2  - \sigma_{E}^{2}}$, which is the difference between  blue solid and purple dashed lines. 
+}
+\label{fig:spread_2}
+\end{centering}
+\end{figure} 
+
 
 % photometric_spread_2_525846-530012.png
+%The photometric offset $\sigma_{S}$ as a function of magnitude, together with the scatter between the two pipelines 
 
-% photometric_spread_3_525846-530012.png
-
-% photometric_offset.png
-
-% photometric_offset_summary.png
-
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.8\columnwidth]{figs/photometric_offset_combined.png}
+%\vskip -0.15in
+\caption{The left panel shows the measure of systematic offset between mean photometric error, and the photometric repeatability for the LSST pipeline as a function of magnitude (see Figs.~\ref{fig:spread_1},~\ref{fig:spread_2}. Colors correspond to mean stellar density. Right panel shows $\sigma_{S}$ at 21st magnitude  as a function of stellar density.}
+\label{fig:spread_summary}
+\end{centering}
+\end{figure} 
 
 
 \section{Future work}
