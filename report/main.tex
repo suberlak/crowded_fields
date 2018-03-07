@@ -456,6 +456,7 @@ For each visit that corresponds to a given level of crowdedness, we consider the
 
 
 \subsection{Photometry}
+\label{sec:photometry}
 
 We also considered the photometric accuracy. Since both DECAPS and LSST processing pipelines start from the same instcal calibrated DECam images, they ought arrive at similar measurement of flux, and in turn, instrumental magnitudes.  An offset and a spread in magnitude difference is due to details of each image processing pipeline.
 
@@ -595,13 +596,13 @@ We summarize the information about the photometric repeatability (epoch-to-epoch
 \section{Astrometry}
 Astrometry corresponds to the measurement of the position of sources in the absolute World Coordinate System (WCS). Accurate and precise astrometry enables for instance catalog cross-matching, and over long-term - measurement of proper motion of stellar sources. 
 
-We consider two properties of successful astrometry. First, the internal consistency of pipeline by measuring the repeatability of astrometric measurement between different epochs.  Second - accuracy, in particular, any possible biases between two different pipelines. 
+We consider two properties of successful astrometry. First, the internal consistency of a pipeline by measuring the repeatability of astrometric measurement between different epochs.  Second - accuracy, and any biases between two different pipelines. 
 
-DECAPS used 2MASS and GAIA for the astrometric calibration~\cite{schlafly2017}, while LSST Pipelines use the GAIA-TGAS astrometric solution. 
+The fact that DECAPS used 2MASS and GAIA for the astrometric calibration~\cite{schlafly2017}, while LSST Pipelines uses the GAIA-TGAS astrometric solution accounts for part of the offset between the two pipelines. 
 
-We correct the offset in $\alpha$ :  $\Delta \alpha_{corr} = \delta \alpha \cos{(\delta)}$
+Furthermore, the reported RA needs to be corrected:  $\Delta \alpha_{corr} = \delta \alpha \cos{(\delta)}$
 
-To test repeatability we use pairs of observations at the same location. Fig.~\ref{fig:ra_dec_lsst_lsst} shows an example of the LSST-LSST comparison, with Fig.~\ref{fig:ra_dec_mag} showing the magnitude dependence. Fig.~\ref{fig:ra_dec_decaps_decaps} shows the offset in $RA$, $DEC$, for DECAPS-DECAPS comparison. 
+To test the repeatability we use pairs of observations at the same location, as in Sec.~\ref{sec:photometry}. Fig.~\ref{fig:ra_dec_lsst_lsst} shows an example of the LSST-LSST comparison, with Fig.~\ref{fig:ra_dec_mag} showing the magnitude dependence. Fig.~\ref{fig:ra_dec_decaps_decaps} depicts the offset in $RA$, $DEC$, for DECAPS-DECAPS comparison. 
 
 
 To test possible offset between LSST and DECAPS astrometric solutions, on Fig.~\ref{fig:ra_dec_lsst_decaps} we find the offset in measured $RA$, $DEC$ for sources cross-matched in catalogs from the two pipelines. 
@@ -624,7 +625,6 @@ To test possible offset between LSST and DECAPS astrometric solutions, on Fig.~\
 \label{fig:ra_dec_mag}
 \end{centering}
 \end{figure} 
-
 
 
 
@@ -719,9 +719,6 @@ visit1 & visit2 & $\mathrm{med}(\Delta\alpha)$ & $\mathrm{med}(\Delta\delta)$ & 
 \end{figure} 
 
 
-
-
-
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/22_525904_RA_DEC_offset.png}
@@ -730,8 +727,6 @@ visit1 & visit2 & $\mathrm{med}(\Delta\alpha)$ & $\mathrm{med}(\Delta\delta)$ & 
 \label{fig:ra_dec_lsst_decaps}
 \end{centering}
 \end{figure} 
-
-
 
 
 \begin{table}
@@ -763,10 +758,7 @@ visit & $\mathrm{median}(\Delta\alpha)$ & $\mathrm{median}(\Delta\delta)$ & $\si
 
 
 
-
-
-
-\section{Future work}
+\section{Conclusions}
 \label{sec:conclusions}
 
 % ### need to add things here ... 
