@@ -237,7 +237,7 @@ number & name & explanation \\
 \end{tabular}
 \end{table}
 
-We clean the LSST source catalog from sources that have flags number 62 (edge) or 67 (interpolatedCenter)\footnote{This is similar to the example in Sec.4 of SDSS Image Processing I: The Deblender~\citep{lupton2005}}. Other flags would remove too many sources that have only small 'defects', eg. 64 (interpolated) is on for a bright source on the footprint of which there is a cosmic ray, and 65 (bad) is on for any source which has even one bad pixel in the footprint -see Fig.~\ref{fig:lsst_src_flags}. A comparison of the starting source count and final source count (after cleaning ) is shown on Fig.~\ref{fig:lsst_count_comparison}, and Table ~\ref{tab:lsst_summary}
+We clean the LSST source catalog by removing sources that have flags number 62 (edge) or 67 (interpolatedCenter)\footnote{This is similar to the example in Sec.4 of SDSS Image Processing I: The Deblender~\citep{lupton2005}}. Other flags would remove too many sources that have only small 'defects', eg. 64 (interpolated) is on for a bright source on the footprint of which there is a cosmic ray, and 65 (bad) is on for any source which has even one bad pixel in the footprint. A comparison of the initial source count to the final source count (after cleaning) is shown on Fig.~\ref{fig:lsst_count_comparison}, with detailed count in  Table ~\ref{tab:lsst_summary}.
 
 % ###  is it possible to break the table over multiple pages in this template ?  
 % Otherwise would need to cut on the description
@@ -384,16 +384,6 @@ Visit & $N_{raw}$ & $(N_{f})$ & $-N_{r}$ & $=N_{c}$ & $N_{c}$/deg$^{2}$ & $N_{MA
 \end{figure} 
 
 
-
-%\begin{figure}
-%\includegraphics[width=1.0\columnwidth]{figs/06_LSST_mask_611980ccd01_61_67.png}
-%\vskip -0.15in
-%\caption{Sources from LSST source catalog for CCD 01 , visit 611980,  for which flags 61 or 67 were 'on'. This cleans sources that were either on the CCD edge, or have been interpolated at the center. This properly removes the cosmic rays and edges, while preserving other sources that may have eg. a single bad pixel , or cosmic ray going across the footprint. }
-%\label{fig:lsst_src_flags}
-%\end{figure} 
-
-
-
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.9\columnwidth]{figs/decaps_lsst_source_count.png}
@@ -423,56 +413,6 @@ parentID & nchild & type  & decision &  count \\
 \end{table}
 
 
-
-% VISIT 611980  ,  HORIZONTAL BAD PIXELS .... 
-%\begin{figure}
-%\begin{centering}
-%\includegraphics[width=0.7\columnwidth]{figs/08_visit_611980_ccd0110-24d2d_all.png}
-%\vskip -0.15in
-%\caption{We consider cleaned DECAPS and LSST catalogs. All LSST sources are marked in green, and all DECAPS sources with an LSST counterpart %are marked in magenta. The DECAPS sources missing LSST counterpart within 0.5 '' are shown in red. }
-%\label{fig:matches_ill_d2d}
-%\end{centering}
-%\end{figure} 
-
-%\begin{figure}
-%\begin{centering}
-%\includegraphics[width=0.7\columnwidth]{figs/09_visit_611980_ccd0110-24d2d_mask.png}
-%\vskip -0.15in
-%\caption{The same as Fig.~\ref{fig:matches_ill_d2d}, but showing the LSST pixels that have bits  0,1,2,3,4,6,7,8 'on' in dark shading (see %Tab.~\ref{tab:lsst_flags}). In particular, the horizontal stripes on the bottom correspond to bit 0 ('bad').}
-%\label{fig:matches_ill_d2d_mask}
-%\end{centering}
-%\end{figure} 
-
-
-% Visit 611980 , CCD 10 :  GALAXY SHREDDING 
-%\begin{figure}
-%\begin{centering}
-%\includegraphics[width=0.7\columnwidth]{figs/10_visit_611980_ccd1010-24d2d_mask.png}
-%\vskip -0.15in
-%\caption{Like on Fig.~\ref{fig:matches_ill_d2d_mask} we overlay the LSST pixel mask data on top DECAPS sources that do (magenta) and do not  (red) have an LSST counterpart within 0.5 ''. }
-%\label{fig:ccd10_d2d_mask}
-%\end{centering}
-%\end{figure} 
-
-
-%\begin{figure}
-%\begin{centering}
-%\includegraphics[width=0.7\columnwidth]{figs/11_visit_611980_ccd1010-24d2d_all.png}
-%\vskip -0.15in
-%\caption{The same region of visit 611980, CCD10, as Fig.~\ref{fig:ccd10_d2d_mask}, showing all LSST sources, as well as DECAPS sources that do (magenta), and do not (red) have an LSST match. }
-%%\label{fig:ccd10_d2d_all}
-%\end{centering}
-%\end{figure} 
-
-
-%\begin{figure}
-%\begin{centering}
-%\includegraphics[width=0.7\columnwidth]{figs/12_visit_611980_ccd1010-24d2d_good.png}
-%\vskip -0.15in
-%\caption{Compare to Fig.~\ref{fig:ccd10_d2d_all} - here we marked only the DECAPS sources that have an LSST match within 0.5 '', and all LSST sources, removing the red DECAPS sources that did not have an LSST match. This allows to notice the galaxy in the lower left corner that was shredded by DECAPS pipeline to point sources.  }
-%\label{fig:ccd10_d2d_plain}
-%\end{centering}
-%\end{figure} 
 
 \section{Metrics}
 \label{sec:metrics}
