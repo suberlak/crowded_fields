@@ -23,8 +23,12 @@ K.~Suberlak, C.~Slater, \v{Z}.~Ivezi\'c}
 \setDocAbstract{%
 A report on the performance of current LSST Stack pipelines in crowded stellar fields. We use the DECAPS data to provide the photometry and astrometry quality assurance metrics. The mean completeness of LSST detections compared to DECAPS between 18-20 mag is at the level of 82\% for regions with 200 000 sources per sq. deg. (top 10 \% density). For the same density, the completeness drops to 50\% at 21.2 mag.  
 
-The systematic offset in photometry  (the difference between the median photometric uncertainty and the measure of internal photomtric repeatability) at 21 mag for the density of 200 000 sources per sq.deg.  is 0.06 mag. } 
-% ### more 
+The systematic offset in photometry  (the difference between the median photometric uncertainty and the measure of internal photomtric repeatability) at 21 mag for the density of 200 000 sources per sq.deg.  is 0.06 mag. 
+
+The LSST photometry is consistent with DECAPS at the 1\% level, as long as the density is not above 35 000 sources per sq. deg.  
+
+The spread of astrometric repeatability is at the level of 10 miliarcsec, with no significant dependence on stellar crowdedness, which is better than the investigated DECAPS astrometry thanks to the LSST pipeline being tied to GAIA astrometry. }   % ###  
+% ### more  
 
 % ### Change history defined here. Will be inserted into
 % correct place with \maketitle
@@ -47,30 +51,30 @@ The systematic offset in photometry  (the difference between the median photomet
 
 We report on the performance of the Large Scale Synoptic Telescope (LSST) science pipelines \footnote{\url{https://pipelines.lsst.io}}, also known as 'the LSST stack', in stellar fields of varying levels of crowdedness.
 
-The LSST will sample every night over 1,000  regions in the sky , delivering terabytes of raw data in need of processing: photometric  and astrometric calibration, to deliver a calibrated exposure image, as well as a source catalog, among other image products\footnote{\url{http://ls.st/LSE-163}}~\cite{narayan2018}.
+The LSST will sample every night on average over 500  regions in the sky , delivering terabytes of raw data in need of processing: photometric  and astrometric calibration, to deliver a calibrated exposure image, as well as a source catalog, among other image products\footnote{\url{http://ls.st/LSE-163}}~\cite{narayan2018}.
 
-The survey sky is composed of regions very diverse in terms of stellar density, or crowdedness:  from high density low-galactic latitude regions that have tens of millions of sources per square degree, to low-density regions towards the galactic poles with less than thousand sources per square degree. 
+The survey sky is composed of regions very diverse in terms of stellar density, or crowdedness. Assuming the single-visit depth., the stellar density ranges from high density low-galactic latitude regions that have tens of millions of sources per square degree, to low-density regions towards the Galactic poles with less than thousand sources per square degree. 
 
 Deblending and successful photometry is an inherent part of any astronomical data processing pipeline.  There exists a body of research answering questions that are specific to crowded stellar fields, eg. how many beams do we need per source (see ~\citep{hogg2001}), or how  the crowded fields photometry can be approached in the era of large telescopes ~\cite{olsen2003} Other studies involved eg. HyperSuprime CAM pipeline ( developed in parallel with the LSST Stack), recognizing that the deeper the survey, the higher the stellar densities encountered, and the onset of blurring the the boundaries between deblending, measurement, and detection~\cite{bosch2017}. 
 
-In this report we compare the 'out-of-the-box' LSST Stack tools, in particular processCcd.py, to the DECAm [Galactic] Plane Survey (DECAPS) catalogs based on the NOAO state-of-the-art community pipeline (~\cite{schlafly2017}). First we use the LSST Metrics Analysis Framework Galfast simulation of the night sky find regions representing various stellar densities - see Sec.~\ref{sec:MAF}. Then we query the DECAPS image database for images that were taken at exposures and filters that reach similar depth to the LSST single-visit depth (Sec.~\ref{sec:DECAPS}). We select few DECAPS exposures at each density level, and process with LSST Stack tools (Sec.~\ref{sec:LSST}). In Sec.~\ref{sec:metrics} we compare the results of LSST processing and the DECAPS single-epoch catalogs, and develop the quality metrics.  Finally in Sec.~\ref{sec:conclusions} we make recommendations for future work. 
+In this report we compare the 'out-of-the-box' LSST Stack tools, in particular processCcd.py, to the DECAm [Galactic] Plane Survey (DECAPS) catalogs based on the DECAPS pipeline deveolped by Schlafly et al.~\cite{schlafly2017}. First we use the LSST Metrics Analysis Framework Galfast simulation of the night sky find regions representing various stellar densities - see Sec.~\ref{sec:MAF}. Then we query the DECAPS image database for images that were taken at exposures and filters that reach similar depth to the LSST single-visit depth (Sec.~\ref{sec:DECAPS}). We select few DECAPS exposures at each density level, and process with LSST Stack tools (Sec.~\ref{sec:LSST}). In Sec.~\ref{sec:metrics} we compare the results of LSST processing and the DECAPS single-epoch catalogs, and develop the quality metrics.  Finally in Sec.~\ref{sec:conclusions} we make recommendations for future work. 
 
 
 \section{Identifying density regions}
 \label{sec:MAF}
-To identify regions representing different stellar densities we use the LSST  Metrics Analysis Framework \footnote{\url{https://www.lsst.org/scientists/simulations/maf}, and \url{https://github.com/lsst/sims_maf}} simulated stellar density map prepared by P. Yoachim and L. Jones 
+To identify regions representing different stellar densities we use the LSST  Metrics Analysis Framework \footnote{\url{https://www.lsst.org/scientists/simulations/maf}, and \url{https://github.com/lsst/sims_maf}} simulated stellar density map prepared by P. Yoachim and L. Jones with Galfast
 \footnote{\url{sims_maf/python/lsst/sims/maf/maps/createStarDensitymap.py}}
 %\url{https://github.com/lsst/sims_maf/blob/a9bc8f6d00fae5d7ce4ff6ea7279d5a0fca29437/python/lsst/sims/maf/maps/createStarDensitymap.py}}. 
 
-The  resulting dataset \verb|starDensity_r_nside_64.npz| contains 64 magnitude bins, with the entire sky divided into 49152  healpixels \footnote{\url{http://healpix.sourceforge.net}}. Each healpixel contains information about the number of stars per square degree in a given magnitude bin in the simulated sky - see Fig.~\ref{fig:MAF_densities}.
+The  resulting dataset \verb|starDensity_r_nside_64.npz| contains 64 magnitude bins between 15 and 28 mag, with each bin containing the cumulative count of sources per square degree up to and including a given magnitude, with the entire sky divided into 49152  healpixels \footnote{\url{http://healpix.sourceforge.net}}. Each healpixel / magnitude bin  contains information about the cumulative count of stars per square degree - see Fig.~\ref{fig:MAF_densities}.
 
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/01_MAF_densities.png}
 %\vskip -0.15in
-\caption{MAF healpixels plotted in galactic coordinates in Mollweide projection. The brightest regions correspond to highest stellar densities. The missing part in the higher declination is the part of the sky above $\delta>40 \degree$, which is not observable from the southern location of Cerro Pach\'on.}
+\caption{Galfast healpixels plotted in galactic coordinates in Mollweide projection. The brightest regions correspond to highest stellar densities. The missing part in the higher declination is the part of the sky above $\delta>40 \degree$, which is not observable from the southern location of Cerro Pach\'on.}
 \label{fig:MAF_densities}
 \end{figure} 
-
+%### add exclusion / confusion zone on top of the MAF Galfast count?   
 
 To match the LSST single-visit depth,  we select magnitude bins smaller than r=24.5.   For each healpixel we calculate the number of pixels that have a higher stellar count.  Since each healpixel has an equal area, the fraction of pixel number above a certain threshold corresponds to the fraction of sky area above given density limit.  Fig.~\ref{fig:illustrate_density} illustrates how we define percentiles of stellar densities, so that eg. 'top 1\%' density means that only 1 in 100 pixels has a higher density than a given pixel, and 'top 10\%' means that '10 \%' of pixels in the considered simulation of the sky. 
 
@@ -95,32 +99,20 @@ The upper axis represents the dimensionless demnsity parameter $N_{beam} = N_{st
 \end{figure} 
 
 
-
-
-Since this definition of density includes all pixels that are within 'top 20\%', we take selection around the percentiles so that :
-
-\begin{itemize}
-\item top  1 \%  means  fraction of sky with greater density is 0.01
-\item 5 \% region means such that between  4\% and 6\%
-\item 20 \% region  includes   19\% - 21\%
-\item 50 \% region includes 49\% - 51\% 
-\end{itemize}
-
-
-We illustrate the location of pixels representative of these density brackets on the sky in Fig.~\ref{fig:mollw_galactic}. 
+We illustrate the location of pixels representative of various density brackets on the sky in Fig.~\ref{fig:mollw_galactic}. 
 
 
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/03_density_regions_mollw_galactic.png}
 %\vskip -0.15in
-\caption{Illustration of location of regions representative of different relative density in cylindrical projection, galactic coordinates. The highest density regions are located close to the galactic bulge, and the decreasing density regions approximately trace isophotes of the Milky Way. The 20\% regions close to the galactic equator correspond to high extinction regions that appear to have less counts due to interstellar dust. }
+\caption{Illustration of location of regions representative of different relative simulated stellar densities in cylindrical projection, galactic coordinates. The x\% region  here means  x $\pm$ 1\%, eg.  5\% includes regions between 4-6\%. The highest density regions are located close to the galactic bulge, and regions of approximately constant stellar density trace isophotes of the Milky Way. The 20\% regions close to the galactic equator correspond to high extinction regions that appear to have less counts due to interstellar dust. The galactic exclusion zone in LSST is closely follows the 5\% region outline. }
 \label{fig:mollw_galactic}
 \end{figure} 
 
 
 \section{DECam Plane Survey }
 \label{sec:DECAPS}
-To analyze the performance of the LSST Stack with real data, we used the Dark Energy Camera (DECam) imaging, taken as part of the  DECam Plane Survey (DECAPS)~\cite{schlafly2017}, at the 4-m Cerro Tololo Inter-American Observatory telescope (CTIO)\footnote{see \url{http://www.ctio.noao.edu/noao/node/1033}}. On Fig.~\ref{fig:decaps_fields} we overlay the locations of all DECAPS fields on top  the MAF map of the LSST sky. All DECAPS single-epoch images were processed with the DECAPS pipeline, resulting in single-epoch catalogs.  The headers of all catalogs were assembled into the image database that contains information about single-visit exposure time, filter,  time of observation, position, etc.  It was used to select DECAPS fields with single-epoch depth similar to that of the single-visit depth of 30 sec LSST exposure. Thus we selected DECAPS fields with  exposure between 90  and 125 sec, taken in   u, g, r,  or VR filter. 
+To analyze the performance of the LSST Stack with real data, we used the Dark Energy Camera (DECam) imaging, taken as part of the  DECam Plane Survey (DECAPS)~\cite{schlafly2017}, at the 4-m Cerro Tololo Inter-American Observatory telescope (CTIO)\footnote{see \url{http://www.ctio.noao.edu/noao/node/1033}}. On Fig.~\ref{fig:decaps_fields} we overlay the locations of all DECAPS fields on top  the MAF map of the LSST sky. All DECAPS single-epoch images were processed with the DECAPS pipeline, resulting in single-epoch catalogs. The details of DECAPS pipeline can be found in Schlafly et al. 2017~\cite{schlafly2017}.  The headers of all catalogs were assembled into the image database that contains information about single-visit exposure time, filter,  time of observation, position, etc. We used the image database to select DECAPS fields with single-epoch depth similar to that of the single-visit depth of 30 sec LSST exposure. Thus we selected DECAPS fields with  exposure between 90  and 125 sec, taken in   u, g, r,  or VR filter. 
 
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/04_MAF_DECAPS_sources.png}
@@ -136,7 +128,7 @@ We cross-matched the DECAPS image database with the  stellar density information
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/05_Fig_4_3_NOAO_DECam_ccd_mosaic.png}
 %\vskip -0.15in
-\caption{An illustration of the DECam CCD mosaic image plane, adapted from Fig.4-3 in NOAO Data Handbook ~\citep{shaw2015}, . The color corresponds to the one of the four sets of read-out electronics (orange,pink, blue,yellow), or the guiding (green) and focus (magenta) CCDS.  The grey CCDs do not function properly. For this reason  S30, S7, and N30 were excluded from the analysis. }
+\caption{An illustration of the DECam CCD mosaic image plane, adapted from Fig.4-3 in NOAO Data Handbook ~\citep{shaw2015}, . The color corresponds to the one of the four sets of read-out electronics (orange,pink, blue,yellow), or the guiding (green) and focus (magenta) CCDS.  The grey CCDs (S30, S7, N30) did not function properly, and they were excluded from this analysis.}
 \label{fig:decam_mosaic_ccd}
 \end{figure} 
 
@@ -155,7 +147,8 @@ We cross-matched the DECAPS image database with the  stellar density information
 
 \section{LSST Processing of DECAPS data}
 \label{sec:LSST}
-The DECAPS calibrated imaging was processed with the LSST Science Pipelines installed on the LSST-dev machine installed at the NCSA.  We specifically employed processCcd.py and the standard Stack configuration. Transferring the resulting source catalogs and calexp files over scp we analyzed the output on a laptop using jupyter notebooks. 
+The calibrated DECAPS imaging was processed with the LSST Science Pipelines installed on the LSST-dev machine at the NCSA.  We specifically employed processCcd.py and the standard Stack configuration. Transferring the resulting source catalogs and calexp files to a local machine we analyzed the output of LSST processing on a laptop using jupyter notebooks and custom python tools. 
+To compare single epoch DECAPS catalogs to LSST source catalogs we used the image mask, deblender flags, and other quality flags. The cleaning process is described in this section. 
 % ### add information about NCSA version of the LSST Stack used ... 
 
 %To obtain independent order of magnitude comparison to MAF simulation, and LSST/DECAPS processing of DECam data, we also queried TRILEGAL simulation data, and processed the DECam images  with DAOPhot - see Appendix~\ref{sec:appendixA}. 
@@ -164,7 +157,7 @@ The DECAPS calibrated imaging was processed with the LSST Science Pipelines inst
 
 \subsection{Cleaning DECAPS catalog, comparison to LSST pixel mask}
 \label{sec:clean_decaps}
-To compare LSST and DECAPS catalogs, we cleaned both catalogs with the flags assigned to each source by the respective image processing pipeline. To verify the validity of DECAPS source flags, we compared them with the LSST pixel-level mask information stored in the FITS Header Data Unit. Pixel-level masks are encoded in 8 bits,  each of which can be 'on' or 'off', signifying that a given flag was 'on' or 'off' for a given pixel. The total value of the mask at each pixel is a decimal representation of such eight bits binary number, eg.  $(00100001)_{2} = 2^{0} + 2^{5}  = 1 + 32 = (33)_{10} $ means that bit $'0'$ and $'5'$ are 'on' (counting from the right). See Table~\ref{tab:lsst_flags} for details. 
+To compare LSST and DECAPS catalogs, we cleaned both catalogs using the flag information assigned to each source by the respective image processing pipeline. To verify the validity of DECAPS source flags, we compared them with the LSST pixel-level mask information stored in the FITS Header Data Unit. Pixel-level masks are encoded in 8 bits,  each of which can be 'on' or 'off', signifying that a given flag was 'on' or 'off' for a given pixel. The total value of the mask at each pixel is a decimal representation of such eight bits binary number, eg.  $(00100001)_{2} = 2^{0} + 2^{5}  = 1 + 32 = (33)_{10} $ means that bit $'0'$ and $'5'$ are 'on' (counting from the right). See Table~\ref{tab:lsst_flags} for details. 
 
 
 \begin{table}
@@ -188,9 +181,7 @@ Bit position & Description & Mask decimal value  \\
 \end{tabular}
 \end{table}
 
-For each  visit we considered DECAPS single-epoch source catalog, and the LSST calexp image.  For each DECAPS source, given the pixel coordinates, we retrieved the value of the LSST mask at that pixel. Given the understanding of the LSST flag bits (Table~\ref{tab:lsst_flags})  we performed a bitwise and with a mask filter$(11011111)_{2} = (2^{1}+2^{2}+2^{3}+2^{4}+2^{6}+2^{7})_{10}$, flagging a source as 'lsst bad' if either of the flag bits apart from '5' (detected) was 'on'. 
-
- % ###    ADD DECAPS flags ### 
+For each  visit we considered DECAPS single-epoch source catalog, and the LSST calexp image. We combined the calexp image mask value at the nearest pixel to every DECAPS source given its pixel coordinates.  The bitwise 'and' of image mask with mask filter $(11011111)_{2} = (2^{1}+2^{2}+2^{3}+2^{4}+2^{6}+2^{7})_{10}$ (see Table~\ref{tab:lsst_flags} for details ), flagged the source   as 'bad' if either of the flag bits apart from '5' (detected) was 'on'. 
 
 \begin{table}
 \centering
@@ -213,13 +204,13 @@ Bit position & Description \\
 \end{tabular}
 \end{table}
 
+Apart from LSST flags, each source also has a DECAPS pipeline flag, the value of which is made up of of bits inherited from the NOAO Community Pipeline (see Table~\ref{tab:decaps_flags}). We performed a bitwise 'and' of DECAPS flags with the mask filter $(2^{1}+ 2^{3}+  2^{4}+  2^{5}+  2^{6}+  2^{8}+  2^{20}+  2^{22})_{10}$, flagging the source as 'bad' if either of these mask bits were 'on'. 
 
-Each DECAPS source  also has a flag where the value is composed of bits inherited from the NOAO Community Pipeline and new flags(see Table~\ref{tab:decaps_flags}). We performed a bitwise and with the mask filter $(2^{1}+ 2^{3}+  2^{4}+  2^{5}+  2^{6}+  2^{8}+  2^{20}+  2^{22})_{10}$, flagging the source as 'decaps bad' if either of this bits were 'on'. We compared which sources would be excluded based on the DECAPS source-level flags vs LSST pixel-level masks, and we found that for a particular visit 611980 the overlap between sources excluded based on LSST pixel mask vs DECAPS source flags is 99\%. This means that DECAPS flagging is consistent with the LSST mask information, and the same sources would be 'excluded' based on either DECAPS flags or LSST mask information. 
-For this reason we cleaned the DECAPS catalog with  source level flags. 
+Given the LSST and DECAPS flags, we compared which sources would be excluded based on the DECAPS source-level flags vs LSST pixel-level masks. We found for a random visit  611980  that the overlap between sources excluded by LSST pixel mask information versus DECAPS source flags is 99\%.  This means that the DECAPS flagging is consistent with the LSST image mask information, and the same sources would be 'excluded' based on either DECAPS flags or LSST mask information. For this reason we decided to clean the DECAPS catalog with  source level flags, rather than the LSST image mask data. 
  
 \subsection{Cleaning LSST catalog}
 \label{sec:clean_lsst}
-The LSST source catalog contains per source a list of 83 flags that could be set 'on' or 'off'. Of these, flags number 60:72 are \verb|base_PixelFlags_flag|, meaning they contain information relevant to the level of source detection, rather than processing. See Table~\ref{tab:lsst_src_flags} for detailed description. 
+The LSST source catalog contains for each source a list of 83 flags that could be set 'on' or 'off'. Of these, flags number 60:72 are \verb|base_PixelFlags_flag|, meaning they contain information relevant to the level of source detection, rather than processing (see Table~\ref{tab:lsst_src_flags} for details).
 
 \begin{table}
 \centering
