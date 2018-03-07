@@ -21,15 +21,19 @@ K.~Suberlak, C.~Slater, \v{Z}.~Ivezi\'c}
 \setDocRevision{TBD}
 \setDocStatus{draft}
 \setDocAbstract{%
-A report on the performance of current LSST Stack pipelines in crowded stellar fields. Using the real data we explore the metrics that could be used to direct decision-making process for pipeline improvements. The quality metrics show also a way to validate the performance of LSST pipelines  after major software upgrades.}
+A report on the performance of current LSST Stack pipelines in crowded stellar fields. We use the DECAPS data to provide the photometry and astrometry quality assurance metrics. The mean completeness of LSST detections compared to DECAPS between 18-20 mag is at the level of 82\% for regions with 200 000 sources per sq. deg. (top 10 \% density). For the same density, the completeness drops to 50\% at 21.2 mag.  
 
-% Change history defined here. Will be inserted into
+The systematic offset in photometry  (the difference between the median photometric uncertainty and the measure of internal photomtric repeatability) at 21 mag for the density of 200 000 sources per sq.deg.  is 0.06 mag. } 
+% ### more 
+
+% ### Change history defined here. Will be inserted into
 % correct place with \maketitle
 % OLDEST FIRST: VERSION, DATE, DESCRIPTION, OWNER NAME
 \setDocChangeRecord{%
 \addtohist{1}{2017-07-16}{First draft.}{Krzysztof Suberlak}
 \addtohist{2}{2017-10-19}{Updated outline.}{Krzysztof Suberlak}
 \addtohist{2}{2018-01-25}{Major revision.}{Krzysztof Suberlak}
+\addtohist{2}{2018-03-04}{Reorganized the draft.}{Krzysztof Suberlak}
 }
 
 \begin{document}
@@ -138,10 +142,12 @@ We cross-matched the DECAPS image database with the  stellar density information
 
 
 \begin{figure}
-\includegraphics[width=0.8\columnwidth]{figs/Illustrate_densities_DECAPS.png}
+\begin{centering}
+\includegraphics[width=0.85\columnwidth]{figs/Illustrate_densities_DECAPS.png}
 %\vskip -0.15in
 \caption{Illustration of regions of different stellar count in the cleaned DECAPS single-epoch catalogs. As shown on Fig.~\ref{fig:maf_decaps_compare}, the Galfast count (and therefore \% level), does not always correspond 1:1 to the actual reported DECAPS stellar count. For this reason we simply ordered all DECAPS fields in terms of source count, and display postage stamp miniatures of CCD regions for visits in regions of increasing stellar density. }
 \label{fig:decaps_illustrate_densities}
+\end{centering}
 \end{figure} 
 
 
