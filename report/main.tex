@@ -474,7 +474,7 @@ We compare the photometric repeatability within each pipeline, as well as the ex
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/16_rms_decaps_lsst_611970hist_panel.png}
 %\vskip -0.15in
-\caption{Cross-section of Fig.~\ref{fig:dmag_scatter}, showing the histogram of $\Delta mag$ per DECAPS magnitude bin. The vertical red line corresponds to the median value of $\Delta mag$ in that bin, and each histogram limited between $\pm 4 \, \sigma_{G}$. }
+\caption{Cross-section of Fig.~\ref{fig:dmag_scatter}, showing the histogram of $\Delta mag$ per DECAPS magnitude bin. The vertical red line corresponds to the median value of $\Delta mag$ in that bin, and each histogram is limited between $\pm 4 \, \sigma_{G}$. }
 \label{fig:dmag_hist}
 \end{figure} 
 
@@ -483,23 +483,23 @@ We compare the photometric repeatability within each pipeline, as well as the ex
 \begin{centering}
 \includegraphics[width=0.7\columnwidth]{figs/decaps_lsst_rms_plot.png}
 %\vskip -0.15in
-\caption{The measurement of photometric offset between DECAPS and LSST pipelines. For each visit we cross-matched source catalogs corresponding to LSST and DECAPS processing; $\Delta m$ is the difference in magnitude reported between DECAPS and LSST for the same source. For each visit we bin sources according to their DECAPS magnitude. On three panels we plot the binned statistics : median $\Delta m$,  the interquartile-based measure of the spread of the distribution $\sigma_{G}$, and median photometric uncertainty.}
+\caption{The measurement of photometric offset between DECAPS and LSST pipelines. For each visit we cross-matched source catalogs corresponding to LSST and DECAPS processing; $\Delta m$ is the difference in magnitude reported between DECAPS and LSST for the same source. For each visit we bin sources according to their DECAPS magnitude. On three panels we plot the binned statistics : median $\Delta m$,  $\sigma_{G}$ - the interquartile-based measure of the spread of the distribution, and median photometric uncertainty.}
 \label{fig:lsst_decaps_dmag}
 \end{centering}
 \end{figure} 
 
 
 
-For two fields per  stellar density regime (5\%, 10\%, 15\%, 20\%) we found visits at exactly the same location, filter and exposure time, but different epoch (see Table ~\ref{tab:epoch12_selection}).  This allowed to compare the spread in photometry epoch-to-epoch  within DECAPS, and LSST. We illustrate that plotting the magnitude differences on Figs.~\ref{fig:decaps_decaps_dmag} and \ref{fig:lsst_lsst_dmag}, and the summary of the spread of photometric difference as a function of magnitude on Figs.~\ref{fig:epoch_lsst_multiplot} and ~\ref{fig:epoch_decaps_multiplot}. 
+For twelve  fields at different   stellar densities  we found visits at exactly the same location, filter and exposure time, but different observation time (see Table ~\ref{tab:epoch12_selection}).  This allowed to compare the spread in photometry epoch-to-epoch  within DECAPS, and LSST. We illustrate that plotting the magnitude differences on Figs.~\ref{fig:decaps_decaps_dmag} and \ref{fig:lsst_lsst_dmag}, and the summary of the spread of photometric difference as a function of magnitude on Figs.~\ref{fig:epoch_lsst_multiplot} and ~\ref{fig:epoch_decaps_multiplot}. 
 
 
 \begin{table}
 \centering
-\caption{Listing of pairs of visits at two different epochs, two per density regime. RA and DEC are in degrees. The separation in arcseconds is between the center of each exposure field of view. The last column shows the time difference between the two visits.}
+\caption{Pairs of visits at two different epochs, two per density regime. RA and DEC are in degrees. The separation in arcseconds is between the center of each exposure frame. The last column shows the time difference between the two visits in  days.}
 \label{tab:epoch12_selection}
 \begin{tabular}{ccccccccccc}
 \hline
-visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] & density & dmjd \\
+visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d \arcec & density & dmjd \\
 \hline
 525904 & 140.5531 & -51.24729 & 29.47 & 527300 & 140.5534 & -51.24555 & 29.459 & 6.3 & 5 & 2.96 \\
 525920 & 143.2337 & -51.44724 & 29.4465 & 527296 & 143.2329 & -51.446 & 29.259 & 4.8 & 5 & 2.94 \\
@@ -518,7 +518,7 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 \begin{centering}
 \includegraphics[width=0.7\columnwidth]{figs/18_decaps-decaps525904-527300_dmag.png}
 %\vskip -0.15in
-\caption{Similarly to Fig.~\ref{fig:dmag_scatter}, scatter plot of the magnitude difference between the two epochal visits ( 525904, 527300) to the same sky region, separated by 2.95 days, processed by DECAPS. The magnitude difference is shown for all sources cross-matched between  the two epochs, with a match within 0.5\arcsec - there is no selection on magnitude difference, but 0.5 mag (used for completeness) is well beyond the bounds of the plot, and would only cut the outliers to which neither median nor $\sigma_{G}$ (interquartile-based estimate of the spread) are not sensitive.  We overplot the $\pm \sigma_{G}$ envelope, and the median of each of 0.25 mag bins, spread between 14.5 and 22.5 mag. }
+\caption{Similarly to Fig.~\ref{fig:dmag_scatter}, scatter plot of the magnitude difference between the two  visits ( 525904, 527300) to the same sky region, separated by 2.95 days, processed by DECAPS. The magnitude difference is shown for all sources cross-matched between  the two epochs, with a match within 0.5\arcsec - there is no selection on magnitude difference, but 0.5 mag (used for completeness) is well beyond the bounds of the plot, and would only cut the outliers to which neither median nor $\sigma_{G}$ are not sensitive.  We overplot the $\pm \sigma_{G}$ envelope, and the median of each of 0.25 mag bins. }
 \label{fig:decaps_decaps_dmag}
 \end{centering}
 \end{figure} 
@@ -553,10 +553,9 @@ visit1 & ra1 & dec1 & magzero1 & visit2 & ra2 & dec2 & magzero2 & d2d [arcsec] &
 \end{centering}
 \end{figure} 
 
+%The statistical spread epoch-to-epoch ($\sigma_{G}$) is on the level of 0.02 mag,  which is almost twice as large as the spread between processing of the same field by two different pipelines (0.05 mag). 
 
-The statistical spread epoch-to-epoch is on the level of 0.1 mag,  which is almost twice as large as the spread between processing of the same field by two different pipelines (0.05 mag). 
-
-We summarize the information about the photometric repeatability (epoch-to-epoch within a given pipeline), and offset (pipeline-to-pipeline of the same epoch), by combining information from  Figs.~\ref{fig:epoch_lsst_multiplot}, ~\ref{fig:epoch_decaps_multiplot},~\ref{fig:lsst_decaps_dmag}.
+We summarize the information about the photometric repeatability (epoch-to-epoch within a given pipeline), and offset (pipeline-to-pipeline of the same epoch), by combining information from  Figs.~\ref{fig:epoch_lsst_multiplot}, ~\ref{fig:epoch_decaps_multiplot},~\ref{fig:lsst_decaps_dmag}. In particular, we characterize the photometric accuracy by a systematic offset between the emipirical measure of noise and the pipeline-reported photometric uncertainty. 
 
 
 
@@ -570,8 +569,6 @@ We summarize the information about the photometric repeatability (epoch-to-epoch
 \end{figure} 
 
 
-% 
-
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/photometric_spread_2_525846-530012.png}
@@ -583,8 +580,6 @@ We summarize the information about the photometric repeatability (epoch-to-epoch
 \end{figure} 
 
 
-% photometric_spread_2_525846-530012.png
-%The photometric offset $\sigma_{S}$ as a function of magnitude, together with the scatter between the two pipelines 
 
 \begin{figure}
 \begin{centering}
@@ -596,18 +591,9 @@ We summarize the information about the photometric repeatability (epoch-to-epoch
 \end{figure} 
 
 
-\section{Future work}
-\label{sec:conclusions}
 
-\subsection{LSST Processing of StarFast Simulated Sky}
-An independent way to further test the performance of the LSST Science Pipelines is to use the simulated sky images, where the true position and  brightness of each source is known. This would put the measure of source detection completeness, photometric and astrometric precision on an absolute scale. We already tested a StarFast image simulator\footnote{\url{https://dmtn-012.lsst.io}}, and confirmed that it can successfully simulate a region of the sky seeded with known stellar population.  
-
-
-\subsection{Other LSST-DECAPS tests: w-color }
-An independent test of the quality of photometry would be to consider the width of the stellar locus ('w-color') on the g-r vs r-i color-color plot.  This could be used to test internal consistency of LSST and DECAPS photometry. 
-
-\subsection{Astrometry}
-Astrometry corresponds to the measurement of the position of sources in an absolute World Coordinate System (WCS). Accurate and precise astrometry enables for instance catalog cross-matching, and over long-term - measurement of proper motion of stellar sources. 
+\section{Astrometry}
+Astrometry corresponds to the measurement of the position of sources in the absolute World Coordinate System (WCS). Accurate and precise astrometry enables for instance catalog cross-matching, and over long-term - measurement of proper motion of stellar sources. 
 
 We consider two properties of successful astrometry. First, the internal consistency of pipeline by measuring the repeatability of astrometric measurement between different epochs.  Second - accuracy, in particular, any possible biases between two different pipelines. 
 
@@ -776,6 +762,21 @@ visit & $\mathrm{median}(\Delta\alpha)$ & $\mathrm{median}(\Delta\delta)$ & $\si
 
 
 
+
+
+
+
+\section{Future work}
+\label{sec:conclusions}
+
+% ### need to add things here ... 
+
+\subsection{LSST Processing of StarFast Simulated Sky}
+An independent way to further test the performance of the LSST Science Pipelines is to use the simulated sky images, where the true position and  brightness of each source is known. This would put the measure of source detection completeness, photometric and astrometric precision on an absolute scale. We already tested a StarFast image simulator\footnote{\url{https://dmtn-012.lsst.io}}, and confirmed that it can successfully simulate a region of the sky seeded with known stellar population.  
+
+
+\subsection{Other LSST-DECAPS tests: w-color }
+An independent test of the quality of photometry would be to consider the width of the stellar locus ('w-color') on the g-r vs r-i color-color plot.  This could be used to test internal consistency of LSST and DECAPS photometry. 
 
 
 % \appendix
