@@ -6,6 +6,9 @@
 \usepackage{gensymb}  % degree symbol 
 \usepackage{natbib}  % bibliography
 \usepackage{cprotect} 
+\usepackage{longtable} % for 'longtable' environment
+\usepackage{pdflscape} % for 'landscape' environment
+
 % Local commands go here
 
 %% Journal abbreviations
@@ -242,11 +245,11 @@ We clean the LSST source catalog by removing sources that have flags number 62 (
 % ###  is it possible to break the table over multiple pages in this template ?  
 % Otherwise would need to cut on the description
 % but I think it should be here ... 
-\begin{table}
-\centering
-\caption{A summary of all LSST-processed DECAPS visits. The column `visit` corresponds to the DECAPS visit number.  The following four columns (`N raw`,  `N f`, `-N r`,  `=N c`) contain the source counts  per visit area ($\approx$ 2.74 deg$^{2}$). `N raw` is the input number of sources per visit , summing over all CCD source catalogs. `(N f)` is the number of sources removed due to bad flags. `-N r` is the total number of removed sources ( due to flags, low S/N, or sources that in the LSST deblending process are neither isolated parents, nor deblended children). `=N c` is the final number of clean sources per  visit (`N raw` - `N r`= `N c`). `N c/deg$^{2}$` is `=N c` converted to count per deg$^{2}$. N MAF/deg$^{2}$ is the predicted number of sources per deg$^{2}$ at that location based on Galfast simulation. $\rho_{MAF}$ is the  MAF density; eg. 21.3 is the top 21.3\% stellar density of the simulated sky.}
-\label{tab:lsst_summary}
-\begin{tabular}{cccccccccccc}
+%\begin{table}
+%\centering
+\begin{landscape}
+\begin{longtable}{cccccccccccc}
+%\begin{tabular}{cccccccccccc}
 Visit & $N_{raw}$ & $(N_{f})$ & $-N_{r}$ & $=N_{c}$ & $N_{c}$/deg$^{2}$ & $N_{MAF}$/deg$^{2}$ & $\rho_{MAF}$ & $N_{loSN}$ & $N_{parents}$ & $N_{blended}$ & $N_{deblended}$ \\
 568172 & 29809 & 9148 & 12434 & 17375 & 6241 & 72072 & 21.3 & 12986 & 153919 & 77723 & 289200 \\
 527319 & 120862 & 13744 & 39638 & 81224 & 29175 & 79632 & 19.9 & 34282 & 112848 & 28212 & 86196 \\
@@ -300,15 +303,19 @@ Visit & $N_{raw}$ & $(N_{f})$ & $-N_{r}$ & $=N_{c}$ & $N_{c}$/deg$^{2}$ & $N_{MA
 641548 & 1005146 & 44347 & 238787 & 766359 & 270687 & 355896 & 6.7 & 96812 & 117637 & 85174 & 357565 \\
 
 \hline
-\end{tabular}
-\end{table}
+
+\caption{A summary of all LSST-processed DECAPS visits. The column `visit` corresponds to the DECAPS visit number.  The following four columns (`N raw`,  `N f`, `-N r`,  `=N c`) contain the source counts  per visit area ($\approx$ 2.74 deg$^{2}$). `N raw` is the input number of sources per visit , summing over all CCD source catalogs. `(N f)` is the number of sources removed due to bad flags. `-N r` is the total number of removed sources ( due to flags, low S/N, or sources that in the LSST deblending process are neither isolated parents, nor deblended children). `=N c` is the final number of clean sources per  visit (`N raw` - `N r`= `N c`). `N c/deg$^{2}$` is `=N c` converted to count per deg$^{2}$. N MAF/deg$^{2}$ is the predicted number of sources per deg$^{2}$ at that location based on Galfast simulation. $\rho_{MAF}$ is the  MAF density; eg. 21.3 is the top 21.3\% stellar density of the simulated sky.}
+\label{tab:lsst_summary}
+\end{longtable}
+\end{landscape}
+%\end{tabular}
+%\end{table}
 
 
-\begin{table}
-\centering
-\caption{A summary of all single-epoch DECAPS source catalogs, with columns as in  Table ~\ref{tab:lsst_summary}. See Fig.~\ref{fig:lsst_count_comparison} comparing the 'N raw' converted to number of sources per square degree, and  'N clean per sq.deg.'.  }
-\label{tab:decaps_summary}
-\begin{tabular}{cccccccc}
+%\begin{table}
+%\centering
+\begin{longtable}{cccccccc}
+%\begin{tabular}
 Visit & $N_{raw}$ & $(N_{f})$ & $-N_{r}$ & $=N_{c}$ & $N_{c}$/deg$^{2}$ & $N_{MAF}$/deg$^{2}$ & $\rho_{MAF}$ \\
 568172 & 16824 & 138 & 150 & 16674 & 5989 & 72072 & 21.3 \\
 527319 & 92326 & 2819 & 3039 & 89287 & 32071 & 79632 & 19.9 \\
@@ -360,10 +367,12 @@ Visit & $N_{raw}$ & $(N_{f})$ & $-N_{r}$ & $=N_{c}$ & $N_{c}$/deg$^{2}$ & $N_{MA
 644144 & 1444897 & 16255 & 28641 & 1416256 & 535971 & 1292976 & 1.7 \\
 644074 & 1692430 & 16941 & 23670 & 1668760 & 589427 & 481788 & 5.1 \\
 644070 & 1698554 & 16404 & 22559 & 1675995 & 591982 & 481788 & 5.1 \\
-
 \hline
-\end{tabular}
-\end{table}
+\caption{A summary of all single-epoch DECAPS source catalogs, with columns as in  Table ~\ref{tab:lsst_summary}. See Fig.~\ref{fig:lsst_count_comparison} comparing the 'N raw' converted to number of sources per square degree, and  'N clean per sq.deg.'.  }
+\label{tab:decaps_summary}
+\end{longtable}
+%\end{tabular}
+%\end{table}
 
 
 \begin{figure}
