@@ -400,7 +400,7 @@ Visit & $N_{raw}$ & $(N_{f})$ & $-N_{r}$ & $=N_{c}$ & $N_{c}$/deg$^{2}$ & $N_{MA
 \begin{centering}
 \includegraphics[width=0.9\columnwidth]{figs/decaps_lsst_source_count.png}
 %\vskip -0.15in
-\caption{A plot of source count comparing LSST to DECAPS source catalogs of the same fields (visits). On the left panel blue dots mark raw source count, i.e. count of the input LSST  source catalog or DECAPS single-epoch catalog. The source catalog count was converted to number of sources per square degree, since in some cases not all CCDs were processed.  Orange dots mark the count of clean sources (see Fig.~\ref{fig:lsst_src_flags}). As we would expect, between raw and clean catalogs the points on the diagram move vertically from top to bottom, and horizontally from right to left. For exact counts in each stellar field, see LSST counts Table ~\ref{tab:lsst_summary} and DECAPS counts Table ~\ref{tab:decaps_summary}.  The right panel shows the effect of excluding faint sources on the clean catalog: selecting only bright sources (m<19),  DECAPS and LSST counts for all visits are closer to each other. Only adding faint sources do we reach the situation in the left panel (eg. m<23), where LSST significantly looses faint sources. }
+\caption{A plot of source count comparing LSST to DECAPS source catalogs of the same fields (visits). On the left panel blue dots mark raw source count, i.e. count of the input LSST  source catalog or DECAPS single-epoch catalog. The source catalog count was converted to number of sources per square degree, since in some cases not all CCDs were processed.  Orange dots mark the count of clean sources (see Fig.~\ref{fig:lsst_sources}). As we would expect, between raw and clean catalogs the points on the diagram move vertically from top to bottom, and horizontally from right to left. For exact counts in each stellar field, see LSST counts Table ~\ref{tab:lsst_summary} and DECAPS counts Table ~\ref{tab:decaps_summary}.  The right panel shows the effect of excluding faint sources on the clean catalog: selecting only bright sources (m<19),  DECAPS and LSST counts for all visits are closer to each other. Only adding faint sources do we reach the situation in the left panel (eg. m<23), where LSST significantly looses faint sources. }
 \label{fig:lsst_count_comparison}
 \end{centering}
 \end{figure} 
@@ -432,7 +432,7 @@ Starting with cleaned LSST and DECAPS source catalogs, we consider a set of metr
 
 \subsection{Completeness}
 
-For each visit that corresponds to a given level of crowdedness, we consider the detection completeness of LSST to DECAPS. Assuming that DECAPS is the 'true' catalog of sources, we define completeness by the percentage of DECAPS sources (binned along DECAPS magnitude), that have an LSST match within 0.5 \arcsec. This is a very liberal requirement considering that for most visits >98\% of LSST sources have a match within 0.3 \arcsec.  Second,  we require that the sources differ by not more than 0.5 magnitudes. As illustrated on Fig.~\ref{fig:dmag_scatter}, this only removes the outliers.  In fact, given that the majority of the sources (>99\%) that are matched within 0.5 \arcsec, do not differ by more than 0.5 magnitude, this constraint does not change the completeness by more than few \%.   Fig.~\ref{fig:completeness} shows how completeness , and catalog counts, depend on source density.
+For each visit that corresponds to a given level of crowdedness, we consider the detection completeness of LSST to DECAPS. Assuming that DECAPS is the 'true' catalog of sources, we define completeness by the percentage of DECAPS sources (binned along DECAPS magnitude), that have an LSST match within 0.5 \arcsec. This is a very liberal requirement considering that for most visits >98\% of DECAPS sources have an LSST match within 0.3 \arcsec.  Second,  we require that the sources differ by not more than 0.5 magnitudes. As illustrated on Fig.~\ref{fig:dmag_scatter}, this only removes the outliers.  In fact, given that the majority of the sources (>99\%) that are matched within 0.5 \arcsec, do not differ by more than 0.5 magnitude, this constraint does not change the completeness by more than few \%.   Fig.~\ref{fig:completeness} shows how completeness , and catalog counts, depend on source density.
 
 
 \begin{figure}
@@ -465,12 +465,17 @@ For each visit that corresponds to a given level of crowdedness, we consider the
 \end{figure} 
 
 
+% #############################################################
+% ###################### PHOTOMETRY  ##########################
+% #############################################################
 
 
 \subsection{Photometry}
 \label{sec:photometry}
 
-We also considered the photometric accuracy. Since both DECAPS and LSST processing pipelines start from the same instcal calibrated DECam images, they ought arrive at similar measurement of flux, and in turn, instrumental magnitudes.  An offset and a spread in magnitude difference is due to details of each image processing pipeline.
+We consider here photometric accuracy. Since both DECAPS and LSST processing pipelines start from the same instcal calibrated DECam images, they ought arrive at similar measurement of flux, and in turn, instrumental magnitudes.  
+
+An offset and a spread in magnitude difference is due to details of each image processing pipeline.
 
 We compare the photometric repeatability within each pipeline, as well as the existence of offset and spread between two different pipeines. We test pipeline repeatability by investigating two visits at the same locations,  taken in same filters, with equal exposure times.  Assuming that the majority of objects are non-variable in nature, we find the statistical epoch-to-epoch variance. 
 
@@ -478,7 +483,7 @@ We compare the photometric repeatability within each pipeline, as well as the ex
 \begin{centering}
 \includegraphics[width=0.6\columnwidth]{figs/15_decaps_lsst_dmag_density_15.png}
 %\vskip -0.15in
-\caption{Difference in magnitudes between the DECAPS and LSST magnitudes for sources matched within 0.5 \arcsec for a region in top 15\% density (611970) . The magenta dashed line traces the $\pm \sigma_{G}(\Delta m)$ level, and yellow circles the median.  $\sigma_{G} = 0.7413 * (q75 - q25)$, where $q75$ and $q25$ are 75th and 25th percentiles, is an interquartile-based measure of standard deviation, that is insensitive to the outliers. For this stellar density, the offset between LSST and DECAPS is on the level of 0.05 mag. The same quantities ($\sigma_{G}$, median($\Delta m$)) plotted for fields of various stellar densities can be shown on Fig.~\ref{fig:lsst_decaps_dmag}. The histograms of $\Delta mag$ per magnitude bin are shown on Fig.~\ref{fig:dmag_hist}.}
+\caption{Difference in magnitudes between the DECAPS and LSST magnitudes for sources matched within 0.5 \arcsec for a region in top 15\% density (611970) . The magenta dashed line traces the $\pm \sigma_{G}(\Delta m)$ level, and yellow circles the median.  $\sigma_{G} = 0.7413 * (q75 - q25)$, where $q75$ and $q25$ are 75th and 25th percentiles, is an interquartile-based measure of standard deviation, that is insensitive to the outliers. For this stellar density, the offset between LSST and DECAPS is on the level of 0.05 mag. The same quantities ($\sigma_{G}$, median($\Delta m$)) plotted for fields of various stellar densities are shown on Fig.~\ref{fig:lsst_decaps_dmag}. The histograms of $\Delta mag$ per magnitude bin are shown on Fig.~\ref{fig:dmag_hist}.}
 \label{fig:dmag_scatter}
 \end{centering}
 \end{figure} 
@@ -503,12 +508,12 @@ We compare the photometric repeatability within each pipeline, as well as the ex
 
 
 
-For twelve  fields at different   stellar densities  we found visits at exactly the same location, filter and exposure time, but different observation time (see Table ~\ref{tab:epoch12_selection}).  This allowed to compare the spread in photometry epoch-to-epoch  within DECAPS, and LSST. We illustrate that plotting the magnitude differences on Figs.~\ref{fig:decaps_decaps_dmag} and \ref{fig:lsst_lsst_dmag}, and the summary of the spread of photometric difference as a function of magnitude on Figs.~\ref{fig:epoch_lsst_multiplot} and ~\ref{fig:epoch_decaps_multiplot}. 
+Using the DECAPS image database for several visits we found a second visit at exactly the same location, filter and exposure time, but different epoch (see Table ~\ref{tab:epoch12_selection}).  This allowed to test the epoch-epoch photometric repeatability of DECAPS-LSST. We illustrate the  magnitude differences on Figs.~\ref{fig:decaps_decaps_dmag} and \ref{fig:lsst_lsst_dmag}, and the summary of the spread of photometric difference as a function of magnitude on Figs.~\ref{fig:epoch_lsst_multiplot} and ~\ref{fig:epoch_decaps_multiplot}. 
 
 
 \begin{table}
 \centering
-\caption{Pairs of visits at two different epochs. RA and DEC are in degrees. The separation in arcseconds is between the center of each exposure frame. The last column shows the time difference between the two visits in  days.}
+\caption{Pairs of visits at two different epochs, arranged by the mean LSST-DECAPS source density (last column). The RA and DEC are in degrees, and mean source density $\langle N_{1,2} \rangle$ in sources per sq. deg.}
 \label{tab:epoch12_selection}
 \begin{tabular}{ccccccccccc}
 \hline
@@ -542,7 +547,7 @@ visit1 & ra1 & dec1 & visit2 & ra2 & dec2 & $\langle N_{1,2} \rangle$ \\
 \begin{centering}
 \includegraphics[width=0.7\columnwidth]{figs/18_decaps-decaps525904-527300_dmag.png}
 %\vskip -0.15in
-\caption{Similarly to Fig.~\ref{fig:dmag_scatter}, scatter plot of the magnitude difference between the two  visits ( 525904, 527300) to the same sky region, separated by 2.95 days, processed by DECAPS. The magnitude difference is shown for all sources cross-matched between  the two epochs, with a match within 0.5\arcsec - there is no selection on magnitude difference, but 0.5 mag (used for completeness) is well beyond the bounds of the plot, and would only cut the outliers to which neither median nor $\sigma_{G}$ are not sensitive.  We overplot the $\pm \sigma_{G}$ envelope, and the median of each of 0.25 mag bins. }
+\caption{Similarly to Fig.~\ref{fig:dmag_scatter}, scatter plot of the magnitude difference between the two  visits ( 525904, 527300) to the same sky region, separated by 2.95 days, processed by DECAPS. The magnitude difference is shown for all sources cross-matched between  the two epochs, with a match within 0.5\arcsec - there is no selection on magnitude difference, but 0.5 mag (used for completeness) is well beyond the bounds of the plot, and would only remove the outliers to which neither median nor $\sigma_{G}$ are sensitive.  We overplot the $\pm \sigma_{G}$ envelope, and the median of each 0.25 mag bin. }
 \label{fig:decaps_decaps_dmag}
 \end{centering}
 \end{figure} 
@@ -577,7 +582,7 @@ visit1 & ra1 & dec1 & visit2 & ra2 & dec2 & $\langle N_{1,2} \rangle$ \\
 \end{centering}
 \end{figure} 
 
-We summarize the information about the photometric repeatability (epoch-to-epoch within a given pipeline), and offset (pipeline-to-pipeline of the same epoch), by combining information from  Figs.~\ref{fig:epoch_lsst_multiplot}, ~\ref{fig:epoch_decaps_multiplot},~\ref{fig:lsst_decaps_dmag}. In particular, we characterize the photometric accuracy by a systematic offset between the emipirical measure of noise and the pipeline-reported photometric uncertainty (Figs.~\ref{fig:spread_1},~\ref{fig:spread_1},~\ref{fig:spread_summary}).
+We summarize the information about the photometric repeatability (epoch-to-epoch within a given pipeline), and offset (pipeline-to-pipeline of the same epoch), by combining information from  Figs.~\ref{fig:lsst_decaps_dmag},~\ref{fig:epoch_lsst_multiplot}, ~\ref{fig:epoch_decaps_multiplot}. In particular, we characterize the photometric accuracy by a systematic offset between the emipirical measure of noise and the pipeline-reported photometric uncertainty (Figs.~\ref{fig:spread_1},~\ref{fig:spread_2},~\ref{fig:spread_summary}).
 
 
 
@@ -612,7 +617,9 @@ We summarize the information about the photometric repeatability (epoch-to-epoch
 \end{centering}
 \end{figure} 
 
-
+% #############################################################
+% ###################### ASTROMETRY  ##########################
+% #############################################################
 
 \section{Astrometry}
 \label{sec:astrometry}
