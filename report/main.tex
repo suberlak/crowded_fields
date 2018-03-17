@@ -61,21 +61,21 @@ The spread of astrometric repeatability  for LSST  epoch-to-epoch is at the leve
 
 \section{Introduction}
 
-We report on the performance of the Large Scale Synoptic Telescope (LSST) science pipelines \footnote{\url{https://pipelines.lsst.io}}, also known as 'the LSST stack', in the stellar fields of varying levels of source crowdedness.
+We report on the performance of the Large Scale Synoptic Telescope (LSST) science pipelines\footnote{\url{https://pipelines.lsst.io}}, also known as 'the LSST stack', in the stellar fields of varying levels of source crowdedness.
 
 The LSST will sample every night on average over 500  regions in the sky , delivering terabytes of raw data in need of processing, including photometric  and astrometric calibration, to deliver a calibrated exposure image, as well as a source catalog, among image products\footnote{\url{http://ls.st/LSE-163}}~\cite{narayan2018}.
 
 The survey sky is composed of regions very diverse in terms of stellar density, or crowdedness. Assuming the single-visit depth of 24.5 mag, the stellar density ranges from high density low-galactic latitude regions that have tens of millions of sources per square degree, to low-density regions towards the Galactic poles with less than thousand sources per square degree. 
 
-Deblending and successful photometry is an inherent part of any astronomical data processing pipeline.  There exists a body of research answering questions that are specific to crowded stellar fields, eg. how many beams do we need per source ~\citep{hogg2001}, or how  the crowded fields photometry can be approached in the era of large telescopes ~\cite{olsen2003}. Other studies involving eg. HyperSuprime CAM pipeline ( developed in parallel with the LSST Stack) recognized that the deeper the survey, the higher the stellar densities encountered, and therefore, the more challending the process of deblending photometry~\cite{bosch2017}.
+Deblending and successful photometry is an inherent part of any astronomical data processing pipeline.  There exists a body of research answering questions that are specific to crowded stellar fields, eg. how many beams do we need per source ~\citep{hogg2001}, or how  the crowded fields photometry can be approached in the era of large telescopes ~\cite{olsen2003}. Other studies involving HyperSuprime CAM pipeline ( developed in parallel with the LSST Stack) recognized that the deeper the survey, the higher the stellar densities encountered, and therefore, the more challending the process of deblending photometry~\cite{bosch2017}.
 
-In this report we compare the 'out-of-the-box' LSST Stack processing pipeline, to the DECAm [Galactic] Plane Survey (DECAPS) catalogs based on the DECAPS pipeline deveolped by Schlafly et al.~\cite{schlafly2017}. 
+In this report we compare the 'out-of-the-box' LSST Stack processing pipeline, to the DECAm [Galactic] Plane Survey (DECAPS) pipeline deveolped by Schlafly et al.~\cite{schlafly2017}. 
 
-To find out where to look for regions representing various stellar densities, we use the Galfast simulation of the night sky (Sec.~\ref{sec:MAF}). 
+To test performance of pipelines at different levels of stellar crowdedness, we choose regions of the sky at various densities based on the Galfast simulation of the night sky (Sec.~\ref{sec:MAF}). 
 
-The Galfast simulation divided the sky into healpixels, which were used to select stellar fields representative of diverse stellar densities from the DECAPS image database (Sec.~\ref{sec:DECAPS}). 
+Given the expected stellar density as a function of position on the sky, we selected DECAPS fields, and processed them with LSST pipelines (Sec.~\ref{sec:DECAPS}). 
 
-Finally, we compare the results of the LSST and DECAPS processing in terms of source detection, photometry (Sec.~\ref{sec:LSST}), and astrometry (Sec.\ref{sec:astrometry}). We conclude with key results and future work in Sec.~\ref{sec:conclusions}. 
+We compare the results of the LSST and DECAPS processing of the same visits by cross-matching the catalogs and comparing source counts, photometry (Sec.~\ref{sec:LSST}), and astrometry (Sec.\ref{sec:astrometry}). We summarize the key results and suggest future work in Sec.~\ref{sec:conclusions}. 
 
 
 
