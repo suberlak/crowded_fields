@@ -129,7 +129,7 @@ To analyze the performance of the LSST Stack with real data, we used the Dark En
 \end{figure} 
 
 
-We cross-matched the DECAPS image database with the  stellar density information contained in MAF healpixels. Each DECAPS image plane is tiled by a mosaic of 62 CCDs (see Fig.~\ref{fig:decam_mosaic_ccd}). The size of each CCD element of the DECAm image plane mosaic is 2046x4094 pixels, with pixel scale of 0.27 arcsec / px , so that a single mosaic element covers an area of 0.047117 square \degree. A single DECam exposure is also called a visit, and with 62 mosaic elements the full field of view  2.2\degree wide is several times bigger than the full moon. This makes it comparable to the LSST 3.5\degree wide field of view.  Using the coordinates of the center of each DECAPS field  we found the nearest healpixel within 0.5\degree . 
+We cross-matched the DECAPS image database with the  stellar density information contained in MAF healpixels. Each DECAPS image plane is tiled by a mosaic of 62 CCDs\footnote{See Fig.4-3 in the NOAO Data Handbook ~\citep{shaw2015}}. The size of each CCD element of the DECAm image plane mosaic is 2046x4094 pixels, with pixel scale of 0.27 arcsec / px , so that a single mosaic element covers an area of 0.047117 square \degree. A single DECam exposure is also called a visit, and with 62 mosaic elements the full field of view  2.2\degree wide is several times bigger than the full moon. This makes it comparable to the LSST 3.5\degree wide field of view.  Using the coordinates of the center of each DECAPS field  we found the nearest healpixel within 0.5\degree . 
 
 
 
@@ -140,8 +140,6 @@ We cross-matched the DECAPS image database with the  stellar density information
 \caption{Comparison of DECAPS counts in the cleaned catalog (red dots) and raw single-epoch catalog (blue dots), vs. Galfast simulated stellar count in that region of the sky.  Overplotted are the line of equivalence y=x, and its multipicities (2x,3x). It shows that the simulation may be not more accurate than up to a factor of a few, but it is nevertheless useful for defining density regions. Part of the reason for discrepancy could be the order-of-magnitude nature of the experiment - Galfast counts here assume the single-visit depth of 24.5 mag in r-band. The DECAPS exposure time ($\approx$100 sec) and filter (g, or r) were chosen to mimic that depth as close as possible, but the regions targeted include much extinction, which means that in some cases DECAPS counts may be less than implied by the simulation. Different zero-point magnitude dependent on seeing conditions could also contribute to the depth probed by DECAPS.  However, there is a number of fields that lie along the blue line, implying that in some cases the Galfast counts were very close to the true counts.}
 \label{fig:maf_decaps_compare}
 \end{figure} 
-
-
 
 \begin{figure}
 \begin{centering}
