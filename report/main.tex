@@ -580,27 +580,31 @@ visit1 & ra1 & dec1 & visit2 & ra2 & dec2 & $\langle N_{1,2} \rangle$ \\
 \end{centering}
 \end{figure} 
 
-We summarize the information about the photometric repeatability (epoch-to-epoch within a given pipeline), and offset (pipeline-to-pipeline of the same epoch), by combining information from  Figs.~\ref{fig:lsst_decaps_dmag},~\ref{fig:epoch_lsst_multiplot}, ~\ref{fig:epoch_decaps_multiplot}. In particular, we characterize the photometric accuracy by a systematic offset between the emipirical measure of noise and the pipeline-reported photometric uncertainty (Figs.~\ref{fig:spread_1},~\ref{fig:spread_2},~\ref{fig:spread_summary}).
+We summarize the information about the photometric repeatability (epoch-to-epoch within a given pipeline), and offset (pipeline-to-pipeline of the same epoch), by combining information from  Figs.~\ref{fig:lsst_decaps_dmag},~\ref{fig:epoch_lsst_multiplot}, ~\ref{fig:epoch_decaps_multiplot}. 
 
+On Fig.~\ref{fig:spread} and ~\ref{fig:spread_summary} we compare the spread of photometric scatter between the 
+two pipelines and  the empirical measurement of noise from repeatability for a pair of visits at the same location. 
 
+We consider visits  525846 and 530012, called epoch1 and epoch2. 
 
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.8\columnwidth]{figs/photometric_spread_1_525846-530012.png}
-%\vskip -0.15in
-\caption{Comparison of spread of scatter between two pipelines vs.  the empirical measurement of noise from repeatability for a pair of visits at the same location : 525846 and 530012, here called epoch1 and epoch2. All solid lines are $\sigma_{G}(a,b)$ - the interquartile-based measure of spread of magnitude difference between measurements $a$ and $b$ of the same source. From the top,  $\sigma_{G}(LSST,1 - LSST,2)$, and $\sigma_{G}(DECAPS,1 - DECAPS,2)$, correspond to the empirical measure of noise.  The blue line  $\sigma_{G}(LSST,1 - LSST,2)$ is the same quantity as that plotted on the middle panel of Fig.~\ref{fig:epoch_lsst_multiplot}, while the red line  $\sigma_{G}(DECAPS,1 - DECAPS,2)$ is the same as that of Fig.~\ref{fig:epoch_decaps_multiplot}. Then the dotted and dashed lines in the middle show the median error for epoch 1 or epoch 2, as reported by LSST or DECAPS pipelines. They represent the expected uncertainty in repeated measurement.  Since they are identical, the red and blue dotted or dashed lines overlap.  Finally, the green and orange solid curves correspond to the scatter between the two pipelines , calculated either for epoch1 ($\sigma_{G}(DECAPS,1 - LSST,1)$), or epoch2 ($\sigma_{G}(DECAPS,2- LSST,2)$). Fig.~\ref{fig:spread_2} shows the second step in the analysis. }
-\label{fig:spread_1}
-\end{centering}
-\end{figure} 
+For each we first calculate the $\sigma_{G}(a,b)$  - the interquartile-based measure of spread of magnitude difference between measurements $a$ and $b$ of the same source. 
+
+The spread of photometric scatter within the same pipeline, epoch-to-epoch: $\sigma_{G}(L1, L2)$, and $\sigma_{G}(D1,D2)$, correspond to the empirical measure of noise. 
+
+$\sigma_{G}(L1, L2)$  is also plotted on the middle panel of Fig.~\ref{fig:epoch_lsst_multiplot}, while  $\sigma_{G}(D1,D2)$ is the same as that of Fig.~\ref{fig:epoch_decaps_multiplot}. 
+
+The median error reported by either pipeline for either epoch is a measure of Poisson noise - the expected uncertainty in a repeated measurement. 
+
+The scatter between the two pipelines calculated either for epoch1 or epoch2 :  $\sigma_{G}(D1,L1)$, or $\sigma_{G}(D2,L2)$). 
 
 
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/photometric_spread_2_525846-530012.png}
 %\vskip -0.15in
-\caption{Second step in the analysis of  photometric spread, following Fig.~\ref{fig:spread_1}. The blue and red lines of repeatability are unchanged.  Since LSST and DECAPS errors are almost identical, we choose to represent the minimum statistical offset by the mean LSST error between the two visits , added in quadrature . If $e_{1L}$ and $e_{2L}$ are LSST-reported error measurements for a given source for the two epochs,  the quadrature-mean is  $e_{12} = \sqrt{e_{1L}^{2} + e_{2L}^{2}} / \sqrt{2}$, and the purple dashed line is the median of $e_{12}$ per magnitude bin.    We also add in quadrature the spread between the two pipelines, represented  on Fig.~\ref{fig:spread_1} by orange $\sigma_{DL,1}$ for epoch1, and green $\sigma_{DL,2}$ for epoch2 : $\sigma_{DL} = \sqrt{\sigma_{DL,1}^{2} + \sigma_{DL,2}^{2}} / \sqrt{2}$.  Note that since the top blue (or red) lines $\sigma_{G}(LSST,1 - LSST,2)$, $\sigma_{G}(DECAPS,1 - DECAPS,2)$   ($\sigma_{DD}$, $\sigma_{LL}$ for short) consists of noise $\sigma_{E} $ and the systematic offset $\sigma_{S}$ : $\sigma_{LL}^{2} = \sigma_{S}^{2} + \sigma_{E}^{2}$. Thus we calculate the systematic offset for LSST as  $\sigma_{S} = \sqrt{\sigma_{LL}^2  - \sigma_{E}^{2}}$, which is the difference between  blue solid and purple dashed lines. 
+\caption{Analysis of  photometric spread. The solid blue and red lines of $\sigma_{G}$  represent the spread in photometry within each pipeline. The dashed purple line in the middle is the average reported error between the two epochs: a measure of Poisson noise. Finally, the bottom solid green line with square markers is the spread in photometry between the two pipelines.  Since LSST and DECAPS errors are almost identical, we choose to represent the minimum statistical offset by the mean LSST error between the two visits , added in quadrature . If $e_{1L}$ and $e_{2L}$ are LSST-reported error measurements for a given source for the two epochs,  the quadrature-mean is  $e_{12} = \sqrt{e_{1L}^{2} + e_{2L}^{2}} / \sqrt{2}$, and the purple dashed line is the median of $e_{12}$ per magnitude bin. We also add in quadrature the spread between the two pipelines: $\sigma_{DL,1}$ for epoch1, and $\sigma_{DL,2}$ for epoch2 : $\sigma_{DL} = \sqrt{\sigma_{DL,1}^{2} + \sigma_{DL,2}^{2}} / \sqrt{2}$.  Note that since the top blue (or red) lines $\sigma_{G}(LSST,1 - LSST,2)$, $\sigma_{G}(DECAPS,1 - DECAPS,2)$   ($\sigma_{DD}$, $\sigma_{LL}$ for short) consists of noise $\sigma_{E} $ and the systematic offset $\sigma_{S}$ : $\sigma_{LL}^{2} = \sigma_{S}^{2} + \sigma_{E}^{2}$. Thus we calculate the systematic offset for LSST as  $\sigma_{S} = \sqrt{\sigma_{LL}^2  - \sigma_{E}^{2}}$, which is the difference between  blue solid and purple dashed lines. 
 }
-\label{fig:spread_2}
+\label{fig:spread}
 \end{centering}
 \end{figure} 
 
