@@ -211,45 +211,40 @@ Apart from LSST flags, each source also has a DECAPS pipeline flag, the value of
 
 Given the LSST and DECAPS flags, we compared which sources would be excluded based on the DECAPS source-level flags vs LSST pixel-level masks. We found for a random visit  611980  that the overlap between sources excluded by LSST pixel mask information versus DECAPS source flags is 99\%.  This means that the DECAPS flagging is consistent with the LSST image mask information, and the same sources would be 'excluded' based on either DECAPS flags or LSST mask information. For this reason we decided to clean the DECAPS catalog with  source level flags, rather than the LSST image mask data. 
  
-\subsection{Cleaning LSST catalog}
+\subsection{Cleaning the LSST catalog}
 \label{sec:clean_lsst}
-The LSST source catalog contains for each source a list of 83 flags that could be set 'on' or 'off'. Of these, flags number 60:72 are \verb|base_PixelFlags_flag|, meaning they contain information relevant to the level of source detection, rather than processing (see Table~\ref{tab:lsst_src_flags} for details).
+The LSST source catalog contains for each source a list of flags that could be set 'on' or 'off'. Of these, flags labeled \verb|base_PixelFlags_flag| contain information relevant to the level of source detection, rather than processing (see Table~\ref{tab:lsst_src_flags}).
 
 \begin{table}
 \centering
-\caption{LSST source flags explanation. All flags names start with 'base\_PixelFlags\_flag\_' which was omitted in the flag\_name column below. }
+\caption{LSST source flags explanation.}
 \label{tab:lsst_src_flags}
-\begin{tabular}{ccc}
+\begin{tabular}{cl}
 \hline
-number & name & explanation \\
+name & explanation \\
 \hline
-60 & flag & general failure flag, set if anything went wrong \\
-61 & offimage & Source center is off image \\
-62 & edge & Source is outside usable exposure region (masked EDGE or NO\_DATA) \\
-63 & interpolated & Interpolated pixel in the Source footprint \\
-64 & saturated & Saturated pixel in the Source footprint \\
-65 & cr & Cosmic ray in the Source footprint \\
-66 & bad & Bad pixel in the Source footprint \\
-67 & suspect & Source's footprint includes suspect pixels \\
-68 & interpolatedCenter & Interpolated pixel in the Source center \\
-69 & saturatedCenter & Saturated pixel in the Source center \\
-70 & crCenter & Cosmic ray in the Source center \\
-71 & suspectCenter & Source's center is close to suspect pixels \\
-72 & flag & General Failure Flag \\
+flag & general failure flag, set if anything went wrong \\
+offimage & Source center is off image \\
+edge & Source is outside usable exposure region  \\
+interpolated & Interpolated pixel in the Source footprint \\
+saturated & Saturated pixel in the Source footprint \\
+cr & Cosmic ray in the Source footprint \\
+bad & Bad pixel in the Source footprint \\
+suspect & Source's footprint includes suspect pixels \\
+interpolatedCenter & Interpolated pixel in the Source center \\
+saturatedCenter & Saturated pixel in the Source center \\
+crCenter & Cosmic ray in the Source center \\
+suspectCenter & Source's center is close to suspect pixels \\
+flag & General Failure Flag \\
 \hline
 \end{tabular}
 \end{table}
 
-We clean the LSST source catalog by removing sources that have flags number 62 (edge) or 67 (interpolatedCenter)\footnote{This is similar to the example in Sec.4 of SDSS Image Processing I: The Deblender~\citep{lupton2005}}. Other flags would remove too many sources that have only small 'defects', eg. 64 (interpolated) is on for a bright source on the footprint of which there is a cosmic ray, and 65 (bad) is on for any source which has even one bad pixel in the footprint. A comparison of the initial source count to the final source count (after cleaning) is shown on Fig.~\ref{fig:lsst_count_comparison}, with detailed count in  Table ~\ref{tab:lsst_summary}.
+We clean the LSST source catalog by removing sources that have flags 'edge' or 'interpolatedCenter'\footnote{This is similar to the example in Sec.4 of SDSS Image Processing I: The Deblender~\citep{lupton2005}}. Other flags would remove too many sources that have only small 'defects', flag 'interpolated' may be on for a bright source across the footprint of which there is a cosmic ray, and flag 'bad' may be on for any source which has even one bad pixel in the footprint. A comparison of the initial source count to the final source count (after cleaning) is shown on Fig.~\ref{fig:lsst_count_comparison}, with detailed counts in  Table ~\ref{tab:lsst_summary}.
 
-% ###  is it possible to break the table over multiple pages in this template ?  
-% Otherwise would need to cut on the description
-% but I think it should be here ... 
-%\begin{table}
-%\centering
+
 \begin{landscape}
 \begin{longtable}{cccccccccccc}
-%\begin{tabular}{cccccccccccc}
 Visit & $N_{raw}$ & $(N_{f})$ & $-N_{r}$ & $=N_{c}$ & $N_{c}$/deg$^{2}$ & $N_{MAF}$/deg$^{2}$ & $\rho_{MAF}$ & $N_{loSN}$ & $N_{parents}$ & $N_{blended}$ & $N_{deblended}$ \\
 568172 & 29809 & 9148 & 12434 & 17375 & 6241 & 72072 & 21.3 & 12986 & 153919 & 77723 & 289200 \\
 527319 & 120862 & 13744 & 39638 & 81224 & 29175 & 79632 & 19.9 & 34282 & 112848 & 28212 & 86196 \\
