@@ -26,15 +26,21 @@ K.~Suberlak, C.~Slater, \v{Z}.~Ivezi\'c}
 \setDocAbstract{
 A report on the performance of current LSST Stack pipelines in crowded stellar fields. We use the DECAPS data to define the photometry and astrometry quality assurance metrics. 
 
-% describe completeness for a given density level : focus  on a particular visit - best use the 
-% 5% region, that is at the edge of the exclusion zone 
-The mean completeness of LSST detections compared to DECAPS between 18-20 mag is at the level of 82\% for regions where DECAPS measured 200 000 sources per sq. deg. (top 10 \% density). For the same density, the completeness drops to 50\% at 21.2 mag, whereas DECAPS $5 \sigma$ limiting depth is 
+% 644035
+In the top 10\% region, where DECAPS detects 200 000 sources per sq.deg., the mean LSST-DECAPS completeness in 18-20 mag is 80\%, and it drops to 50\% at 21.5 mag. For the same visit, the DECAPS $5\sigma$ limiting depth is 23 mag. 
+
+% 566793 
+For a top 2\% region, within the exclusion zone, in which DECAPS detects 500 000 sources per sq.deg., the mean completeness in 18-20 mag of LSST to DECAPS source-by-source is 78\%, and it drops to 50\% at 20.2 mag.  For the same visit, the DECAPS $5\sigma$ limiting depth is 23.2 mag. 
+
+
 
 The systematic offset in photometry  (the difference between the median photometric uncertainty and the measure of internal photomtric repeatability) at 21 mag for the density of 200 000 sources per sq.deg.  is 0.06 mag. 
 
-The LSST photometry is consistent with DECAPS at  0.05 mag  level over a wide range of densities. The mean  photometric offset between 16-20 mag stays at this level up to a density of 400 000 sources per sq.deg., corresponding to top 5\% density regions.
+% here we refer to Fig. 22
+The LSST photometry is consistent with DECAPS. Above 19th mag, LSST and DECAPS are in systematics-dominated regime, consistent at 0.02 mag level. At fainter magnitudes, the scatter between LSST and DECAPS is less than the photometric uncertainty. 
 
-The spread of astrometric repeatability  for LSST  epoch-to-epoch is at the level of 10 miliarcsec, with no significant dependence on stellar crowdedness.}  
+% here we refer to Fig. 27
+The spread of astrometric repeatability  for LSST  epoch-to-epoch is at the level of 10-30 miliarcsec, and is not strongly dependent on stellar crowdedness. 
 
 
 
@@ -433,8 +439,7 @@ For each visit that corresponds to a given level of crowdedness, we consider the
 \begin{centering}
 \includegraphics[width=0.75\columnwidth]{figs/completeness_4_panels_nomarker.png}
 %\vskip -0.15in
-\caption{Different colors correspond to different level of stellar crowdedness, expressed in terms of the number of sources per square degree in DECAPS clean catalogs. Top two panels show source-to-source completeness.  The first panel is a measure of how complete is LSST catalog to DECAPS catalog (L-D),  i.e. the fraction of DECAPS sources per magnitude bin that have an LSST match.   The second panel shows an equivalent plot for the completeness of DECAPS to LSST (D-L), plotting the fraction of LSST sources that have a DECAPS match.  	
-The LSST-DECAPS completeness falls off quicker than DECAPS-LSST, since DECAPS catalog has more sources at fainter magnitudes (see Fig.~\ref{fig:lsst_count_comparison}). The bottom two panels show the normalized source counts  in the input catalogs.  We further characterize completeness by $\langle C_{18-20} \rangle$ - the mean completeness between 18-20 mag , and $m_{50}$ - the magnitude at which completeness falls to a 50\% level (see Fig.~\ref{fig:completeness_characterize}}
+\caption{Top two panels show source-to-source completeness.  The first panel is a measure of how complete is LSST catalog to DECAPS catalog (L-D),  i.e. the fraction of DECAPS sources per magnitude bin that have an LSST match.   The second panel shows an equivalent plot for the completeness of DECAPS to LSST (D-L), plotting the fraction of LSST sources that have a DECAPS match.  The bottom two panels show the normalized source counts  in the input catalogs. The LSST-DECAPS completeness falls off quicker than DECAPS-LSST, since DECAPS catalog has more sources at fainter magnitudes (see Fig.~\ref{fig:lsst_count_comparison}). Different colors correspond to different level of stellar crowdedness, expressed in terms of the number of sources per square degree in DECAPS clean catalogs.  We further characterize completeness by $\langle C_{18-20} \rangle$ - the mean completeness between 18-20 mag , and $m_{50}$ - the magnitude at which completeness falls to a 50\% level (see Fig.~\ref{fig:completeness_characterize}}
 \label{fig:completeness}
 \end{centering}
 \end{figure} 
