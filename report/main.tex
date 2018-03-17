@@ -477,20 +477,11 @@ An offset and a spread in magnitude difference is due to details of each image p
 
 We compare the photometric repeatability within each pipeline, as well as the existence of offset and spread between two different pipeines. We test pipeline repeatability by investigating two visits at the same locations,  taken in same filters, with equal exposure times.  Assuming that the majority of objects are non-variable in nature, we find the statistical epoch-to-epoch variance. 
 
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.6\columnwidth]{figs/15_decaps_lsst_dmag_density_15.png}
-%\vskip -0.15in
-\caption{Difference in magnitudes between the DECAPS and LSST magnitudes for sources matched within 0.5 \arcsec for a region in top 15\% density (611970) . The magenta dashed line traces the $\pm \sigma_{G}(\Delta m)$ level, and yellow circles the median.  $\sigma_{G} = 0.7413 * (q75 - q25)$, where $q75$ and $q25$ are 75th and 25th percentiles, is an interquartile-based measure of standard deviation, that is insensitive to the outliers. For this stellar density, the offset between LSST and DECAPS is on the level of 0.05 mag. The same quantities ($\sigma_{G}$, median($\Delta m$)) plotted for fields of various stellar densities are shown on Fig.~\ref{fig:lsst_decaps_dmag}. The histograms of $\Delta mag$ per magnitude bin are shown on Fig.~\ref{fig:dmag_hist}.}
-\label{fig:dmag_scatter}
-\end{centering}
-\end{figure} 
-
 
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/16_rms_decaps_lsst_611970hist_panel.png}
 %\vskip -0.15in
-\caption{Cross-section of Fig.~\ref{fig:dmag_scatter}, showing the histogram of $\Delta mag$ per DECAPS magnitude bin. The vertical red line corresponds to the median value of $\Delta mag$ in that bin, and each histogram is limited between $\pm 4 \, \sigma_{G}$. }
+\caption{Cross-section of a difference in magnitudes between DECAPS and LSST for a visit 611970. Each panel contains the histogram of $\Delta mag$ per DECAPS magnitude bin. The vertical red line corresponds to the median value of $\Delta mag$ in that bin, and each histogram is limited between $\pm 4 \, \sigma_{G}$. }
 \label{fig:dmag_hist}
 \end{figure} 
 
@@ -614,7 +605,7 @@ The scatter between the two pipelines calculated either for epoch1 or epoch2 :  
 \begin{centering}
 \includegraphics[width=0.95\columnwidth]{figs/photometric_offset_combined.png}
 %\vskip -0.15in
-\caption{The left panel shows the measure of systematic offset between mean photometric error, and the photometric repeatability for the LSST pipeline as a function of magnitude (see Figs.~\ref{fig:spread_1},~\ref{fig:spread_2}. Colors correspond to mean DECAPS stellar density. Right panel shows $\sigma_{S}$ at 21st magnitude  as a function of stellar density.}
+\caption{The left panel shows the measure of systematic offset between mean photometric error, and the photometric repeatability for the LSST pipeline as a function of magnitude (see Figs.~\ref{fig:spread_1},~\ref{fig:spread_2}. The vertical line marks the level of 21 mag, at which we measure $\sigma_{S}$ :$\sigma_{S}[21]$. The right panel shows $\sigma_{S}[21]$  as a function of DECAPS stellar density.}
 \label{fig:spread_summary}
 \end{centering}
 \end{figure} 
