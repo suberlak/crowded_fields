@@ -23,14 +23,18 @@ K.~Suberlak, C.~Slater, \v{Z}.~Ivezi\'c}
 \date{\today}
 \setDocRevision{TBD}
 \setDocStatus{draft}
-\setDocAbstract{%
-A report on the performance of current LSST Stack pipelines in crowded stellar fields. We use the DECAPS data to define the photometry and astrometry quality assurance metrics. The mean completeness of LSST detections compared to DECAPS between 18-20 mag is at the level of 82\% for regions with 200 000 sources per sq. deg. (top 10 \% density). For the same density, the completeness drops to 50\% at 21.2 mag.  
+\setDocAbstract{
+A report on the performance of current LSST Stack pipelines in crowded stellar fields. We use the DECAPS data to define the photometry and astrometry quality assurance metrics. 
+
+% describe completeness for a given density level : focus  on a particular visit - best use the 
+% 5% region, that is at the edge of the exclusion zone 
+The mean completeness of LSST detections compared to DECAPS between 18-20 mag is at the level of 82\% for regions where DECAPS measured 200 000 sources per sq. deg. (top 10 \% density). For the same density, the completeness drops to 50\% at 21.2 mag, whereas DECAPS $5 \sigma$ limiting depth is 
 
 The systematic offset in photometry  (the difference between the median photometric uncertainty and the measure of internal photomtric repeatability) at 21 mag for the density of 200 000 sources per sq.deg.  is 0.06 mag. 
 
 The LSST photometry is consistent with DECAPS at  0.05 mag  level over a wide range of densities. The mean  photometric offset between 16-20 mag stays at this level up to a density of 400 000 sources per sq.deg., corresponding to top 5\% density regions.
 
-The spread of astrometric repeatability  for LSST  epoch-to-epoch is at the level of 10 miliarcsec, with no significant dependence on stellar crowdedness. }  
+The spread of astrometric repeatability  for LSST  epoch-to-epoch is at the level of 10 miliarcsec, with no significant dependence on stellar crowdedness.}  
 
 
 
@@ -100,13 +104,6 @@ The upper axis represents the dimensionless demnsity parameter $N_{beam} = N_{st
 \end{figure} 
 
 
-\begin{figure}
-\centering
-\includegraphics[width=0.75\columnwidth]{figs/MAF_DECAPS_comparison.png}
-%\vskip -0.15in
-\caption{Comparison of DECAPS counts in the cleaned catalog (red dots) and raw single-epoch catalog (blue dots), vs. Galfast simulated stellar count in that region of the sky.  Overplotted are the line of equivalence y=x, and its multipicities (2x,3x). It shows that the simulation may be not more accurate than up to a factor of a few, but it is nevertheless useful for defining density regions. Part of the reason for discrepancy could be the order-of-magnitude nature of the experiment - Galfast counts here assume the single-visit depth of 24.5 mag in r-band. The DECAPS exposure time ($\approx$100 sec) and filter (g, or r) were chosen to mimic that depth as close as possible, but the regions targeted include much extinction, which means that in some cases DECAPS counts may be less than implied by the simulation. Different zero-point magnitude dependent on seeing conditions could also contribute to the depth probed by DECAPS.  However, there is a number of fields that lie along the blue line, implying that in some cases the Galfast counts were very close to the true counts.}
-\label{fig:maf_decaps_compare}
-\end{figure} 
 
 
 We illustrate the location of pixels representative of various density brackets on the sky in Fig.~\ref{fig:mollw_galactic}. 
@@ -133,7 +130,17 @@ To analyze the performance of the LSST Stack with real data, we used the Dark En
 
 
 We cross-matched the DECAPS image database with the  stellar density information contained in MAF healpixels. Each DECAPS image plane is tiled by a mosaic of 62 CCDs (see Fig.~\ref{fig:decam_mosaic_ccd}). The size of each CCD element of the DECAm image plane mosaic is 2046x4094 pixels, with pixel scale of 0.27 arcsec / px , so that a single mosaic element covers an area of 0.047117 square \degree. A single DECam exposure is also called a visit, and with 62 mosaic elements the full field of view  2.2\degree wide is several times bigger than the full moon. This makes it comparable to the LSST 3.5\degree wide field of view.  Using the coordinates of the center of each DECAPS field  we found the nearest healpixel within 0.5\degree . 
-% Matching MAF healpixels are at locations very close to that of the DECam images, since if we consider the full DECam image mosaic being inscribed in a rectangle, it would  have a diagonal of approximately 1.5\degree, or a circle that has a  radius of approximately 0.75\degree. 
+
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\columnwidth]{figs/MAF_DECAPS_comparison.png}
+%\vskip -0.15in
+\caption{Comparison of DECAPS counts in the cleaned catalog (red dots) and raw single-epoch catalog (blue dots), vs. Galfast simulated stellar count in that region of the sky.  Overplotted are the line of equivalence y=x, and its multipicities (2x,3x). It shows that the simulation may be not more accurate than up to a factor of a few, but it is nevertheless useful for defining density regions. Part of the reason for discrepancy could be the order-of-magnitude nature of the experiment - Galfast counts here assume the single-visit depth of 24.5 mag in r-band. The DECAPS exposure time ($\approx$100 sec) and filter (g, or r) were chosen to mimic that depth as close as possible, but the regions targeted include much extinction, which means that in some cases DECAPS counts may be less than implied by the simulation. Different zero-point magnitude dependent on seeing conditions could also contribute to the depth probed by DECAPS.  However, there is a number of fields that lie along the blue line, implying that in some cases the Galfast counts were very close to the true counts.}
+\label{fig:maf_decaps_compare}
+\end{figure} 
+
 
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/05_Fig_4_3_NOAO_DECam_ccd_mosaic.png}
