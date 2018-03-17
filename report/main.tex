@@ -240,7 +240,7 @@ flag & General Failure Flag \\
 \end{tabular}
 \end{table}
 
-We clean the LSST source catalog by removing sources that have flags 'edge' or 'interpolatedCenter'\footnote{This is similar to the example in Sec.4 of SDSS Image Processing I: The Deblender~\citep{lupton2005}}. Other flags would remove too many sources that have only small 'defects', flag 'interpolated' may be on for a bright source across the footprint of which there is a cosmic ray, and flag 'bad' may be on for any source which has even one bad pixel in the footprint. A comparison of the initial source count to the final source count (after cleaning) is shown on Fig.~\ref{fig:lsst_count_comparison}, with detailed counts in  Table ~\ref{tab:lsst_summary}.
+We clean the LSST source catalog by removing sources that have flags 'edge' or 'interpolatedCenter'\footnote{This is similar to the example in Sec.4 of SDSS Image Processing I: The Deblender~\citep{lupton2005}}. Other flags would remove too many sources that have only small defects, eg. flag 'interpolated' may be on for a bright source across the footprint of which there is a cosmic ray, while flag 'bad' may be on for any source which has even one bad pixel in the footprint. A comparison of the initial source count to the final source count (after cleaning) is shown on Fig.~\ref{fig:lsst_count_comparison}, with detailed counts in  Table ~\ref{tab:lsst_summary}.
 
 
 \begin{landscape}
@@ -392,7 +392,9 @@ Visit & $N_{raw}$ & $(N_{f})$ & $-N_{r}$ & $=N_{c}$ & $N_{c}$/deg$^{2}$ & $N_{MA
 \begin{centering}
 \includegraphics[width=0.9\columnwidth]{figs/decaps_lsst_source_count.png}
 %\vskip -0.15in
-\caption{A plot of source count comparing LSST to DECAPS source catalogs of the same fields (visits). On the left panel blue dots mark raw source count, i.e. count of the input LSST  source catalog or DECAPS single-epoch catalog. The source catalog count was converted to number of sources per square degree, since in some cases not all CCDs were processed.  Orange dots mark the count of clean sources (see Fig.~\ref{fig:lsst_sources}). As we would expect, between raw and clean catalogs the points on the diagram move vertically from top to bottom, and horizontally from right to left. For exact counts in each stellar field, see LSST counts Table ~\ref{tab:lsst_summary} and DECAPS counts Table ~\ref{tab:decaps_summary}.  The right panel shows the effect of excluding faint sources on the clean catalog: selecting only bright sources (m<19),  DECAPS and LSST counts for all visits are closer to each other. Only adding faint sources do we reach the situation in the left panel (eg. m<23), where LSST significantly looses faint sources. }
+\caption{A plot of source count comparing LSST to DECAPS source catalogs of the same fields (visits). 
+On each panel we plot the number of counts up to a given magnitude, increasing the depth clockwise. 
+The bottom right panel shows all sources without magnitude limits. For exact counts in each stellar field, see  Tables ~\ref{tab:lsst_summary} and Table ~\ref{tab:decaps_summary}.}
 \label{fig:lsst_count_comparison}
 \end{centering}
 \end{figure} 
