@@ -81,20 +81,20 @@ We compare the results of the LSST and DECAPS processing of the same visits by c
 
 \section{Identifying density regions}
 \label{sec:MAF}
-To identify regions representing different stellar densities we use the LSST Galfast Metrics Analysis Framework \footnote{\url{https://www.lsst.org/scientists/simulations/maf}, and \url{https://github.com/lsst/sims_maf}} simulated stellar density map prepared by P. Yoachim and L. Jones
-\footnote{\url{sims_maf/python/lsst/sims/maf/maps/createStarDensitymap.py}}
+To identify regions representing different stellar densities we use the Galfast simulated stellar density map  
+prepared as part of Metrics Analysis Framework\footnote{\url{https://www.lsst.org/scientists/simulations/maf} by P. Yoachim and L. Jones\footnote{\url{sims_maf/python/lsst/sims/maf/maps/createStarDensitymap.py}}.
 
-The  resulting dataset \verb|starDensity_r_nside_64.npz| contains 64 magnitude bins between 15 and 28 mag, with each bin containing the cumulative count of sources per square degree, with the entire sky divided into 49152  healpixels \footnote{\url{http://healpix.sourceforge.net}} - see Fig.~\ref{fig:MAF_densities}.
+The  resulting dataset describes the simulated sky, divided into 49152 healpixels. Each healpixel contains 64 magnitude bins between 15 and 28 mag, each bin storing the cumulative count of sources per square degree \footnote{Healpix stands for Hierarchical Equal Area isoLatitude Pixelization\url{http://healpix.sourceforge.net}\cite{gorski2005}}. We select the bin corresponding to the LSST single-visit depth of r=24.5. For each healpixel we find the fraction of pixels that have a higher stellar count (see Fig.~\ref{fig:MAF_densities}).
+
 
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/MAF_densities.png}
 %\vskip -0.15in
-\caption{Galfast healpixels plotted in galactic coordinates in Mollweide projection. The brightest regions correspond to highest stellar densities. The missing part in the higher declination is the part of the sky above $\delta>40 \degree$, which is not observable from the southern location of Cerro Pach\'on.}
+\caption{Galfast healpixels plotted in galactic coordinates in Mollweide projection. The brightest regions correspond to highest stellar densities. The missing part at  $\delta>40 \degree$  is not observable from the southern location of Cerro Pach\'on, hence excluded from the simulation. The red dashed lines outline the Galactic exclusion zone. }
 \label{fig:MAF_densities}
 \end{figure} 
-%### add exclusion / confusion zone on top of the MAF Galfast count?   
 
-To match the LSST single-visit depth,  we select magnitude bins smaller than r=24.5.   For each healpixel we calculate the number of pixels that have a higher stellar count.  Since each healpixel has an equal area, the fraction of pixel number above a certain threshold corresponds to the fraction of sky area above given density limit.  Fig.~\ref{fig:illustrate_density} illustrates how we define percentiles of stellar densities, so that eg. 'top 1\%' density means that only 1 in 100 pixels has a higher density than a given pixel, and 'top 10\%' means that '10 \%' of pixels in the considered simulation of the sky. 
+Since by definition each healpixel has an equal area, the fraction of pixels  corresponds to the fraction of the sky area. We choose to describe the level of stellar crowdedness by the percentage of the sky that has a higher density. Thus eg.  '5\%' density means that only 1 in 100 pixels has a higher density (see Fig.~\ref{fig:illustrate_density}).
 
 \begin{figure}
 \centering
