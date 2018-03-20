@@ -331,48 +331,59 @@ We illustrate on a CCD level relatively bright (18<m<20), high S/N DECAPS source
 
 
 
-
-
 \subsection{Photometry}
 \label{sec:photometry}
 
-We consider here photometric accuracy. Since both DECAPS and LSST processing pipelines start from the same instcal calibrated DECam images, they ought arrive at similar measurement of flux, and in turn, instrumental magnitudes.  
+We compare the photometric accuracy between LSST and DECAPS, and  photometric repeatability within each pipeline.  
 
-We test photometric repeatability comparing source catalogs corresponding to visits in the same location, with identical filter and exposure time.  
+Cross-matching LSST and DECAPS source catalogs, we find that the median offset is stable as a function of magnitude in range 16-20 mag, on the level < 0.1 mag (top panel of Fig.~\ref{fig:lsst_decaps_dmag}).
+The spread of magnitude difference increases as a function of magnitude (Fig.~\ref{fig:dmag_hist}, and middle panel of Fig.~\ref{fig:lsst_decaps_dmag}), < 0.05 mag at 20 mag.  
 
-%Assuming that the majority of objects are non-variable in nature, we find the statistical epoch-to-epoch variance. 
-
-
-Using the DECAPS image database for several visits we found a second visit at exactly the same location, filter and exposure time, but different epoch (see Table ~\ref{tab:epoch12_selection}).  This allowed to test the epoch-epoch photometric repeatability of DECAPS-LSST. We illustrate the  magnitude differences on Figs.~\ref{fig:decaps_decaps_dmag} and \ref{fig:lsst_lsst_dmag}, and the summary of the spread of photometric difference as a function of magnitude on Figs.~\ref{fig:epoch_lsst_multiplot} and ~\ref{fig:epoch_decaps_multiplot}. 
-
-
-We summarize the information about the photometric repeatability (epoch-to-epoch within a given pipeline), and offset (pipeline-to-pipeline of the same epoch), by combining information from  Figs.~\ref{fig:lsst_decaps_dmag},~\ref{fig:epoch_lsst_multiplot}, ~\ref{fig:epoch_decaps_multiplot}. 
-
-On Fig.~\ref{fig:spread} and ~\ref{fig:spread_summary} we compare the spread of photometric scatter between the 
-two pipelines and  the empirical measurement of noise from repeatability for a pair of visits at the same location. 
-
-We consider visits  525846 and 530012, called epoch1 and epoch2. 
-
-For each we first calculate the $\sigma_{G}(a,b)$  - the interquartile-based measure of spread of magnitude difference between measurements $a$ and $b$ of the same source. 
-
-The spread of photometric scatter within the same pipeline, epoch-to-epoch: $\sigma_{G}(L1, L2)$, and $\sigma_{G}(D1,D2)$, correspond to the empirical measure of noise. 
-
-$\sigma_{G}(L1, L2)$  is also plotted on the middle panel of Fig.~\ref{fig:epoch_lsst_multiplot}, while  $\sigma_{G}(D1,D2)$ is the same as that of Fig.~\ref{fig:epoch_decaps_multiplot}. 
-
-The median error reported by either pipeline for either epoch is a measure of Poisson noise - the expected uncertainty in a repeated measurement. 
-
-The scatter between the two pipelines calculated either for epoch1 or epoch2 :  $\sigma_{G}(D1,L1)$, or $\sigma_{G}(D2,L2)$). 
-
+We also test the photometric repeatability (LSST-LSST, Fig.~\ref{fig:lsst_lsst_dmag} or DECAPS-DECAPS, Fig.~\ref{fig:decaps_decaps_dmag}) cross-matching  source catalogs for visits at exactly the same location, with matching exposure time and filter, representing different epochs.  
 
 
 \begin{figure}
 \begin{centering}
 \includegraphics[width=1.1\columnwidth]{figs/rms_decaps_lsst_611970hist_panel.png}
 %\vskip -0.15in
-\caption{Cross-section of a difference in magnitudes between DECAPS and LSST for a visit 611970. Each panel contains the histogram of $\Delta mag$ per DECAPS magnitude bin. The vertical red line corresponds to the median value of $\Delta mag$ in that bin, and each histogram is limited between $\pm 4 \, \sigma_{G}$. THe vertical dot-dashed green lines mark the median $\pm \sigma_{G}$. }
+\caption{Cross-section of a difference in magnitudes between DECAPS and LSST for a visit 611970. Each panel contains the histogram of $\Delta mag$ per DECAPS magnitude bin. The vertical red line corresponds to the median value of $\Delta mag$ in that bin, and each histogram is limited between $\pm 4 \, \sigma_{G}$. The vertical dot-dashed green lines mark the median $\pm \sigma_{G}$. }
 \label{fig:dmag_hist}
 \end{centering}
 \end{figure} 
+
+
+On Fig.~\ref{fig:spread} and ~\ref{fig:spread_summary} we compare the spread of photometric scatter between the two pipelines and  the empirical measurement of noise from repeatability for a pair of visits at the same location. 
+
+The median error reported by either pipeline for either epoch is a measure of Poisson noise - the expected uncertainty in a repeated measurement.  If $e_{1L}$ and $e_{2L}$ are LSST-reported error measurements for a given source for the two epochs,  the quadrature-mean is  
+
+\begin{equation}
+\label{eq:error}
+e_{12} = \sqrt{e_{1L}^{2} + e_{2L}^{2}} / \sqrt{2}
+\end{equation}
+
+
+The scatter between the two pipelines calculated either for epoch1 or epoch2 :  $\sigma_{G}(D1,L1)$, or $\sigma_{G}(D2,L2)$. We find the quadrature-mean:
+
+\begin{equation}
+\label{eq:spread}
+\sigma_{G}(DL) = \sqrt{\sigma_{D1,L1}^{2} + \sigma_{D2,L2}^{2}} / \sqrt{2}
+\end{equation}
+
+
+The scatter between the two epochs within the same pipeline:   $\sigma_{G}(D1,D2)$, or $\sigma_{G}(L1,L2)$, consists of  noise $\sigma_{E} $ and the systematic offset $\sigma_{S}$ : 
+
+\begin{equation}
+\sigma_{LL}^{2} = \sigma_{S}^{2} + \sigma_{E}^{2}
+\end{equation}
+
+Thus we calculate the systematic offset for LSST as:
+
+\begin{equation}
+\label{eq:systematics}
+\sigma_{S} = \sqrt{\sigma_{LL}^2  - \sigma_{E}^{2}}
+\end{equation}
+
+
 
 
 \begin{figure}
@@ -389,8 +400,8 @@ The scatter between the two pipelines calculated either for epoch1 or epoch2 :  
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/lsst-lsst_rms_plot.png}
 %\vskip -0.15in
-\caption{The internal repeatability test of the LSST pipeline. We cross-match the source catalogs for each visit. These two brightness measurements for the same source are akin to a two-epoch light curve. Since inherently variable sources constitute a small fraction of all stellar objects, and the majority of stars are not variable, the difference in the measured magnitudes would correspond to the empirical measure of noise.  All sources cross-matched within 0.5\arcsec are binned according to their brightness. On the panels we plot, from top to bottom: median photometric offset, the robust interquartile-based measure of standard deviation $\sigma_{G}$, and the median reported measurement uncertainty.}
-\label{fig:epoch_lsst_multiplot}
+\caption{The repeatability test of the LSST pipeline. We cross-match the source catalogs for each visit. These two brightness measurements for the same source are akin to a two-epoch light curve. Since inherently variable sources constitute a small fraction of all stellar objects, and the majority of stars are not variable, the difference in the measured magnitudes would correspond to the empirical measure of noise.  All sources cross-matched within 0.5\arcsec are binned according to their brightness. On the panels we plot, from top to bottom: median photometric offset, the robust interquartile-based measure of standard deviation $\sigma_{G}$, and the median reported measurement uncertainty.}
+\label{fig:lsst_lsst_dmag}
 \end{centering}
 \end{figure} 
 
@@ -399,8 +410,8 @@ The scatter between the two pipelines calculated either for epoch1 or epoch2 :  
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/decaps-decaps_rms_plot.png}
 %\vskip -0.15in
-\caption{The internal repeatability test of DECAPS pipeline - for description, see Fig.~\ref{fig:epoch_lsst_multiplot}.}
-\label{fig:epoch_decaps_multiplot}
+\caption{The repeatability test of the DECAPS pipeline, as Fig.~\ref{fig:lsst_lsst_dmag}.}
+\label{fig:decaps_decaps_dmag}
 \end{centering}
 \end{figure} 
 
@@ -409,8 +420,7 @@ The scatter between the two pipelines calculated either for epoch1 or epoch2 :  
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/photometric_spread_2_525846-530012.png}
 %\vskip -0.15in
-\caption{Analysis of  photometric spread. The solid blue and red lines of $\sigma_{G}$  represent the spread in photometry within each pipeline. The dashed purple line in the middle is the average reported error between the two epochs: a measure of Poisson noise. Finally, the bottom solid green line with square markers is the spread in photometry between the two pipelines.  Since LSST and DECAPS errors are almost identical, we choose to represent the minimum statistical offset by the mean LSST error between the two visits , added in quadrature . If $e_{1L}$ and $e_{2L}$ are LSST-reported error measurements for a given source for the two epochs,  the quadrature-mean is  $e_{12} = \sqrt{e_{1L}^{2} + e_{2L}^{2}} / \sqrt{2}$, and the purple dashed line is the median of $e_{12}$ per magnitude bin. We also add in quadrature the spread between the two pipelines: $\sigma_{DL,1}$ for epoch1, and $\sigma_{DL,2}$ for epoch2 : $\sigma_{DL} = \sqrt{\sigma_{DL,1}^{2} + \sigma_{DL,2}^{2}} / \sqrt{2}$.  Note that since the top blue (or red) lines $\sigma_{G}(LSST,1 - LSST,2)$, $\sigma_{G}(DECAPS,1 - DECAPS,2)$   ($\sigma_{DD}$, $\sigma_{LL}$ for short) consists of noise $\sigma_{E} $ and the systematic offset $\sigma_{S}$ : $\sigma_{LL}^{2} = \sigma_{S}^{2} + \sigma_{E}^{2}$. Thus we calculate the systematic offset for LSST as  $\sigma_{S} = \sqrt{\sigma_{LL}^2  - \sigma_{E}^{2}}$, which is the difference between  blue solid and purple dashed lines. 
-}
+\caption{Analysis of the photometric spread with two visits in a low density region:  525846 (epoch1) and 530012 (epoch2). The solid blue and red lines represent the spread in photometry within each pipeline ($\sigma_{G}(L1,L2)$, $\sigma_{G}(D1,D2)$) . The purple dashed line in the middle traces the average reported error between the two epochs, $e_{12}$ (Eq.~\ref{eq:error}), which is a measure of the Poisson noise. Finally, the bottom solid green line with square markers is the spread in photometry between the two pipelines, $\sigma_{G}(DL)$ (Eq.~\ref{eq:spread}). The difference between the purple dashed and red/blue lines is a measure of systematic noise (see Eq.~\ref{eq:systematics}, and Fig.~\ref{fig:spread_summary}).}
 \label{fig:spread}
 \end{centering}
 \end{figure} 
@@ -421,7 +431,7 @@ The scatter between the two pipelines calculated either for epoch1 or epoch2 :  
 \begin{centering}
 \includegraphics[width=0.95\columnwidth]{figs/photometric_offset_combined.png}
 %\vskip -0.15in
-\caption{The left panel shows the measure of systematic offset between mean photometric error, and the photometric repeatability for the LSST pipeline as a function of magnitude (see Figs.~\ref{fig:spread_1},~\ref{fig:spread_2}. The vertical line marks the level of 21 mag, at which we measure $\sigma_{S}$ :$\sigma_{S}[21]$. The right panel shows $\sigma_{S}[21]$  as a function of DECAPS stellar density.}
+\caption{The left panel shows the measure of systematic offset between mean photometric error, and the photometric repeatability for the LSST pipeline as a function of magnitude (Fig.~\ref{fig:spread}). The vertical line marks the level of 21 mag, at which we measure $\sigma_{S}$ :$\sigma_{S}[21]$. The right panel shows $\sigma_{S}[21]$  as a function of DECAPS stellar density.}
 \label{fig:spread_summary}
 \end{centering}
 \end{figure} 
