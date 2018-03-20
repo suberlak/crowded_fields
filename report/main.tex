@@ -46,10 +46,7 @@ The spread of astrometric repeatability  for LSST  epoch-to-epoch is at the leve
 % correct place with \maketitle
 % OLDEST FIRST: VERSION, DATE, DESCRIPTION, OWNER NAME
 \setDocChangeRecord{%
-\addtohist{1}{2017-07-16}{First draft.}{Krzysztof Suberlak}
-\addtohist{2}{2017-10-19}{Updated outline.}{Krzysztof Suberlak}
-\addtohist{2}{2018-01-25}{Major revision.}{Krzysztof Suberlak}
-\addtohist{2}{2018-03-04}{Reorganized the draft.}{Krzysztof Suberlak}
+\addtohist{1}{2018-03-20}{Final draft.}{Krzysztof Suberlak}
 }
 
 \begin{document}
@@ -75,65 +72,65 @@ To test performance of pipelines at different levels of stellar crowdedness, we 
 
 Given the expected stellar density as a function of position on the sky, we selected DECAPS fields, and processed them with LSST pipelines (Sec.~\ref{sec:DECAPS}). 
 
-We compare the results of the LSST and DECAPS processing of the same visits by cross-matching the catalogs and comparing source counts, photometry (Sec.~\ref{sec:LSST}), and astrometry (Sec.\ref{sec:astrometry}). We summarize the key results and suggest future work in Sec.~\ref{sec:conclusions}. 
+We compare the results of the LSST and DECAPS processing of the same visits by cross-matching the catalogs and comparing source counts, photometry (Sec.~\ref{sec:LSST}), and astrometry (Sec.~\ref{sec:astrometry}). We summarize the key results and suggest future work in Sec.~\ref{sec:conclusions}. 
 
 
+
+% #############################################################
+% ########################## MAF  ############################
+% #############################################################
 
 \section{Identifying density regions}
 \label{sec:MAF}
 To identify regions representing different stellar densities we use the Galfast simulated stellar density map  
-prepared as part of Metrics Analysis Framework\footnote{\url{https://www.lsst.org/scientists/simulations/maf} by P. Yoachim and L. Jones\footnote{\url{sims_maf/python/lsst/sims/maf/maps/createStarDensitymap.py}}.
+prepared as part of Metrics Analysis Framework\footnote{\url{https://www.lsst.org/scientists/simulations/maf}} by P. Yoachim and L. Jones\footnote{\url{sims_maf/python/lsst/sims/maf/maps/createStarDensitymap.py}}.
 
-The  resulting dataset describes the simulated sky, divided into 49152 healpixels. Each healpixel contains 64 magnitude bins between 15 and 28 mag, each bin storing the cumulative count of sources per square degree \footnote{Healpix stands for Hierarchical Equal Area isoLatitude Pixelization\url{http://healpix.sourceforge.net}\cite{gorski2005}}. We select the bin corresponding to the LSST single-visit depth of r=24.5. For each healpixel we find the fraction of pixels that have a higher stellar count (see Fig.~\ref{fig:MAF_densities}).
+The  resulting dataset describes the simulated sky, divided into 49152 healpixels. Each healpixel contains 64 magnitude bins between 15 and 28 mag, each bin storing the cumulative count of sources per square degree\footnote{Healpix stands for Hierarchical Equal Area isoLatitude Pixelization\url{http://healpix.sourceforge.net}\citep{gorski2005}}. We select the bin corresponding to the LSST single-visit depth of r=24.5. For each healpixel we find the fraction of pixels that have a higher stellar count (see Fig.~\ref{fig:MAF_densities}).
+
 
 
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/MAF_densities.png}
 %\vskip -0.15in
-\caption{Galfast healpixels plotted in galactic coordinates in Mollweide projection. The brightest regions correspond to highest stellar densities. The missing part at  $\delta>40 \degree$  is not observable from the southern location of Cerro Pach\'on, hence excluded from the simulation. The red dashed lines outline the Galactic exclusion zone. }
+\caption{Galfast healpixels plotted in galactic coordinates in Mollweide projection. The brightest regions correspond to highest stellar densities. The missing part at  $\delta>40 \degree$  is not observable from the southern location of Cerro Pach\'on, hence excluded from the simulation. The red dashed lines outline the galactic exclusion zone. }
 \label{fig:MAF_densities}
 \end{figure} 
 
-Since by definition each healpixel has an equal area, the fraction of pixels  corresponds to the fraction of the sky area. We choose to describe the level of stellar crowdedness by the percentage of the sky that has a higher density. Thus eg.  '5\%' density means that only 1 in 100 pixels has a higher density (see Fig.~\ref{fig:illustrate_density}).
+Since by definition each healpixel has an equal area, the fraction of pixels  corresponds to the fraction of the sky area. We choose to describe the level of stellar crowdedness by the percentage of the sky that has a higher density. Thus eg.  '5\%' density means that only 1 in 100 pixels has a higher density (see Fig.~\ref{fig:illustrate_density}). Fig.~\ref{fig:mollw_galactic} shows thus defined density brackets in Galactic coordinates.
 
 \begin{figure}
 \centering
 \includegraphics[width=0.95\columnwidth]{figs/MAF_density_definitions.png}
 %\vskip -0.15in
-\caption{Using the Galfast sky simulation to choose DECAPS fields sampliong different density regions.  The left panel shows  the stellar density as a function of the fraction of the sky at smaller density.  It is equivalent to the cumulative distribution function. Given the stellar density per simulated healpixel, we count the number of healpixels at greater density. Normalized to the number of pixels, given their equal area, it corresponds to the fraction of the sky at greater stellar density. Horizontal dashed lines illustrate selecting pixels at top 1\% or 10\% density. 
-The right panel focuses on the 1-CDF, converted to \% , between 1 and 25\%.  
-It implies that according to the simulation , the density of 200 000 stars per sq.deg. corresponds to 5\% of the sky, and only  1\% of the sky has more than $10^{6}$ stars per sq.deg. 
-The upper axis represents the dimensionless demnsity parameter $N_{beam} = N_{stars}/{arcsec}^{2} * A_{PSF}$, with the PSF effective area $A_{PSF} = 0.64 {arcsec}$.}
+\caption{Using the Galfast sky simulation to choose DECAPS fields sampling different density regions.  The left panel shows the fraction of the sky at a smaller density  as a function of  the stellar density.  It is equivalent to the cumulative area of the sky up to given density. Given the stellar density per simulated healpixel, we count the number of healpixels at greater density. Normalized to the number of pixels, given their equal area, it corresponds to the fraction of the sky at greater stellar density. Horizontal dashed lines illustrate selecting pixels at top 1\% or 10\% density. The right panel focuses on the top 25\% of density.  It implies that according to the simulation , the density of 200 000 stars per sq.deg. corresponds to 5\% of the sky, and only  1\% of the sky has more than 1 mln stars per sq.deg. The upper axis represents the dimensionless density parameter $N_{beam} = N_{stars}/{arcsec}^{2} * A_{PSF}$, with the PSF effective area $A_{PSF} = 0.64$ \arcsec.}
 \label{fig:illustrate_density}
 \end{figure} 
 
 
-
-
-We illustrate the location of pixels representative of various density brackets on the sky in Fig.~\ref{fig:mollw_galactic}. 
-
-
 \begin{figure}
-\includegraphics[width=1.0\columnwidth]{figs/03_density_regions_mollw_galactic.png}
+\includegraphics[width=0.9\columnwidth]{figs/03_density_regions_mollw_galactic.png}
 %\vskip -0.15in
-\caption{Illustration of location of regions representative of different relative simulated stellar densities in cylindrical projection, galactic coordinates. The x\% region  here means  x $\pm$ 1\%, eg.  5\% includes regions between 4-6\%. The highest density regions are located close to the galactic bulge, and regions of approximately constant stellar density trace isophotes of the Milky Way. The 20\% regions close to the galactic equator correspond to high extinction regions that appear to have less counts due to interstellar dust. The galactic exclusion zone in LSST is closely follows the 5\% region outline. }
+\caption{Regions representative of different simulated stellar densities. The x\%  here means  x $\pm$ 1\%, eg.  5\% includes regions between 4-6\%. The highest density regions are located close to the galactic bulge, and regions of approximately constant stellar density trace isophotes of the Milky Way. The few 20\% regions close to the galactic equator correspond to high extinction regions that appear to have less counts due to interstellar dust. The galactic exclusion zone in LSST is closely follows the 5\% region outline (see Fig.\ref{fig:MAF_densities}).}
 \label{fig:mollw_galactic}
 \end{figure} 
 
 
+% ###############################################################
+% ########################## DECAPS  ############################
+% ###############################################################
+
 \section{DECam Plane Survey }
 \label{sec:DECAPS}
-To analyze the performance of the LSST Stack with real data, we used the Dark Energy Camera (DECam) imaging, taken as part of the  DECam Plane Survey (DECAPS)~\cite{schlafly2017}, at the 4-m Cerro Tololo Inter-American Observatory telescope (CTIO)\footnote{see \url{http://www.ctio.noao.edu/noao/node/1033}}. On Fig.~\ref{fig:decaps_fields} we overlay the locations of all DECAPS fields on top  the MAF map of the LSST sky. All DECAPS single-epoch images were processed with the DECAPS pipeline, resulting in single-epoch catalogs. The details of DECAPS pipeline can be found in Schlafly et al. 2017~\cite{schlafly2017}. DECAPS pipeline was specifically designed for crowded field photometry. It performs DAOPhot-like procedure ~\ref{stetson1987}, but does not use DAOPhot. The algorithm performs repeated source detection, subtraction, and re-detection, which is different from the LSST pipeline. DECAPS pipeline simultaneously solves for the positions and fluxes for all stars for a small fragment of the CCD (see Sec.4 in ~\cite{schlafly2017}).  The headers of all DECAPS catalogs were assembled into the image database that contains information about single-visit exposure time, filter,  time of observation, position, etc. We used the image database to select DECAPS fields with single-epoch depth similar to that of the single-visit depth of 30 sec LSST  r-band exposure. Thus we selected DECAPS fields with  exposure between 90  and 125 sec, taken in   u, g, r,  or VR filter. 
+To test the performance of the LSST Stack with real data, we used the Dark Energy Camera (DECam) imaging, taken as part of the  DECam Plane Survey (DECAPS)~\cite{schlafly2017}, at the 4-m Cerro Tololo Inter-American Observatory telescope (CTIO)\footnote{see \url{http://www.ctio.noao.edu/noao/node/1033}}. Each DECAPS image plane is tiled by a mosaic of 62 CCDs, each  2046x4094 px, 0.27 \arcsec/px\footnote{See Fig.4-3 in the NOAO Data Handbook ~\citep{shaw2015}}. The FOV of full mosaic is 2.2\degree  wide -  several times bigger than the full moon - which makes it comparable to the LSST 3.5\degree field of view.  All DECAPS single-epoch images were processed with the DECAPS pipeline, resulting in single-epoch catalogs\footnote{All available via \url{http://decaps.skymaps.info/catalogs.html}}. The details of DECAPS pipeline can be found in Schlafly et al. 2017~\cite{schlafly2017}, but it was specifically designed for crowded field photometry,  performing DAOPhot-like procedure~\cite{stetson1987}, without employing DAOPhot. The algorithm performs repeated source detection, subtraction, and re-detection, which is different from the LSST pipeline. DECAPS pipeline simultaneously solves for the positions and fluxes for all stars for a small fragment of the CCD (see Sec.4 in ~\cite{schlafly2017}).  The headers of all DECAPS catalogs,  assembled into the image database with information about single-visit exposure time, filter,  time of observation, position, were  
+used to select fields in  u,g,r  filter, with exposure between 90 and 120 sec (to match the LSST 30 sec single-visit depth in r). Of these, we chose visits representative of given stellar densities based on the Galfast simulation (see Fig.~\ref{fig:decaps_fields}).  
 
 \begin{figure}
-\includegraphics[width=1.0\columnwidth]{figs/04_MAF_DECAPS_sources.png}
+\includegraphics[width=1.0\columnwidth]{figs/MAF_DECAPS.png}
 %\vskip -0.15in
-\caption{All DECAPS fields, overlaid on the map of healpixel stellar densities from MAF simulated sky.  We matched the position of the center of each DECAPS field to the nearest healpixel to obtain an estimate of stellar density at each DECAPS field. In this way we selected DECAPS fields representative of various stellar densities (eg. 5\%, 10\%, 15\%, as explained in Sec.~\ref{sec:MAF}). }
+\caption{DECAPS fields (red) plotted on top of the Galfast simulated stellar density map (counts up to r<24.5). Cross-matching DECAPS catalog to Galfast simulation we selected visits representative of diverse range of stellar densities.}
 \label{fig:decaps_fields}
 \end{figure} 
 
-
-We cross-matched the DECAPS image database with the  stellar density information contained in MAF healpixels. Each DECAPS image plane is tiled by a mosaic of 62 CCDs\footnote{See Fig.4-3 in the NOAO Data Handbook ~\citep{shaw2015}}. The size of each CCD element of the DECAm image plane mosaic is 2046x4094 pixels, with pixel scale of 0.27 arcsec / px , so that a single mosaic element covers an area of 0.047117 square \degree. A single DECam exposure is also called a visit, and with 62 mosaic elements the full field of view  2.2\degree wide is several times bigger than the full moon. This makes it comparable to the LSST 3.5\degree wide field of view.  Using the coordinates of the center of each DECAPS field  we found the nearest healpixel within 0.5\degree . 
 
 
 \begin{figure}
@@ -154,13 +151,17 @@ We cross-matched the DECAPS image database with the  stellar density information
 \end{figure} 
 
 
+% #############################################################
+% ########################## LSST  ############################
+% #############################################################
+
 \section{LSST Processing of DECAPS data}
 \label{sec:LSST}
 The calibrated DECAPS imaging was processed with the LSST Science Pipelines installed on the LSST-dev machine at the NCSA\footnote{\url{lsst-dev01.ncsa.illinois.edu} (141.142.237.49) OS: CentOS 7.4.1708   HW: Dell Inc. CPU: 48x 2.60GHz RAM: 252 GB}, with Stack version d\_2017\_10\_27\footnote{\url{https://eups.lsst.codes/stack/src/tags/}}.  We specifically employed processCcd.py and the standard Stack configuration. Transferring the resulting source catalogs and calexp files to a local machine we analyzed the output of LSST processing using jupyter notebooks and custom python tools. 
 
 To compare single epoch DECAPS catalogs to LSST source catalogs we used the image mask, deblender flags, and other quality flags. The cleaning process is described in this section. 
 
-%The big picture is to find how metrics that we develop behave as a function of source crowdedness. We consider completeness, and photometric accuracy. 
+
 
 \subsection{Cleaning DECAPS catalog, comparison to LSST pixel mask}
 \label{sec:clean_decaps}
@@ -423,10 +424,16 @@ parentID & nchild & type  & decision &  count \\
 \end{table}
 
 
+
+
 \section{Source detection and photometry}
 \label{sec:metrics}
 
 Starting with cleaned LSST and DECAPS source catalogs, we consider a set of metrics to compare the quality of LSST science pipelines to the  state-of-the-art DECAPS pipeline.  
+
+% #############################################################
+% ###################### completeness  ##########################
+% #############################################################
 
 \subsection{Completeness}
 
