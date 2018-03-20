@@ -164,27 +164,19 @@ Transferring the resulting source catalogs and image files to a local machine we
 
 Initially both DECAPS and LSST source catalogs contain good detections, as well as sources that are spurious, have a low S/N, or  are flagged due to some other detection/processing issue.  To clean both catalogs we used the DECAPS source flags, LSST source flags, and LSST image mask information.   
 
-First we compared whether the  DECAPS source flags are consistent with the LSST image mask. Confirming that they are, we decided to clean the DECAPS catalog with the DECAPS source level flags, removing sources that % ### CONTINUE HERE COMBINING ALL THE TEXT !!! 
+First we compared whether the  DECAPS source flags are consistent with the LSST image mask (Table ~\ref{tab:lsst_mask}). Confirming that they are, we decided to clean the DECAPS catalog with the DECAPS source level flags, removing edge detections, cosmic rays, or saturation spikes (see Table ~\ref{tab:decaps_flags}). 
 
+Then we followed a similar procedure with LSST source catalogs, removing those with flags  'edge' or 'interpolatedCenter'\footnote{This is similar to the example in Sec.4 of SDSS Image Processing I: The Deblender~\citep{lupton2005}. Other flags would remove too many sources that have only small defects, eg. for a bright source with a cosmic ray across its footprint a flag 'interpolated' would be on,  while flag 'bad' may be on for any source which has even one bad pixel in the footprint (Table~\ref{tab:lsst_flags}). }. 
 
+Moreover, only in case of LSST catalog we are provided with the deblender-level information with 'parentId' and 'nchild' information for each source. Since the LSST pipeline deblends sources in a similar fashion to the SDSS Imaging Pipeline\footnote{SDSS Image Processing I: The Deblender~\citep{lupton2005}, SDSS Image Processing II: The Photo Pipelines~\citep{lupton2001},~\citep{lupton2002}, and ~\citep{lupton2005a}}, based on 'parentId' and 'nchild' we retain only successfully deblended children, or isolated parents (see Table ~\ref{tab:lsst_deblend}, and Fig.\ref{fig:lsst_sources}). 
 
-Then, for the LSST source catalog 
-
-The LSST source catalog contains for each source a list of flags that could be set 'on' or 'off'. Of these, flags labeled \verb|base_PixelFlags_flag| contain information relevant to the level of source detection, rather than processing (see Table~\ref{tab:lsst_flags}).
-
-
-
-We clean the LSST source catalog by removing sources that have flags 'edge' or 'interpolatedCenter'\footnote{This is similar to the example in Sec.4 of SDSS Image Processing I: The Deblender~\citep{lupton2005}}. Other flags would remove too many sources that have only small defects, eg. flag 'interpolated' may be on for a bright source across the footprint of which there is a cosmic ray, while flag 'bad' may be on for any source which has even one bad pixel in the footprint. A comparison of the initial source count to the final source count (after cleaning) is shown on Fig.~\ref{fig:lsst_count_comparison}, with detailed counts in  Table ~\ref{tab:lsst_summary}.
-
-Given the single-epoch DECAPS source catalogs, and the LSST source catalogs, we followed a uniform set of procedures to clean both datasets, and in turn cross-match positionally. First we made a quality cut removing all sources with signal-to-noise ratio smaller than five:  $S/N < 5$. The number of sources thus removed depends on a visit number, but does not exceed few \% of the catalog. Following that we also removed sources with flags that correspond to bad, edge detections, cosmic rays, or saturation spikes (as outlined in Sec.~\ref{sec:clean_decaps} and ~\ref{sec:clean_lsst}). The LSST Processing Pipeline deblends sources in a similar fashion to the SDSS Imaging Pipeline\footnote{SDSS Image Processing I: The Deblender~\citep{lupton2005}, SDSS Image Processing II: The Photo Pipelines~\citep{lupton2001},~\citep{lupton2002}, and ~\citep{lupton2005a}}.   For the LSST source catalog,  we chose to keep only those sources that were either isolated parents ( parentId=0, nchild=0), or deblended children (parentId != 0 , nchild=0) (see Table ~\ref{tab:lsst_deblend} for details.)
-
-
+Finally, for both LSST and  DECAPS catalogs we made a quality cut on $S/N$, keeping only sources where $S/N > 5$.
 
 
 
 \begin{table}
 \centering
-\caption{LSST pixel mask.}
+\caption{LSST pixel mask. The decision is with reference to comparing specific LSST mask information to the DECAPS source flags.}
 \label{tab:lsst_mask}
 \begin{tabular}{ ccc} 
 \hline
@@ -203,10 +195,9 @@ Bit position & Description & Decision  \\
 \end{tabular}
 \end{table}
 
-
 \begin{table}
 \centering
-\caption{DECAPS flags.}
+\caption{DECAPS source flags.}
 \label{tab:decaps_flags}
 \begin{tabular}{ ccc} 
 \hline
@@ -225,29 +216,10 @@ Bit position & Description & Decision \\
 \end{tabular}
 \end{table}
 
-%\subsection{Cleaning DECAPS catalog}
-%\label{sec:clean_decaps}
-
-
- %We combined the calexp image mask value at the nearest pixel to every DECAPS source given its pixel coordinates.  The bitwise 'and' of image mask with mask filter $(11011111)_{2} = (2^{1}+2^{2}+2^{3}+2^{4}+2^{6}+2^{7})_{10}$ (see Table~\ref{tab:lsst_mask} for details ), flagged the source   as 'bad' if either of the flag bits apart from '5' (detected) was 'on'. 
-
-%Apart from LSST flags, each source also has a DECAPS pipeline flag, the value of which is made up of of bits inherited from the NOAO Community Pipeline (see Table~\ref{tab:decaps_flags}). We performed a bitwise 'and' of DECAPS flags with the mask filter $(2^{1}+ 2^{3}+  2^{4}+  2^{5}+  2^{6}+  2^{8}+  2^{20}+  2^{22})_{10}$, flagging the source as 'bad' if either of these mask bits were 'on'. 
-
-%Given the LSST and DECAPS flags, we compared which sources would be excluded based on the DECAPS source-level flags vs LSST pixel-level masks. We found for a random visit  611980  that the overlap between sources excluded by LSST pixel mask information versus DECAPS source flags is 99\%.  This means that the DECAPS flagging is consistent with the LSST image mask information, and the same sources would be 'excluded' based on either DECAPS flags or LSST mask information. For this reason we decided to clean the DECAPS catalog with  source level flags, rather than the LSST image mask data. 
- 
-
-%Pixel-level masks are encoded in 8 bits,  each of which can be 'on' or 'off', signifying that a given flag was 'on' or 'off' for a given pixel. The total value of the mask at each pixel is a decimal representation of such eight bits binary number, eg.  $(00100001)_{2} = 2^{0} + 2^{5}  = 1 + 32 = (33)_{10} $ means that bit $'0'$ and $'5'$ are 'on' (counting from the right). See Table~\ref{tab:lsst_flags} for details. 
-
-
-
-
-%\subsection{Cleaning the LSST catalog}
-%\label{sec:clean_lsst}
-
 
 \begin{table}
 \centering
-\caption{LSST source flags explanation.}
+\caption{LSST source flags.}
 \label{tab:lsst_flags}
 \begin{tabular}{cl}
 \hline
@@ -271,43 +243,9 @@ flag & General Failure Flag \\
 \end{table}
 
 
-
-
-\begin{figure}
-\begin{centering}
-\includegraphics[width=1.0\columnwidth]{figs/visit_527552_ccd_1.png}
-\caption{We illustrate the sources as reported by the LSST pipeline for a small region of CCD01 of visit 527552. A source may be reported as an isolated source (yellow),  or a successfully deblended child (green). In this analysis we only keep isolated parents or deblended children.}
-\label{fig:lsst_sources}
-\end{centering}
-\end{figure} 
-
-
-\begin{figure}
-\begin{centering}
-\includegraphics[width=1.1\columnwidth]{figs/visit_527552_ccd_1_lowSN.png}
-\caption{The same region as on Fig.~\ref{fig:lsst_sources}. Green circles mark the position of retained LSST sources: isolated parents, or deblended children, with  S/N > 5, and no bad flags. Red circles mark the position of DECAPS detections with an LSST match. Vertical magenta dashes are above the LSST sources with S/N < 5.   Blue dashed circles mark location of DECAPS source without an LSST match. Note that eg. at (x,y) = 50,1490  an LSST source was detected, but since its  S/N < 5 it was not kept in the clean LSST catalog.   }
-\label{fig:lsst_decaps_sources}
-\end{centering}
-\end{figure} 
-
-
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.9\columnwidth]{figs/decaps_lsst_source_count.png}
-%\vskip -0.15in
-\caption{A plot of source count comparing LSST to DECAPS source catalogs of the same fields (visits). 
-On each panel we plot the number of counts up to a given magnitude, increasing the depth clockwise. 
-The bottom right panel shows all sources without magnitude limits. For exact counts in each stellar field, see  Tables ~\ref{tab:lsst_summary} and Table ~\ref{tab:decaps_summary}.}
-\label{fig:lsst_count_comparison}
-\end{centering}
-\end{figure} 
-
-
-
-
 \begin{table}
 \centering
-\caption{ Summary of possible parentId and nchild combinations for blended sources in the LSST Science Pipeline. An example count in the final column is provided for visit 525814, a top 20\% density region, which has the raw source count 235307. For that visit  16811 sources had bad flags, 49901  had S/N < 5, and in total 163093 were kept in the clean catalog.  }
+\caption{Summary of possible parentId and nchild combinations for blended sources in the LSST Science Pipeline. An example count in the final column is provided for visit 525814, a top 20\% density region, which has the raw source count 235307. For that visit  16811 sources had bad flags, 49901  had S/N < 5, and in total 163093 were kept in the clean catalog.  }
 \label{tab:lsst_deblend}
 \begin{tabular}{cccccccc}
 parentID & nchild & type  & decision &  count \\
@@ -321,11 +259,47 @@ parentID & nchild & type  & decision &  count \\
 
 
 
+\begin{figure}
+\begin{centering}
+\includegraphics[width=1.0\columnwidth]{figs/visit_527552_ccd_1.png}
+\caption{We illustrate the sources as reported by the LSST pipeline for a small region of CCD01 of visit 527552. A source may be reported as an isolated source (yellow),  or a successfully deblended child (green). In this analysis we only keep isolated parents or deblended children.}
+\label{fig:lsst_sources}
+\end{centering}
+\end{figure} 
+
+
+
 
 \section{Source detection and photometry}
 \label{sec:metrics}
 
 Starting with cleaned LSST and DECAPS source catalogs, we consider a set of metrics to compare the quality of LSST science pipelines to the  state-of-the-art DECAPS pipeline.  
+
+
+We investigated bright, high S/N DECAPS sources that do not have an LSST match. We find that in most cases these sources in the LSST catalog have $S/N<5$ which led to their exclusion from the analysis (see Fig.~\ref{fig:lsst_decaps_sources}). We compare the count of  DECAPS to LSST sources in clean catalogs on Fig.~\ref{fig:lsst_count_comparison}. 
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=1.1\columnwidth]{figs/visit_527552_ccd_1_lowSN.png}
+\caption{The same region as on Fig.~\ref{fig:lsst_sources}. Green circles mark the position of retained LSST sources: isolated parents, or deblended children, with  S/N > 5, and no bad flags. Red circles mark the position of DECAPS detections with an LSST match. Vertical magenta dashes are above the LSST sources with S/N < 5.   Blue dashed circles mark location of DECAPS source without an LSST match. Note that eg. at (x,y) = 50,1490  an LSST source was detected, but since its  S/N < 5 it was not kept in the clean LSST catalog.   }
+\label{fig:lsst_decaps_sources}
+\end{centering}
+\end{figure}
+
+
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.9\columnwidth]{figs/decaps_lsst_source_count.png}
+%\vskip -0.15in
+\caption{A plot of source count comparing LSST to DECAPS source catalogs of the same fields (visits). 
+On each panel we plot the number of counts up to a given magnitude, increasing the depth clockwise. 
+The bottom right panel shows all sources without magnitude limits.}
+\label{fig:lsst_count_comparison}
+\end{centering}
+\end{figure} 
+
+
 
 % #############################################################
 % ###################### completeness  ##########################
