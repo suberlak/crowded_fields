@@ -101,16 +101,17 @@ Since by definition each healpixel has an equal area, the fraction of pixels  co
 \begin{figure}
 \centering
 \includegraphics[width=0.95\columnwidth]{figs/MAF_density_definitions.png}
-%\vskip -0.15in
+\vskip -0.15in
 \caption{Using the Galfast sky simulation to choose DECAPS fields sampling different density regions.  The left panel shows the fraction of the sky at a smaller density  as a function of  the stellar density.  It is equivalent to the cumulative area of the sky up to given density. Given the stellar density per simulated healpixel, we count the number of healpixels at greater density. Normalized to the number of pixels, given their equal area, it corresponds to the fraction of the sky at greater stellar density. Horizontal dashed lines illustrate selecting pixels at top 1\% or 10\% density. The right panel focuses on the top 25\% of density.  It implies that according to the simulation , the density of 200 000 stars per sq.deg. corresponds to 5\% of the sky, and only  1\% of the sky has more than 1 mln stars per sq.deg. The upper axis represents the dimensionless density parameter $N_{beam} = N_{stars}/{arcsec}^{2} * A_{PSF}$, with the PSF effective area $A_{PSF} = 0.64$ \arcsec.}
 \label{fig:illustrate_density}
 \end{figure} 
 
 
 \begin{figure}
+\centering
 \includegraphics[width=0.9\columnwidth]{figs/03_density_regions_mollw_galactic.png}
-%\vskip -0.15in
-\caption{Regions representative of different simulated stellar densities. The x\%  here means  x $\pm$ 1\%, eg.  5\% includes regions between 4-6\%. The highest density regions are located close to the galactic bulge, and regions of approximately constant stellar density trace isophotes of the Milky Way. The few 20\% regions close to the galactic equator correspond to high extinction regions that appear to have less counts due to interstellar dust. The galactic exclusion zone in LSST is closely follows the 5\% region outline (see Fig.\ref{fig:MAF_densities}).}
+\vskip -0.15in
+\caption{Regions representative of different simulated stellar densities. The x\%  denotes  x $\pm$ 1\%, eg.  5\% includes regions between 4-6\%. The highest density regions are located close to the galactic bulge, and regions of approximately constant stellar density trace isophotes of the Milky Way. The few 20\% regions close to the galactic equator correspond to high extinction regions that appear to have less counts due to interstellar dust. The galactic exclusion zone in LSST is closely follows the 5\% region outline (see Fig.\ref{fig:MAF_densities}).}
 \label{fig:mollw_galactic}
 \end{figure} 
 
@@ -122,9 +123,10 @@ Since by definition each healpixel has an equal area, the fraction of pixels  co
 \section{DECam Plane Survey }
 \label{sec:DECAPS}
 To test the performance of the LSST Stack with real data, we used the Dark Energy Camera (DECam) imaging, taken as part of the  DECam Plane Survey (DECAPS)~\cite{schlafly2017}, at the 4-m Cerro Tololo Inter-American Observatory telescope (CTIO)\footnote{see \url{http://www.ctio.noao.edu/noao/node/1033}}. Each DECAPS image plane is tiled by a mosaic of 62 CCDs, each  2046x4094 px, 0.27 \arcsec/px\footnote{See Fig.4-3 in the NOAO Data Handbook ~\citep{shaw2015}}. The FOV of full mosaic is 2.2\degree  wide -  several times bigger than the full moon - which makes it comparable to the LSST 3.5\degree field of view.  All DECAPS single-epoch images were processed with the DECAPS pipeline, resulting in single-epoch catalogs\footnote{All available via \url{http://decaps.skymaps.info/catalogs.html}}. The details of DECAPS pipeline can be found in Schlafly et al. 2017~\cite{schlafly2017}, but it was specifically designed for crowded field photometry,  performing DAOPhot-like procedure~\cite{stetson1987}, without employing DAOPhot. The algorithm performs repeated source detection, subtraction, and re-detection, which is different from the LSST pipeline. DECAPS pipeline simultaneously solves for the positions and fluxes for all stars for a small fragment of the CCD (see Sec.4 in ~\cite{schlafly2017}).  The headers of all DECAPS catalogs,  assembled into the image database with information about single-visit exposure time, filter,  time of observation, position, were  
-used to select fields in  u,g,r  filter, with exposure between 90 and 120 sec (to match the LSST 30 sec single-visit depth in r). Of these, we chose visits representative of given stellar densities based on the Galfast simulation (see Fig.~\ref{fig:decaps_fields}).  
+used to select fields in  u,g,r  filter, with exposure between 90 and 120 sec (to match the LSST 30 sec single-visit depth in r). Of these, we chose visits representative of given stellar densities based on the Galfast simulation (see Fig.~\ref{fig:decaps_fields}).  Postage stamp miniatures (Fig.~\ref{fig:decaps_illustrate}) show that we indeed sample vastly diffferent densities. Comparing DECAPS to Galfast counts we find that although the simulation may be not more accurate than up to a actor of a few, it is nevertheless useful for defining density regions. 
 
 \begin{figure}
+
 \includegraphics[width=1.0\columnwidth]{figs/MAF_DECAPS.png}
 %\vskip -0.15in
 \caption{DECAPS fields (red) plotted on top of the Galfast simulated stellar density map (counts up to r<24.5). Cross-matching DECAPS catalog to Galfast simulation we selected visits representative of diverse range of stellar densities.}
@@ -132,24 +134,23 @@ used to select fields in  u,g,r  filter, with exposure between 90 and 120 sec (t
 \end{figure} 
 
 
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.85\columnwidth]{figs/Illustrate_densities_DECAPS.png}
+\vskip -0.15in
+\caption{Illustration of regions of different stellar count in the cleaned DECAPS single-epoch catalogs. As shown on Fig.~\ref{fig:maf_decaps_counts}, the Galfast count does not always correspond 1:1 to the DECAPS stellar count. For this reason we ordered DECAPS fields in terms of DECAPS source count rather than Galfast densities.}
+\label{fig:decaps_illustrate}
+\end{centering}
+\end{figure} 
+
 
 \begin{figure}
 \centering
 \includegraphics[width=0.75\columnwidth]{figs/MAF_DECAPS_comparison.png}
 %\vskip -0.15in
-\caption{Comparison of DECAPS counts to Galfast simulated stellar counts.  Overplotted are the line of equivalence y=x, and its multipicities (2x,3x). It shows that the simulation may be not more accurate than up to a factor of a few, but it is nevertheless useful for defining density regions. Part of the reason for discrepancy could be the order-of-magnitude nature of the experiment - Galfast counts here assume the single-visit depth of 24.5 mag in r-band. The DECAPS exposure time ($\approx$100 sec) and filter (g, or r) were chosen to mimic that depth as closely as possible, but the regions targeted include much extinction, which means that in some cases DECAPS counts may be less than what is  implied by the simulation. Different zero-point magnitude dependent on seeing conditions could also contribute to the depth probed by DECAPS.  However, there is a number of fields that lie along the blue line, implying that in some cases the Galfast counts were very close to the true counts.}
-\label{fig:maf_decaps_compare}
+\caption{Comparison of DECAPS counts to Galfast simulated stellar counts.  Overplotted are the line of equivalence y=x, and its multipicities (2x,3x). Part of the reason for discrepancy could be the order-of-magnitude nature of the experiment - Galfast counts here assume the single-visit depth of 24.5 mag in r-band. The DECAPS exposure time ($\approx$100 sec) and filter (g, or r) were chosen to mimic that depth as closely as possible, but the regions targeted include much extinction, which means that in some cases DECAPS counts may be less than what is  implied by the simulation. However, there is a number of fields that lie along the blue line, implying that in some cases the Galfast counts were very close to the measured DECAPS counts.}
+\label{fig:maf_decaps_counts}
 \end{figure} 
-
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.85\columnwidth]{figs/Illustrate_densities_DECAPS.png}
-%\vskip -0.15in
-\caption{Illustration of regions of different stellar count in the cleaned DECAPS single-epoch catalogs. As shown on Fig.~\ref{fig:maf_decaps_compare}, the Galfast count (and therefore \% level), does not always correspond 1:1 to the actual reported DECAPS stellar count. For this reason we simply ordered all DECAPS fields in terms of source count, and display postage stamp miniatures of CCD regions for visits in regions of increasing stellar density. }
-\label{fig:decaps_illustrate_densities}
-\end{centering}
-\end{figure} 
-
 
 % #############################################################
 % ########################## LSST  ############################
