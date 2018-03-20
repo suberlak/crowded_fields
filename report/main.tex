@@ -92,11 +92,11 @@ The  resulting dataset describes the simulated sky, divided into 49152 healpixel
 \begin{figure}
 \includegraphics[width=1.0\columnwidth]{figs/MAF_densities.png}
 %\vskip -0.15in
-\caption{Galfast healpixels plotted in galactic coordinates in Mollweide projection. The brightest regions correspond to highest stellar densities. The missing part at  $\delta>40 \degree$  is not observable from the southern location of Cerro Pach\'on, hence excluded from the simulation. The red dashed lines outline the galactic exclusion zone. }
+\caption{Galfast healpixels plotted in galactic coordinates in Mollweide projection. The brightest regions correspond to highest stellar densities. The blue, orange, and green points correspond to healpixels in given density brackets (top 5\%, 20\%, 40\%). Note that the galactic exclusion zone, marked by red dashed lines, almost exactly traces the top 5\% density contour. As expected, the highest density regions are located close to the galactic bulge, and regions of approximately constant stellar density trace isophotes of the Milky Way. The few 20\% regions close to the galactic equator correspond to high extinction regions that appear to have less counts due to interstellar dust. The missing part at  $\delta>40 \degree$  is not observable from the southern location of Cerro Pach\'on, hence excluded from the simulation.  }
 \label{fig:MAF_densities}
 \end{figure} 
 
-Since by definition each healpixel has an equal area, the fraction of pixels  corresponds to the fraction of the sky area. We choose to describe the level of stellar crowdedness by the percentage of the sky that has a higher density. Thus eg.  '5\%' density means that only 1 in 100 pixels has a higher density (see Fig.~\ref{fig:illustrate_density}). Fig.~\ref{fig:mollw_galactic} shows thus defined density brackets in Galactic coordinates.
+Since by definition each healpixel has an equal area, the fraction of pixels  corresponds to the fraction of the sky area. We choose to describe the level of stellar crowdedness by the percentage of the sky that has a higher density. Thus eg.  '5\%' density means that only 1 in 100 pixels has a higher density (see Fig.~\ref{fig:MAF_densities}, ~\ref{fig:illustrate_density}). 
 
 \begin{figure}
 \centering
@@ -107,13 +107,6 @@ Since by definition each healpixel has an equal area, the fraction of pixels  co
 \end{figure} 
 
 
-\begin{figure}
-\centering
-\includegraphics[width=0.9\columnwidth]{figs/03_density_regions_mollw_galactic.png}
-\vskip -0.15in
-\caption{Regions representative of different simulated stellar densities. The x\%  denotes  x $\pm$ 1\%, eg.  5\% includes regions between 4-6\%. The highest density regions are located close to the galactic bulge, and regions of approximately constant stellar density trace isophotes of the Milky Way. The few 20\% regions close to the galactic equator correspond to high extinction regions that appear to have less counts due to interstellar dust. The galactic exclusion zone in LSST is closely follows the 5\% region outline (see Fig.\ref{fig:MAF_densities}).}
-\label{fig:mollw_galactic}
-\end{figure} 
 
 
 % ###############################################################
