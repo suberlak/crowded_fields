@@ -158,48 +158,47 @@ used to select fields in  u,g,r  filter, with exposure between 90 and 120 sec (t
 
 \section{LSST Processing of DECAPS data}
 \label{sec:LSST}
-The calibrated DECAPS imaging was processed with the LSST Science Pipelines installed on the LSST-dev machine at the NCSA\footnote{\url{lsst-dev01.ncsa.illinois.edu} (141.142.237.49) OS: CentOS 7.4.1708   HW: Dell Inc. CPU: 48x 2.60GHz RAM: 252 GB}, using the Stack version d\_2017\_10\_27\footnote{\url{https://eups.lsst.codes/stack/src/tags/}} \verb|processCcd.py| and the standard Stack configuration. 
+Calibrated DECAPS imaging was processed with the LSST Science Pipelines installed on the LSST-dev machine at the NCSA\footnote{\url{lsst-dev01.ncsa.illinois.edu} (141.142.237.49) OS: CentOS 7.4.1708   HW: Dell Inc. CPU: 48x 2.60GHz RAM: 252 GB}, using the Stack version d\_2017\_10\_27\footnote{\url{https://eups.lsst.codes/stack/src/tags/}} \verb|processCcd.py| and the standard Stack configuration. 
 
-Transferring the resulting source catalogs and calexp files to a local machine we analyzed the output of LSST processing with jupyter notebooks and custom python tools\footnote{Remote jupyter notebook access, which will be part of the Data Access Center, is not supported yet, as of early 2018.}
+Transferring the resulting source catalogs and image files to a local machine we analyzed the output of LSST processing with jupyter notebooks and custom python tools\footnote{Remote jupyter notebook access, which will be part of the Data Access Center, is not supported yet, as of early 2018.}
+
+Initially both DECAPS and LSST source catalogs contain good detections, as well as sources that are spurious, have a low S/N, or  are flagged due to some other detection/processing issue.  To clean both catalogs we used the DECAPS source flags, LSST source flags, and LSST image mask information.   
+
+First we compared whether the  DECAPS source flags are consistent with the LSST image mask. Confirming that they are, we decided to clean the DECAPS catalog with the DECAPS source level flags, removing sources that % ### CONTINUE HERE COMBINING ALL THE TEXT !!! 
 
 
-To compare single epoch DECAPS catalogs to LSST source catalogs we used the image mask, deblender flags, and other quality flags. The cleaning process is described in this section. 
+
+Then, for the LSST source catalog 
+
+The LSST source catalog contains for each source a list of flags that could be set 'on' or 'off'. Of these, flags labeled \verb|base_PixelFlags_flag| contain information relevant to the level of source detection, rather than processing (see Table~\ref{tab:lsst_flags}).
 
 
 
-\subsection{Cleaning DECAPS catalog}
-\label{sec:clean_decaps}
-To compare LSST and DECAPS catalogs, we cleaned both catalogs using the flag information assigned to each source by the respective image processing pipeline. To verify the validity of DECAPS source flags, we compared them with the LSST pixel-level mask information stored in the FITS Header Data Unit. 
+We clean the LSST source catalog by removing sources that have flags 'edge' or 'interpolatedCenter'\footnote{This is similar to the example in Sec.4 of SDSS Image Processing I: The Deblender~\citep{lupton2005}}. Other flags would remove too many sources that have only small defects, eg. flag 'interpolated' may be on for a bright source across the footprint of which there is a cosmic ray, while flag 'bad' may be on for any source which has even one bad pixel in the footprint. A comparison of the initial source count to the final source count (after cleaning) is shown on Fig.~\ref{fig:lsst_count_comparison}, with detailed counts in  Table ~\ref{tab:lsst_summary}.
 
-For every source 
+Given the single-epoch DECAPS source catalogs, and the LSST source catalogs, we followed a uniform set of procedures to clean both datasets, and in turn cross-match positionally. First we made a quality cut removing all sources with signal-to-noise ratio smaller than five:  $S/N < 5$. The number of sources thus removed depends on a visit number, but does not exceed few \% of the catalog. Following that we also removed sources with flags that correspond to bad, edge detections, cosmic rays, or saturation spikes (as outlined in Sec.~\ref{sec:clean_decaps} and ~\ref{sec:clean_lsst}). The LSST Processing Pipeline deblends sources in a similar fashion to the SDSS Imaging Pipeline\footnote{SDSS Image Processing I: The Deblender~\citep{lupton2005}, SDSS Image Processing II: The Photo Pipelines~\citep{lupton2001},~\citep{lupton2002}, and ~\citep{lupton2005a}}.   For the LSST source catalog,  we chose to keep only those sources that were either isolated parents ( parentId=0, nchild=0), or deblended children (parentId != 0 , nchild=0) (see Table ~\ref{tab:lsst_deblend} for details.)
 
-considered DECAPS single-epoch source catalog, and the LSST calexp image. We combined the calexp image mask value at the nearest pixel to every DECAPS source given its pixel coordinates.  The bitwise 'and' of image mask with mask filter $(11011111)_{2} = (2^{1}+2^{2}+2^{3}+2^{4}+2^{6}+2^{7})_{10}$ (see Table~\ref{tab:lsst_flags} for details ), flagged the source   as 'bad' if either of the flag bits apart from '5' (detected) was 'on'. 
 
-Apart from LSST flags, each source also has a DECAPS pipeline flag, the value of which is made up of of bits inherited from the NOAO Community Pipeline (see Table~\ref{tab:decaps_flags}). We performed a bitwise 'and' of DECAPS flags with the mask filter $(2^{1}+ 2^{3}+  2^{4}+  2^{5}+  2^{6}+  2^{8}+  2^{20}+  2^{22})_{10}$, flagging the source as 'bad' if either of these mask bits were 'on'. 
 
-Given the LSST and DECAPS flags, we compared which sources would be excluded based on the DECAPS source-level flags vs LSST pixel-level masks. We found for a random visit  611980  that the overlap between sources excluded by LSST pixel mask information versus DECAPS source flags is 99\%.  This means that the DECAPS flagging is consistent with the LSST image mask information, and the same sources would be 'excluded' based on either DECAPS flags or LSST mask information. For this reason we decided to clean the DECAPS catalog with  source level flags, rather than the LSST image mask data. 
- 
-
-%Pixel-level masks are encoded in 8 bits,  each of which can be 'on' or 'off', signifying that a given flag was 'on' or 'off' for a given pixel. The total value of the mask at each pixel is a decimal representation of such eight bits binary number, eg.  $(00100001)_{2} = 2^{0} + 2^{5}  = 1 + 32 = (33)_{10} $ means that bit $'0'$ and $'5'$ are 'on' (counting from the right). See Table~\ref{tab:lsst_flags} for details. 
 
 
 \begin{table}
 \centering
 \caption{LSST pixel mask.}
-\label{tab:lsst_flags}
+\label{tab:lsst_mask}
 \begin{tabular}{ ccc} 
 \hline
-Bit position & Description   \\ 
+Bit position & Description & Decision  \\ 
 \hline
-0  & bad                   \\ 
-1  & saturated         \\ 
-2  & interpolated       \\ 
-3  & cosmic ray       \\ 
-4  & edge               \\ 
-5  & detected           \\ 
-6  & detected negative   \\ 
-7  & suspect             \\ 
-8  & no data             \\ 
+0  & bad    & Remove               \\ 
+1  & saturated   & Remove       \\ 
+2  & interpolated  & Remove      \\ 
+3  & cosmic ray   & Remove     \\ 
+4  & edge          & Remove      \\ 
+5  & detected   & Keep         \\ 
+6  & detected negative  & Remove  \\ 
+7  & suspect     & Remove         \\ 
+8  & no data     & Remove         \\ 
 \hline
 \end{tabular}
 \end{table}
@@ -226,15 +225,30 @@ Bit position & Description & Decision \\
 \end{tabular}
 \end{table}
 
+%\subsection{Cleaning DECAPS catalog}
+%\label{sec:clean_decaps}
 
-\subsection{Cleaning the LSST catalog}
-\label{sec:clean_lsst}
-The LSST source catalog contains for each source a list of flags that could be set 'on' or 'off'. Of these, flags labeled \verb|base_PixelFlags_flag| contain information relevant to the level of source detection, rather than processing (see Table~\ref{tab:lsst_src_flags}).
+
+ %We combined the calexp image mask value at the nearest pixel to every DECAPS source given its pixel coordinates.  The bitwise 'and' of image mask with mask filter $(11011111)_{2} = (2^{1}+2^{2}+2^{3}+2^{4}+2^{6}+2^{7})_{10}$ (see Table~\ref{tab:lsst_mask} for details ), flagged the source   as 'bad' if either of the flag bits apart from '5' (detected) was 'on'. 
+
+%Apart from LSST flags, each source also has a DECAPS pipeline flag, the value of which is made up of of bits inherited from the NOAO Community Pipeline (see Table~\ref{tab:decaps_flags}). We performed a bitwise 'and' of DECAPS flags with the mask filter $(2^{1}+ 2^{3}+  2^{4}+  2^{5}+  2^{6}+  2^{8}+  2^{20}+  2^{22})_{10}$, flagging the source as 'bad' if either of these mask bits were 'on'. 
+
+%Given the LSST and DECAPS flags, we compared which sources would be excluded based on the DECAPS source-level flags vs LSST pixel-level masks. We found for a random visit  611980  that the overlap between sources excluded by LSST pixel mask information versus DECAPS source flags is 99\%.  This means that the DECAPS flagging is consistent with the LSST image mask information, and the same sources would be 'excluded' based on either DECAPS flags or LSST mask information. For this reason we decided to clean the DECAPS catalog with  source level flags, rather than the LSST image mask data. 
+ 
+
+%Pixel-level masks are encoded in 8 bits,  each of which can be 'on' or 'off', signifying that a given flag was 'on' or 'off' for a given pixel. The total value of the mask at each pixel is a decimal representation of such eight bits binary number, eg.  $(00100001)_{2} = 2^{0} + 2^{5}  = 1 + 32 = (33)_{10} $ means that bit $'0'$ and $'5'$ are 'on' (counting from the right). See Table~\ref{tab:lsst_flags} for details. 
+
+
+
+
+%\subsection{Cleaning the LSST catalog}
+%\label{sec:clean_lsst}
+
 
 \begin{table}
 \centering
 \caption{LSST source flags explanation.}
-\label{tab:lsst_src_flags}
+\label{tab:lsst_flags}
 \begin{tabular}{cl}
 \hline
 name & explanation \\
@@ -255,8 +269,6 @@ flag & General Failure Flag \\
 \hline
 \end{tabular}
 \end{table}
-
-We clean the LSST source catalog by removing sources that have flags 'edge' or 'interpolatedCenter'\footnote{This is similar to the example in Sec.4 of SDSS Image Processing I: The Deblender~\citep{lupton2005}}. Other flags would remove too many sources that have only small defects, eg. flag 'interpolated' may be on for a bright source across the footprint of which there is a cosmic ray, while flag 'bad' may be on for any source which has even one bad pixel in the footprint. A comparison of the initial source count to the final source count (after cleaning) is shown on Fig.~\ref{fig:lsst_count_comparison}, with detailed counts in  Table ~\ref{tab:lsst_summary}.
 
 
 
@@ -290,8 +302,6 @@ The bottom right panel shows all sources without magnitude limits. For exact cou
 \end{centering}
 \end{figure} 
 
-
-Given the single-epoch DECAPS source catalogs, and the LSST source catalogs, we followed a uniform set of procedures to clean both datasets, and in turn cross-match positionally. First we made a quality cut removing all sources with signal-to-noise ratio smaller than five:  $S/N < 5$. The number of sources thus removed depends on a visit number, but does not exceed few \% of the catalog. Following that we also removed sources with flags that correspond to bad, edge detections, cosmic rays, or saturation spikes (as outlined in Sec.~\ref{sec:clean_decaps} and ~\ref{sec:clean_lsst}). The LSST Processing Pipeline deblends sources in a similar fashion to the SDSS Imaging Pipeline\footnote{SDSS Image Processing I: The Deblender~\citep{lupton2005}, SDSS Image Processing II: The Photo Pipelines~\citep{lupton2001},~\citep{lupton2002}, and ~\citep{lupton2005a}}.   For the LSST source catalog,  we chose to keep only those sources that were either isolated parents ( parentId=0, nchild=0), or deblended children (parentId != 0 , nchild=0) (see Table ~\ref{tab:lsst_deblend} for details.)
 
 
 
@@ -372,10 +382,12 @@ We compare the photometric repeatability within each pipeline, as well as the ex
 
 
 \begin{figure}
+\begin{centering}
 \includegraphics[width=1.1\columnwidth]{figs/rms_decaps_lsst_611970hist_panel.png}
 %\vskip -0.15in
 \caption{Cross-section of a difference in magnitudes between DECAPS and LSST for a visit 611970. Each panel contains the histogram of $\Delta mag$ per DECAPS magnitude bin. The vertical red line corresponds to the median value of $\Delta mag$ in that bin, and each histogram is limited between $\pm 4 \, \sigma_{G}$. THe vertical dot-dashed green lines mark the median $\pm \sigma_{G}$. }
 \label{fig:dmag_hist}
+\end{centering}
 \end{figure} 
 
 
@@ -535,7 +547,6 @@ An independent way to further test the performance of the LSST Science Pipelines
 
 \subsection{Other LSST-DECAPS tests: w-color }
 An independent test of the quality of photometry would be to consider the width of the stellar locus ('w-color') on the g-r vs r-i color-color plot.  This could be used to test internal consistency of LSST and DECAPS photometry. 
-
 
 
 
