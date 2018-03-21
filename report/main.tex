@@ -85,7 +85,7 @@ We compare the results of the LSST and DECAPS processing of the same visits by c
 To identify regions representing different stellar densities we use the Galfast simulated stellar density map  
 prepared as part of Metrics Analysis Framework\footnote{\url{https://www.lsst.org/scientists/simulations/maf}} by P. Yoachim and L. Jones\footnote{\url{sims_maf/python/lsst/sims/maf/maps/createStarDensitymap.py}}.
 
-The  resulting dataset describes the simulated sky, divided into 49152 healpixels. Each healpixel contains 64 magnitude bins between 15 and 28 mag, each bin storing the cumulative count of sources per square degree\footnote{Healpix stands for Hierarchical Equal Area isoLatitude Pixelization\url{http://healpix.sourceforge.net}\citep{gorski2005}}. We select the bin corresponding to the LSST single-visit depth of r=24.5. For each healpixel we find the fraction of pixels that have a higher stellar count (see Fig.~\ref{fig:MAF_densities}).
+The  resulting dataset describes the simulated sky, divided into 49152 healpixels. Each healpixel contains 64 magnitude bins between 15 and 28 mag, each bin storing the cumulative count of sources per square degree\footnote{Healpix stands for Hierarchical Equal Area isoLatitude Pixelization\url{http://healpix.sourceforge.net}\citep{gorski2005}}.  In Table~\ref{tab:galfast_counts} we summarize the stellar count depending on the limiting magnitude, and the area of the sky. In Table~\ref{tab:galfast_densities} we show what area of the survey would include regions of a particular stellar density. In this report  we select the  LSST single-visit depth limiting magnitude of r=24.5 . For each healpixel we find the fraction of pixels that have a higher stellar count (see Fig.~\ref{fig:MAF_densities}). 
 
 
 
@@ -106,6 +106,38 @@ Since by definition each healpixel has an equal area, the fraction of pixels  co
 \label{fig:illustrate_density}
 \end{figure} 
 
+\begin{table}
+\centering
+\caption{Dependence of the stellar count in Galfast simulation  on the limiting magnitude. All counts are in billions:  $10^{9}$. $N_{all}$ is the count in all healpixels, $N_{top 1\% (10\%)}$ in the pixels in top 1\% (10\%) density, $N_{main}$ in the main survey area $\delta>-65\degree$, $\delta < 5 \degree$. $N_{main-conf.}$ is the count in the main survey area excluding the confusion zone. }
+\label{tab:galfast_counts}
+\begin{tabular}{ ccccccc} 
+\hline
+mag & $N_{all}$ &  $N_{top 1\%}$ & $N_{top 10\%}$ & $N_{main}$ & $N_{main-conf.}$ \\ 
+\hline
+24.5  & 3.76    & 1.09  &  2.84 &  3.16 & 1.1  \\ 
+27.5  & 8.50    & 2.65  &  7.76 &  7.28 & 2.19 \\ 
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+\centering
+\caption{The area and number of stars in pixels with density < $\rho$ [sources per sq.deg] in the main survey area, excluding the confusion zone. Note that at r<24.5, all healpixels at densities at or above $\approx$1 mln stars per sq.deg. are in  the confusion zone, so increasing the density cutoff does not include more healpixels. However, for r<27.5 there are regions outside the confusion zone even at $\rho$ > 1 mln sources per sq.deg. }
+\label{tab:galfast_densities}
+\begin{tabular}{ccccc}
+$\rho$ & A(r<24.5) & N(r<24.5) & A(r<27.5) & N(r<27.5) \\
+35 k & 13002.34 & 161485401 & 10686.73 & 179898977 \\
+100 k & 16226.9 & 354829923 & 14492.08 & 405990021 \\
+200 k & 17631.88 & 553306692 & 16300.76 & 663514129 \\
+300 k & 18235.33 & 701100602 & 17112.36 & 862753997 \\
+400 k & 18581.96 & 821170347 & 17616.77 & 1036741614 \\
+600 k & 18920.2 & 985810603 & 18195.05 & 1321063932 \\
+700 k & 19003.29 & 1039541387 & 18378.01 & 1439524570 \\
+800 k & 19053.64 & 1077311263 & 18519.85 & 1545442354 \\
+1 mln & 19084.7 & 1103911114 & 18742.27 & 1743324923 \\
+2 mln & 19084.7 & 1103911114 & 19084.7 & 2192737211 \\
+\end{tabular}
+\end{table}
 
 
 
