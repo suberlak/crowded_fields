@@ -445,35 +445,19 @@ Thus we calculate the systematic offset for LSST as:
 \label{sec:astrometry}
 Astrometry pertains to the measurement of the position of sources in the absolute World Coordinate System (WCS). Accurate and precise astrometry enables catalog cross-matching, and over long-term - measurement of proper motion of stellar sources. 
 
-We consider two properties of successful astrometry. First, the internal consistency, measuring the repeatability of astrometric measurement epoch to epoch. For both LSST and DECAPS, we find the spread of differences in measured position among cross-matched sources : $\sigma_{G}(\Delta \alpha)$, $\sigma_{G}(\Delta \delta)$. Ideally, the median difference should be centered on 0, with the smallest possible spread, corresponding to astrometric precision.  
+We consider two properties of successful astrometry: repeatability and accuracy. 
 
+First, the internal consistency, measuring the repeatability of astrometric measurement epoch to epoch. For both LSST and DECAPS, we find the spread of differences in measured position among cross-matched sources: $\sigma_{G}(\Delta \alpha)$, $\sigma_{G}(\Delta \delta)$. Ideally, the median difference should be centered on 0, with the smallest possible spread. The astrometric repeatability for LSST is illustrated on Fig.~\ref{fig:ra_dec_mag}. We restrict the comparison to bright stars only ( m<19 mag) on the following Fig.~\ref{fig:ra_dec_lsst_lsst}. For DECAPS the same visits are shown on Fig.~\ref{fig:ra_dec_decaps_decaps}. There is not much difference that can be seen by eye between LSST vs DECAPS repeatability for this pair of visits, but calculating the  spread of $\Delta \alpha$, $\Delta \delta$ for all visits shows that overall LSST  is more accurate, with $\sigma_{G}(\Delta \alpha, \delta)$ on the order of 10-30 marcsec (Fig.~\ref{fig:ra_dec_summary})
+  
 
-
-
-  Second - accuracy, and any biases between the LSST-DECAPS pipelines. 
-
-
-
-To test the repeatability we use pairs of observations at the same location, as in Sec.~\ref{sec:photometry}. Fig.~\ref{fig:ra_dec_lsst_lsst} shows an example of the LSST-LSST comparison, with Fig.~\ref{fig:ra_dec_mag} showing the magnitude dependence. Fig.~\ref{fig:ra_dec_decaps_decaps} depicts the offset in $RA$, $DEC$, for DECAPS-DECAPS comparison. 
-
-
-To test possible offset between LSST and DECAPS astrometric solutions, on Fig.~\ref{fig:ra_dec_lsst_decaps} we find the offset in measured $RA$, $DEC$ for sources cross-matched in catalogs from the two pipelines. 
-
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.8\columnwidth]{figs/lsst644074-644070_RA_DEC_offset_lims.png}
-%\vskip -0.15in
-\caption{The difference of LSST processing for  RA,DEC for visits 644074,644070 : a top 1\% region according to Galfast, with DECAPS measured 419 000 sources per sq.deg. We select sources brighter than 19 magnitude.  For all other pairs the  offsets are also centered on zero with similar spread (Fig.~\ref{fig:ra_dec_summary})}
-\label{fig:ra_dec_lsst_lsst}
-\end{centering}
-\end{figure} 
+Second, pipeline-to-pipeline differences : see Fig.~\ref{fig:ra_dec_lsst_decaps}. 
 
 
 \begin{figure}
 \begin{centering}
 \includegraphics[width=1.0\columnwidth]{figs/644074-644070_dra_ddec_mag.png}
 %\vskip -0.15in
-\caption{The difference in RA,DEC for the same visits as on Fig.~\ref{fig:ra_dec_lsst_lsst}, shown as a function of magnitude.}
+\caption{The difference in RA,DEC for visits 644074,644070 processed by LSST. According to Galfast simulation this location is a top 1\% stellar density region, with DECAPS measured 590 704 sources per sq.deg. The same visits are compared on Figs.~\ref{fig:ra_dec_lsst_lsst} and ~\ref{fig:ra_dec_lsst_decaps} with mag < 19 cutoff. }
 \label{fig:ra_dec_mag}
 \end{centering}
 \end{figure} 
@@ -482,9 +466,21 @@ To test possible offset between LSST and DECAPS astrometric solutions, on Fig.~\
 
 \begin{figure}
 \begin{centering}
+\includegraphics[width=0.8\columnwidth]{figs/lsst644074-644070_RA_DEC_offset_lims.png}
+%\vskip -0.15in
+\caption{The difference of LSST processing for  RA,DEC for visits 644074,644070 : a top 1\% region according to Galfast, with DECAPS measured 590 704 sources per sq.deg. We select sources brighter than 19 magnitude.  For all other pairs the  offsets are also centered on zero with similar spread (Fig.~\ref{fig:ra_dec_summary})}
+\label{fig:ra_dec_lsst_lsst}
+\end{centering}
+\end{figure} 
+
+
+
+
+\begin{figure}
+\begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/decaps644074-644070_RA_DEC_offset_lims.png}
 %\vskip -0.15in
-\caption{The difference in RA,DEC for  the same visits as in Fig.~\ref{fig:ra_dec_lsst_lsst}, but comparing DECAPS single-epoch catalogs. The spread of  $\Delta \alpha$, $\Delta \delta$ is wider than for equivalent visit pairs processed by the LSST Science Pipelines - see Table~\ref{tab:radec_decaps_decaps}}
+\caption{The difference in RA,DEC for  the same visits as in Fig.~\ref{fig:ra_dec_lsst_lsst}, but comparing DECAPS single-epoch catalogs. The spread of  $\Delta \alpha$, $\Delta \delta$ is wider than for equivalent visit pairs processed by the LSST Science Pipelines. }
 \label{fig:ra_dec_decaps_decaps}
 \end{centering}
 \end{figure} 
@@ -496,7 +492,7 @@ To test possible offset between LSST and DECAPS astrometric solutions, on Fig.~\
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/Astrometry_LSST-LSST_DECAPS-DECAPS.png}
 %\vskip -0.15in
-\caption{Summary of LSST and DECAPS repeatability of astrometry, as in Tables ~\ref{tab:radec_lsst_lsst} and ~\ref{tab:radec_decaps_decaps}.}
+\caption{Summary of LSST and DECAPS astrometric repeatability, with magnitude cutoff at 19 mag.}
 \label{fig:ra_dec_summary}
 \end{centering}
 \end{figure} 
