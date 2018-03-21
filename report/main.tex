@@ -362,7 +362,7 @@ e_{12} = \sqrt{e_{1L}^{2} + e_{2L}^{2}} / \sqrt{2}
 \end{equation}
 
 
-The scatter between the two pipelines calculated either for epoch1 or epoch2 :  $\sigma_{G}(D1,L1)$, or $\sigma_{G}(D2,L2)$. We find the quadrature-mean:
+The scatter between the two pipelines calculated either for epoch1  $\sigma_{G}(D1,L1)$, or epoch2 $\sigma_{G}(D2,L2)$. We find the quadrature-mean:
 
 \begin{equation}
 \label{eq:spread}
@@ -445,9 +445,14 @@ Thus we calculate the systematic offset for LSST as:
 \label{sec:astrometry}
 Astrometry pertains to the measurement of the position of sources in the absolute World Coordinate System (WCS). Accurate and precise astrometry enables catalog cross-matching, and over long-term - measurement of proper motion of stellar sources. 
 
-We consider two properties of successful astrometry. First, the internal consistency of a pipeline by measuring the repeatability of astrometric measurement between different epochs.  Second - accuracy, and any biases between the LSST-DECAPS pipelines. 
+We consider two properties of successful astrometry. First, the internal consistency, measuring the repeatability of astrometric measurement epoch to epoch. For both LSST and DECAPS, we find the spread of differences in measured position among cross-matched sources : $\sigma_{G}(\Delta \alpha)$, $\sigma_{G}(\Delta \delta)$. Ideally, the median difference should be centered on 0, with the smallest possible spread, corresponding to astrometric precision.  
 
-Part of the astrometric offset between the two pipelines is because  DECAPS employed 2MASS-GAIA data (Fig.12 in ~\cite{schlafly2017}), whereas LSST used GAIA data for astrometric calibration. 
+
+
+
+  Second - accuracy, and any biases between the LSST-DECAPS pipelines. 
+
+
 
 To test the repeatability we use pairs of observations at the same location, as in Sec.~\ref{sec:photometry}. Fig.~\ref{fig:ra_dec_lsst_lsst} shows an example of the LSST-LSST comparison, with Fig.~\ref{fig:ra_dec_mag} showing the magnitude dependence. Fig.~\ref{fig:ra_dec_decaps_decaps} depicts the offset in $RA$, $DEC$, for DECAPS-DECAPS comparison. 
 
@@ -458,7 +463,7 @@ To test possible offset between LSST and DECAPS astrometric solutions, on Fig.~\
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/lsst644074-644070_RA_DEC_offset_lims.png}
 %\vskip -0.15in
-\caption{The difference of LSST processing for  RA,DEC for visits 644074,644070: a pair of visits at the same location, separated by less than a day. The mean number of sources is 419000 sources per sq.deg., which corresponds to top 1\% of the sky.  We select sources brighter than 19 magnitude.  For all other pairs the  offsets are all centered on zero with similar spread - see Table~\ref{tab:radec_lsst_lsst}}
+\caption{The difference of LSST processing for  RA,DEC for visits 644074,644070 : a top 1\% region according to Galfast, with DECAPS measured 419 000 sources per sq.deg. We select sources brighter than 19 magnitude.  For all other pairs the  offsets are also centered on zero with similar spread (Fig.~\ref{fig:ra_dec_summary})}
 \label{fig:ra_dec_lsst_lsst}
 \end{centering}
 \end{figure} 
@@ -492,16 +497,16 @@ To test possible offset between LSST and DECAPS astrometric solutions, on Fig.~\
 \includegraphics[width=0.8\columnwidth]{figs/Astrometry_LSST-LSST_DECAPS-DECAPS.png}
 %\vskip -0.15in
 \caption{Summary of LSST and DECAPS repeatability of astrometry, as in Tables ~\ref{tab:radec_lsst_lsst} and ~\ref{tab:radec_decaps_decaps}.}
-\label{fig:lsst_decaps_side}
+\label{fig:ra_dec_summary}
 \end{centering}
 \end{figure} 
 
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.8\columnwidth]{figs/22_525904_RA_DEC_offset.png}
+\includegraphics[width=0.8\columnwidth]{figs/lsst_decaps_644035_dra_ddec_m_lt19.png}
 %\vskip -0.15in
-\caption{The difference in RA,DEC for visit 525904 , between LSST and DECAPS processing (402270 detected sources in  the clean LSST catalog ). We tested that for other vists and in all cases the offset position and magnitude remains the same - see Table~\ref{tab:radec_lsst_decaps}}
+\caption{The LSST-DECAPS astrometric offset for visit 644035, with 200 000 sources per sq.deg. measured by DECAPS, in a Galfast 10\% density region. In DECAPS pipeline the astrometry was tied to  2MASS-GAIA or GAIA depending on the visit number (see Fig.12 in ~\cite{schlafly2017}).  LSST pipeline on the other hand used solely GAIA for astrometric calibration. For this visit the offset is due to precision, rather than different astrometric standards, since both DECAPS and LSST used GAIA data for astrometric calibration.}
 \label{fig:ra_dec_lsst_decaps}
 \end{centering}
 \end{figure} 
@@ -514,15 +519,15 @@ To test possible offset between LSST and DECAPS astrometric solutions, on Fig.~\
 
 \section{Conclusions}
 \label{sec:conclusions}
-
-% ### need to add things here ... 
-
-\subsection{LSST Processing of StarFast Simulated Sky}
-An independent way to further test the performance of the LSST Science Pipelines is to use the simulated sky images, where the true position and  brightness of each source is known. This would put the measure of source detection completeness, photometric and astrometric precision on an absolute scale. We already tested a StarFast image simulator\footnote{\url{https://dmtn-012.lsst.io}}, and confirmed that it can successfully simulate a region of the sky seeded with known stellar population.  
+We find that the LSST image processing pipelines perform well compared to DECAPS pipelines that were specifically designed for crowded field photometry.  The mean 18-20 mag completeness of LSST to DECAPS detections even at 5\% density level, that approximately traces the contours of the Galactic Confusion Zone, is 85\%.  
 
 
-\subsection{Other LSST-DECAPS tests: w-color }
-An independent test of the quality of photometry would be to consider the width of the stellar locus ('w-color') on the g-r vs r-i color-color plot.  This could be used to test internal consistency of LSST and DECAPS photometry. 
+Future work:
+
+\begin{itemize}
+\item using the simulated sky images with StarFast image simulator\footnote{\url{https://dmtn-012.lsst.io}} where the true source count and position are known, rather than measured
+\item considering the width of the stellar locus (w-color) on the g-r s r-i diagram (Fig.2 in \cite{ivezic2004})
+\end{itemize}
 
 
 
