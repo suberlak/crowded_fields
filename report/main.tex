@@ -72,7 +72,7 @@ To test performance of pipelines at different levels of stellar crowdedness, we 
 
 Given the expected stellar density as a function of position on the sky, we selected DECAPS fields, and processed them with LSST pipelines (Sec.~\ref{sec:DECAPS}). 
 
-We compare the results of the LSST and DECAPS processing of the same visits by cross-matching the catalogs and comparing source counts, photometry (Sec.~\ref{sec:LSST}), and astrometry (Sec.~\ref{sec:astrometry}). We summarize the key results and suggest future work in Sec.~\ref{sec:conclusions}. 
+We compare the results of the LSST and DECAPS processing of the same visits by cross-matching the catalogs and comparing source counts, photometry (Sec.~\ref{sec:LSST}), and astrometry (Sec.~\ref{sec:astrometry}). We summarize the key results and suggest future work in Sec.~\ref{sec:conclusions}. There is an accompanying document with longer data tables. 
 
 
 
@@ -108,11 +108,11 @@ Since by definition each healpixel has an equal area, the fraction of pixels  co
 
 \begin{table}
 \centering
-\caption{Dependence of the stellar count in Galfast simulation  on the limiting magnitude. All counts are in billions:  $10^{9}$. $N_{all}$ is the count in all healpixels, $N_{top 1\% (10\%)}$ in the pixels in top 1\% (10\%) density, $N_{main}$ in the main survey area $\delta>-65\degree$, $\delta < 5 \degree$. $N_{main-conf.}$ is the count in the main survey area excluding the confusion zone. }
+\caption{Dependence of the stellar count in Galfast simulation  on the limiting magnitude. The Wide-Fast-Deep (WFD) survey is defined as $-65 < \delta < 5$, excluding the confusion zone (see \url{https://www.lsst.org/sites/default/files/skymap-2016.jpg}, and ~\cite{awan2016}). All counts are in billions:  $10^{9}$. $N_{all}$ is the count in all healpixels, $N_{top 1\% (10\%)}$ in the pixels in top 1\% (10\%) density, $N_{WFD}$ is the count in the WFD survey area,  $N_{WFD+conf.}$ is count within WFD and confusion zone. }
 \label{tab:galfast_counts}
 \begin{tabular}{ ccccccc} 
 \hline
-mag & $N_{all}$ &  $N_{top 1\%}$ & $N_{top 10\%}$ & $N_{main}$ & $N_{main-conf.}$ \\ 
+mag & $N_{all}$ &  $N_{top 1\%}$ & $N_{top 10\%}$ & $N_{WFD}$ & $N_{WFD+conf.}$ \\ 
 \hline
 24.5  & 3.76    & 1.09  &  2.84 &  3.16 & 1.1  \\ 
 27.5  & 8.50    & 2.65  &  7.76 &  7.28 & 2.19 \\ 
@@ -122,20 +122,21 @@ mag & $N_{all}$ &  $N_{top 1\%}$ & $N_{top 10\%}$ & $N_{main}$ & $N_{main-conf.}
 
 \begin{table}
 \centering
-\caption{The area and number of stars in pixels with density < $\rho$ [sources per sq.deg] in the main survey area, excluding the confusion zone. Note that at r<24.5, all healpixels at densities at or above $\approx$1 mln stars per sq.deg. are in  the confusion zone, so increasing the density cutoff does not include more healpixels. However, for r<27.5 there are regions outside the confusion zone even at $\rho$ > 1 mln sources per sq.deg. }
+\caption{The first four columns contain the area and number of stars  in Galfast healpixels with density < $\rho$ [sources per sq.deg] in the LSST Wide-Fast-Deep survey area. The WFD is defined as the area within, $-65 < \delta < 5$, excluding the confusion zone (CZ). The final four columns inform what percentage of WFD or CZ is at a density  < $\rho$. Thus for instance if one decides to avoid regions of 200 k stars per sq.deg. and higher, it still includes  92.4 \% of WFD(<24.5). 
+Note that at r<24.5, all healpixels at densities at or above $\approx$1 mln stars per sq.deg. are in  the confusion zone, so increasing the density cutoff does not include more healpixels. However, for r<27.5 there are regions outside the confusion zone even at $\rho$ > 1 mln sources per sq.deg. }
 \label{tab:galfast_densities}
-\begin{tabular}{ccccc}
-$\rho$ & A(r<24.5) & N(r<24.5) & A(r<27.5) & N(r<27.5) \\
-35 k & 13002.34 & 161485401 & 10686.73 & 179898977 \\
-100 k & 16226.9 & 354829923 & 14492.08 & 405990021 \\
-200 k & 17631.88 & 553306692 & 16300.76 & 663514129 \\
-300 k & 18235.33 & 701100602 & 17112.36 & 862753997 \\
-400 k & 18581.96 & 821170347 & 17616.77 & 1036741614 \\
-600 k & 18920.2 & 985810603 & 18195.05 & 1321063932 \\
-700 k & 19003.29 & 1039541387 & 18378.01 & 1439524570 \\
-800 k & 19053.64 & 1077311263 & 18519.85 & 1545442354 \\
-1 mln & 19084.7 & 1103911114 & 18742.27 & 1743324923 \\
-2 mln & 19084.7 & 1103911114 & 19084.7 & 2192737211 \\
+\begin{tabular}{ccccccccc}
+$\rho$ & A(r<24.5) & A(r<27.5) & N(r<24.5) & N(r<27.5) & WFD(<24.5) & WFD(<27.5) & CZ(<24.5) & CZ(<27.5) \\
+35 k & 13002 & 10686 & 0.16 bln & 0.18 bln & 68.1 \% & 56.0 \% & 0.9 \% & 0.1 \% \\
+100 k & 16226 & 14492 & 0.35 bln & 0.41 bln & 85.0 \% & 75.9 \% & 5.7 \% & 0.9 \% \\
+200 k & 17631 & 16300 & 0.55 bln & 0.66 bln & 92.4 \% & 85.4 \% & 13.2 \% & 3.6 \% \\
+300 k & 18235 & 17112 & 0.70 bln & 0.86 bln & 95.5 \% & 89.7 \% & 18.5 \% & 5.6 \% \\
+400 k & 18581 & 17616 & 0.82 bln & 1.04 bln & 97.4 \% & 92.3 \% & 23.8 \% & 8.5 \% \\
+600 k & 18920 & 18195 & 0.99 bln & 1.32 bln & 99.1 \% & 95.3 \% & 33.9 \% & 12.0 \% \\
+700 k & 19003 & 18378 & 1.04 bln & 1.44 bln & 99.6 \% & 96.3 \% & 40.1 \% & 13.8 \% \\
+800 k & 19053 & 18519 & 1.08 bln & 1.55 bln & 99.8 \% & 97.0 \% & 46.5 \% & 15.7 \% \\
+1 mln & 19084 & 18742 & 1.10 bln & 1.74 bln & 100.0 \% & 98.2 \% & 57.5 \% & 20.5 \% \\
+2 mln & 19084 & 19084 & 1.10 bln & 2.19 bln & 100.0 \% & 100.0 \% & 81.3 \% & 47.9 \% \\
 \end{tabular}
 \end{table}
 
@@ -386,7 +387,7 @@ We also test the photometric repeatability (LSST-LSST, Fig.~\ref{fig:lsst_lsst_d
 
 On Fig.~\ref{fig:spread} and ~\ref{fig:spread_summary} we compare the spread of photometric scatter between the two pipelines and  the empirical measurement of noise from repeatability for a pair of visits at the same location. 
 
-The median error reported by either pipeline for either epoch is a measure of Poisson noise - the expected uncertainty in a repeated measurement.  If $e_{1L}$ and $e_{2L}$ are LSST-reported error measurements for a given source for the two epochs,  the quadrature-mean is  
+The median error reported by either pipeline for either epoch is a measure of Poisson noise - the expected uncertainty in a repeated measurement.  If $e_{1L}$ and $e_{2L}$ are LSST-reported error measurements for a given source for the two epochs,  the estimated single-image uncertainty is  
 
 \begin{equation}
 \label{eq:error}
@@ -394,7 +395,7 @@ e_{12} = \sqrt{e_{1L}^{2} + e_{2L}^{2}} / \sqrt{2}
 \end{equation}
 
 
-The scatter between the two pipelines calculated either for epoch1  $\sigma_{G}(D1,L1)$, or epoch2 $\sigma_{G}(D2,L2)$. We find the quadrature-mean:
+The scatter between the two pipelines calculated either for epoch1  $\sigma_{G}(D1,L1)$, or epoch2 $\sigma_{G}(D2,L2)$. We find the estimated single-epoch photometric spread as:
 
 \begin{equation}
 \label{eq:spread}
@@ -402,13 +403,13 @@ The scatter between the two pipelines calculated either for epoch1  $\sigma_{G}(
 \end{equation}
 
 
-The scatter between the two epochs within the same pipeline:   $\sigma_{G}(D1,D2)$, or $\sigma_{G}(L1,L2)$, consists of  noise $\sigma_{E} $ and the systematic offset $\sigma_{S}$ : 
+The scatter between the two epochs within the same pipeline:   $\sigma_{G}(D1,D2)$, or $\sigma_{G}(L1,L2)$, consists of  reported Poisson noise $\sigma_{E} $ and an additional systematic uncertainty $\sigma_{S}$ : 
 
 \begin{equation}
 \sigma_{LL}^{2} = \sigma_{S}^{2} + \sigma_{E}^{2}
 \end{equation}
 
-Thus we calculate the systematic offset for LSST as:
+Thus we find  the additional systematic uncertainty for LSST as:
 
 \begin{equation}
 \label{eq:systematics}
@@ -432,7 +433,7 @@ Thus we calculate the systematic offset for LSST as:
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/lsst-lsst_rms_plot.png}
 %\vskip -0.15in
-\caption{The repeatability test of the LSST pipeline. We cross-match the source catalogs for each visit. These two brightness measurements for the same source are akin to a two-epoch light curve. Since inherently variable sources constitute a small fraction of all stellar objects, and the majority of stars are not variable, the difference in the measured magnitudes would correspond to the empirical measure of noise.  All sources cross-matched within 0.5\arcsec are binned according to their brightness. On the panels we plot, from top to bottom: median photometric offset, the robust interquartile-based measure of standard deviation $\sigma_{G}$, and the median reported measurement uncertainty.}
+\caption{The repeatability test of the LSST pipeline. We cross-match the source catalogs for each visit. These two brightness measurements for the same source are akin to a two-epoch light curve. Since inherently variable sources constitute a small fraction of all stellar objects, and the majority of stars are not variable, the spread in the difference of measured magnitudes would correspond to the empirical measure of noise. On the panels we plot, from top to bottom: median photometric offset, the robust interquartile-based measure of standard deviation $\sigma_{G}$, and the median reported measurement uncertainty.}
 \label{fig:lsst_lsst_dmag}
 \end{centering}
 \end{figure} 
@@ -452,7 +453,7 @@ Thus we calculate the systematic offset for LSST as:
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/photometric_spread_2_525846-530012.png}
 %\vskip -0.15in
-\caption{Analysis of the photometric spread with two visits in a low density region:  525846 (epoch1) and 530012 (epoch2). The solid blue and red lines represent the spread in photometry within each pipeline ($\sigma_{G}(L1,L2)$, $\sigma_{G}(D1,D2)$) . The purple dashed line in the middle traces the average reported error between the two epochs, $e_{12}$ (Eq.~\ref{eq:error}), which is a measure of the Poisson noise. Finally, the bottom solid green line with square markers is the spread in photometry between the two pipelines, $\sigma_{G}(DL)$ (Eq.~\ref{eq:spread}). The difference between the purple dashed and red/blue lines is a measure of systematic noise (see Eq.~\ref{eq:systematics}, and Fig.~\ref{fig:spread_summary}).}
+\caption{Analysis of the photometric spread with two visits in a low density region:  525846 (epoch1) and 530012 (epoch2). The solid blue and red lines represent the spread in photometry within each pipeline ($\sigma_{G}(L1,L2)$, $\sigma_{G}(D1,D2)$) . The purple dashed line in the middle traces the average reported error between the two epochs, $e_{12}$ (Eq.~\ref{eq:error}), which is a measure of the Poisson noise. Finally, the bottom solid green line with square markers is the spread in photometry between the two pipelines, $\sigma_{G}(DL)$ (Eq.~\ref{eq:spread}). The difference between the purple dashed and red/blue lines is a measure of an additional systematic uncertainty (see Eq.~\ref{eq:systematics}, and Fig.~\ref{fig:spread_summary}).}
 \label{fig:spread}
 \end{centering}
 \end{figure} 
@@ -463,7 +464,7 @@ Thus we calculate the systematic offset for LSST as:
 \begin{centering}
 \includegraphics[width=0.95\columnwidth]{figs/photometric_offset_combined.png}
 %\vskip -0.15in
-\caption{The left panel shows the measure of systematic offset between mean photometric error, and the photometric repeatability for the LSST pipeline as a function of magnitude (Fig.~\ref{fig:spread}). The vertical line marks the level of 21 mag, at which we measure $\sigma_{S}$ :$\sigma_{S}[21]$. The right panel shows $\sigma_{S}[21]$  as a function of DECAPS stellar density.}
+\caption{The left panel shows the measure of an additional  systematic uncertainty $\sigma_{S}$ - an excess between reported Poisson noise $\sigma_{E}$, and the estimated single-epoch photometric spread $\sigma_{LL}$ for the LSST pipeline as a function of magnitude (Fig.~\ref{fig:spread}). The vertical line marks the level of 21 mag. The right panel shows $\sigma_{S}$ at 21 mag  as a function of the  measured DECAPS stellar density.}
 \label{fig:spread_summary}
 \end{centering}
 \end{figure} 
@@ -475,14 +476,12 @@ Thus we calculate the systematic offset for LSST as:
 
 \section{Astrometry}
 \label{sec:astrometry}
-Astrometry pertains to the measurement of the position of sources in the absolute World Coordinate System (WCS). Accurate and precise astrometry enables catalog cross-matching, and over long-term - measurement of proper motion of stellar sources. 
+Astrometry pertains to the measurement of the position of sources in the absolute World Coordinate System (WCS). Accurate and precise astrometry enables eg. catalog cross-matching, and over long term measurement of proper motions.
 
-We consider two properties of successful astrometry: repeatability and accuracy. 
+To measure the repeatability of astrometric measurement within each pipeline, we consider pairs of visits at the same location, exposure time, and filter, but observed at different epochs. For both pipelines we estimate the spread in astrometric differences:  $\Delta \alpha$, $\Delta \delta$, by robust interquartile-based measure of standard deviation, $\sigma_{G} =  0.7413 * (q75 - q25)$ where $q75$,$q25$ are 75th and 25th percentiles, respectively. 
+As can be seen on Figs.~\ref{fig:ra_dec_lsst_lsst} and ~\ref{fig:ra_dec_decaps_decaps}, $\sigma_{G}$ is the width of the distribution along dimensions of $\Delta \alpha$, $\Delta \delta$. There is a slight increase in spread of astrometric offset as a function of magnitude (Fig.~\ref{fig:ra_dec_mag}), and to avoid including faint (and therefore, more difficult to measure) sources, we limited the object brightness at 19th mag.  We also considered pipeline-to-pipeline offset, but since both DECAPS and LSST use GAIA for astrometric calibration, the information contained would be due to details of implementation (see Fig.~\ref{fig:ra_dec_lsst_decaps})
 
-First, the internal consistency, measuring the repeatability of astrometric measurement epoch to epoch. For both LSST and DECAPS, we find the spread of differences in measured position among cross-matched sources: $\sigma_{G}(\Delta \alpha)$, $\sigma_{G}(\Delta \delta)$. Ideally, the median difference should be centered on 0, with the smallest possible spread. The astrometric repeatability for LSST is illustrated on Fig.~\ref{fig:ra_dec_mag}. We restrict the comparison to bright stars only ( m<19 mag) on the following Fig.~\ref{fig:ra_dec_lsst_lsst}. For DECAPS the same visits are shown on Fig.~\ref{fig:ra_dec_decaps_decaps}. There is not much difference that can be seen by eye between LSST vs DECAPS repeatability for this pair of visits, but calculating the  spread of $\Delta \alpha$, $\Delta \delta$ for all visits shows that overall LSST  is more accurate, with $\sigma_{G}(\Delta \alpha, \delta)$ on the order of 10-30 marcsec (Fig.~\ref{fig:ra_dec_summary})
-  
-
-Second, pipeline-to-pipeline differences : see Fig.~\ref{fig:ra_dec_lsst_decaps}. 
+To investigate the possible dependence on stellar density, we measure the spread  in epoch-to-epoch astrometric offset for pairs of visits at increasing levels of crowdedness. The dependence turns out to be not very strong, with LSST astrometric repeatability on the level of 10-30 miliarcsec (Fig.~\ref{fig:ra_dec_summary}). 
 
 
 \begin{figure}
@@ -500,7 +499,7 @@ Second, pipeline-to-pipeline differences : see Fig.~\ref{fig:ra_dec_lsst_decaps}
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/lsst644074-644070_RA_DEC_offset_lims.png}
 %\vskip -0.15in
-\caption{The difference of LSST processing for  RA,DEC for visits 644074,644070 : a top 1\% region according to Galfast, with DECAPS measured 590 704 sources per sq.deg. We select sources brighter than 19 magnitude.  For all other pairs the  offsets are also centered on zero with similar spread (Fig.~\ref{fig:ra_dec_summary})}
+\caption{The difference of LSST processing for  RA,DEC for visits 644074,644070 : a top 1\% region according to Galfast, where DECAPS measured 590 704 sources per sq.deg. We select sources brighter than 19 magnitude.  For all other pairs the  offsets are also centered on zero with a similar spread (Fig.~\ref{fig:ra_dec_summary})}
 \label{fig:ra_dec_lsst_lsst}
 \end{centering}
 \end{figure} 
@@ -524,7 +523,7 @@ Second, pipeline-to-pipeline differences : see Fig.~\ref{fig:ra_dec_lsst_decaps}
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{figs/Astrometry_LSST-LSST_DECAPS-DECAPS.png}
 %\vskip -0.15in
-\caption{Summary of LSST and DECAPS astrometric repeatability, with magnitude cutoff at 19 mag.}
+\caption{Summary of LSST-LSST and DECAPS-DECAPS astrometric repeatability, with magnitude cutoff at 19 mag.}
 \label{fig:ra_dec_summary}
 \end{centering}
 \end{figure} 
@@ -547,8 +546,11 @@ Second, pipeline-to-pipeline differences : see Fig.~\ref{fig:ra_dec_lsst_decaps}
 
 \section{Conclusions}
 \label{sec:conclusions}
-We find that the LSST image processing pipelines perform well compared to DECAPS pipelines that were specifically designed for crowded field photometry.  The mean 18-20 mag completeness of LSST to DECAPS detections even at 5\% density level, that approximately traces the contours of the Galactic Confusion Zone, is 85\%.  
+We performed pipeline comparison tests with DECAPS and LSST pipelines, comparing source counts, photometry, and astrometry. 
 
+The LSST pipeline easily handles regions of density up to 200 thousand per sq.deg., and then there is a gradual degradation, mostly in completeness, when progresing towards higher densities. Astrometric repeatability within LSST pipeline is better or of the same order as DECAPS, without very strong density dependence. 
+
+We find that the LSST image processing pipelines perform well compared to DECAPS pipelines that were specifically designed for crowded field photometry.  The mean 18-20 mag completeness of LSST to DECAPS detection is 85\%  at the edges of the Galactic Confusion Zone (top 5\% density, assuming the single-visit LSST depth of 24.5 mag).
 
 Future work:
 
